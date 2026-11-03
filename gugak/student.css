@@ -1,0 +1,56 @@
+/* v0.9 학생용 화면: 수업에 필요한 것만 보이고(연주·곡 따라 하기·오류 찾기), 선생님 설정·비교·분석은 선생님 모드에서만 */
+:root{color-scheme:light}
+body:not(.teacher-mode) .teacher-only{display:none!important}
+.appbar{gap:12px}
+.bar-actions{gap:7px}
+.bar-actions button{min-height:42px}
+.sound-enable{font-size:14px;font-weight:700;padding:8px 14px}
+.stop-button{font-weight:700}
+.volume-button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;line-height:1;padding:4px 9px;font-size:19px;min-width:48px}
+.volume-button small{font-size:9px;color:var(--muted);letter-spacing:.3px}
+.feedback-button{background:#fff;color:var(--green);border-color:#c5d4c8;font-size:13px;padding:8px 12px;white-space:nowrap}
+.teacher-gear{color:var(--muted);border-color:transparent;font-size:21px}
+.teacher-mode .teacher-gear{color:var(--green);border-color:var(--line);background:#e9efe3}
+.teacher-gear.holding{background:#f3e7c9;transform:scale(.96)}
+.main-tabs button{font-size:15px;min-height:42px;padding:8px 18px}
+.grade-chip{cursor:default}
+.play-status{justify-content:space-between;gap:10px}
+.play-status span{flex:1 1 auto}
+.credit-button{flex:none;min-height:26px;padding:2px 10px;font-size:10px;background:none;color:var(--muted);border:1px solid var(--line);border-radius:99px}
+body:not(.teacher-mode) .play-view{grid-template-rows:auto auto minmax(230px,1fr) auto}
+body:not(.teacher-mode) .play-heading h1{font-size:30px}
+body:not(.teacher-mode) .song-sub{display:none}
+.heading-actions{display:flex;gap:8px;flex-wrap:wrap}
+.sheet-backdrop{position:fixed;inset:0;z-index:110;background:#142d2366;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(7px)}
+.sheet{width:min(640px,100%);max-height:92dvh;overflow:auto;background:#f8f6ee;border-radius:22px;padding:24px;display:grid;gap:12px}
+.sheet h2{font-size:22px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sheet label{display:grid;gap:5px;font-size:13px;color:var(--muted)}
+.sheet input[type=text],.sheet select,.sheet textarea{font:inherit;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:9px;padding:9px 11px;min-height:42px}
+.sheet textarea{resize:vertical;line-height:1.5}
+.stars{border:0;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--muted)}
+.stars legend{font-size:13px;margin-bottom:6px}
+.stars label{display:inline-flex;align-items:center;gap:5px;color:var(--ink)}
+.sheet-actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.sheet-actions .song-main{background:var(--green);color:#fff}
+.fb-fallback{white-space:pre-wrap;overflow-wrap:anywhere;font:12px/1.55 -apple-system,'Apple SD Gothic Neo',sans-serif;color:var(--ink);background:#fff;border:1px dashed #c9d3c6;border-radius:9px;padding:9px 11px;margin:0;user-select:all;-webkit-user-select:all}
+.fb-history{font-size:12px;color:var(--muted)}
+.fb-history ul{margin:8px 0 0;padding-left:18px;display:grid;gap:4px}
+#source-copy{display:grid;gap:8px;max-height:60dvh;overflow:auto}
+#source-copy .source-row{font-size:11px}
+.ai-cards{margin:0 0 18px}
+.ai-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px}
+.ai-card{border:1px solid var(--line);border-radius:14px;background:#fbfaf4;padding:14px;display:grid;gap:8px}
+.ai-card h4{margin:0;font-size:15px}
+.ai-card label{display:grid;gap:3px;font-size:12px;color:var(--muted);margin:0}
+.ai-card input{font:inherit;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:7px 9px;background:#fff;min-height:38px}
+.ai-card .ai-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.ai-card .ai-actions button{font-size:12px;min-height:36px;padding:6px 12px}
+.ai-answer{white-space:pre-wrap;font-size:13px;line-height:1.55;background:#fff;border:1px dashed #c9d3c6;border-radius:10px;padding:10px 12px;min-height:44px;color:var(--ink)}
+.ai-answer:empty::before{content:'아직 답이 없어요';color:var(--muted)}
+.ai-honest{font-size:11px;color:#7a5622;background:#f6ead0;border-radius:99px;padding:2px 10px;justify-self:start}
+@media(max-width:900px){.feedback-button span{display:none}.feedback-button{padding:8px 10px}.main-tabs button{font-size:13px;padding:8px 12px}.field-row,.ai-grid{grid-template-columns:1fr}}
+@media(max-width:600px){.volume-button{min-width:40px;padding:3px 6px;font-size:16px}.volume-button small{display:none}.teacher-gear{font-size:18px;min-width:34px;padding:6px}.feedback-button{min-width:34px;padding:6px}.sheet{padding:16px;border-radius:16px}.sheet-backdrop{padding:10px}.credit-button{display:none}body:not(.teacher-mode) .play-view{grid-template-rows:auto auto minmax(200px,1fr) auto}}
+/* 작은 화면: 소리 켜기는 항상 보이고(교안 첫 단계), 폰 너비에서는 머리띠를 두 줄로 */
+@media(max-width:900px){.sound-enable{display:inline-block!important;font-size:12px;padding:7px 9px}}
+@media(max-width:600px){:root{--bar:104px}.appbar{flex-wrap:wrap;height:var(--bar);align-content:center;row-gap:4px;padding:6px 9px}.instrument-menu{order:1}.main-tabs{order:2;margin-left:auto}.bar-actions{order:3;flex:1 0 100%;justify-content:space-between;gap:4px}.bar-actions button{min-height:38px}.stop-button span{display:inline}.feedback-button{min-width:40px}}
