@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>내꿈다이어리 프로그램 소개 · 김민성 AI교육</title>
+<meta name="description" content="학교·기관용 한 장 소개. 초등 5~6학년 기준, 80분 체험형·40분×4 제작형. 학생이 쓰고 고치는 여섯 쪽 책. 준비 중 · 실제 수업 전.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{--paper:#f4f7ff;--paper-2:#e9eefb;--ink:#111a2e;--ink-2:#46526e;--ink-3:#66728f;--line:#d3dbee;--line-2:#b8c3dc;--brand:#2b5bff;--brand-deep:#1f45e6;--violet:#6d4aff;--mint:#04876f;--mint-soft:#e3f4ef;--font:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+*{box-sizing:border-box}
+html,body{margin:0;background:#dfe5f3}
+body{font-family:var(--font);color:var(--ink);font-size:9.1pt;line-height:1.5;word-break:keep-all;overflow-wrap:anywhere;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+h1,h2,h3,p,ul{margin:0}
+ul{padding-left:1.1em}li{margin:.12em 0}
+.page{width:210mm;min-height:297mm;margin:18px auto;background:#fff;padding:10mm 12mm 9mm;display:flex;flex-direction:column;gap:3.1mm;box-shadow:0 20px 50px -30px rgba(17,26,46,.5);background-image:radial-gradient(rgba(43,91,255,.10) .6px,transparent .8px);background-size:5.5mm 5.5mm;background-position:0 0}
+.page>*{flex-shrink:0}
+.top{display:flex;justify-content:space-between;align-items:center;border-bottom:1.5px solid var(--brand);padding-bottom:2.6mm}
+.brand{display:flex;align-items:center;gap:2.4mm;font-weight:800;font-size:11pt}
+.seal{display:inline-grid;place-items:center;width:8mm;height:8mm;border-radius:2.4mm;background:var(--brand);color:#fff;font-family:var(--mono);font-weight:500;font-size:8.5pt}
+.top-r{display:flex;align-items:center;gap:2.4mm;font-size:8.5pt;color:var(--ink-2)}
+.chip{display:inline-block;border-radius:99px;padding:.6mm 2.6mm;font-size:8pt;font-weight:700;background:var(--mint-soft);color:#035e4d;border:1px solid #bfe3d8}
+.chip.warn{background:#fff4e5;color:#8a4b00;border-color:#f3d2a2}
+.hero{display:grid;grid-template-columns:1fr 33mm;gap:7mm;align-items:center}
+.eyebrow{font-family:var(--mono);font-size:8pt;letter-spacing:.06em;color:var(--brand)}
+h1{font-size:26pt;font-weight:900;letter-spacing:-.035em;line-height:1.1;margin:.6mm 0 1.6mm}
+.lead{font-size:10.8pt;font-weight:700;line-height:1.5;letter-spacing:-.01em}
+.lead em{font-style:normal;color:var(--brand-deep);background:linear-gradient(transparent 62%,#d6e2ff 0)}
+.sub{color:var(--ink-2);margin-top:1.4mm;font-size:9.1pt}
+.cover{position:relative}
+.cover img{display:block;width:100%;border:1px solid var(--line-2);border-radius:1.6mm;box-shadow:0 10px 20px -12px rgba(17,26,46,.5);background:#fff}
+.cover figcaption{font-size:7.2pt;color:var(--ink-3);margin-top:1.4mm;text-align:center;line-height:1.35}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:3mm;overflow:hidden;background:#fff}
+.facts div{padding:2.4mm 3mm;border-right:1px solid var(--line)}.facts div:last-child{border-right:0}
+.facts small{display:block;font-family:var(--mono);font-size:7.4pt;color:var(--brand);letter-spacing:.04em}
+.facts b{display:block;font-size:10pt;line-height:1.35}.facts span{display:block;font-size:8.2pt;color:var(--ink-2)}
+.row{display:grid;gap:3.2mm}.row.c2{grid-template-columns:1.25fr 1fr}.row.c3{grid-template-columns:repeat(3,1fr)}.row.c2e{grid-template-columns:1fr 1fr}
+.card{background:#fff;border:1px solid var(--line);border-radius:3mm;padding:2.5mm 3.4mm}
+.card h2{font-size:10.2pt;font-weight:800;letter-spacing:-.02em;margin-bottom:1.2mm;display:flex;align-items:center;gap:1.8mm}
+.card h2 i{font-style:normal;font-family:var(--mono);font-size:7.6pt;color:var(--brand);font-weight:500}
+.plan{display:grid;grid-template-columns:1fr 1fr;gap:3mm}
+.plan h3{font-size:9.4pt;font-weight:800;color:var(--brand-deep);margin-bottom:1mm}
+.plan ol{margin:0;padding-left:1.15em}.plan li{margin:.15em 0}
+.plan .gap{list-style:none;margin-left:-1.15em;color:var(--mint);font-weight:700;font-size:8.6pt}
+.pages{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:1.4mm 3mm}
+.pages li{display:flex;gap:2mm;align-items:baseline;margin:0}
+.pages b{display:inline-grid;place-items:center;flex:none;width:5mm;height:5mm;border-radius:50%;border:1.2px solid var(--brand);color:var(--brand);font-size:7.6pt;font-family:var(--mono);font-weight:500}
+.pages .new{color:var(--mint);font-weight:700;font-size:7.6pt}
+.who.s{border-top:3px solid var(--brand)}.who.a{border-top:3px solid var(--violet)}.who.n{border-top:3px solid var(--mint)}
+.who.n li::marker{content:"✕  ";color:var(--mint);font-weight:700}
+.who.n ul{padding-left:1.25em}
+.note{font-size:8.2pt;color:var(--ink-2);margin-top:1.2mm}
+.price{display:grid;grid-template-columns:auto 1fr;gap:3mm;align-items:start}
+.price b{font-size:9.6pt}
+.foot{margin-top:auto;display:grid;grid-template-columns:1fr auto;gap:5mm;align-items:end;border-top:1.5px solid var(--brand);padding-top:3mm}
+.status{font-size:8.6pt;color:var(--ink-2)}.status strong{color:var(--ink)}
+.contact{font-size:9.4pt;margin-top:1.6mm}.contact b{font-size:10.4pt}
+.qr{display:flex;gap:2.6mm;align-items:center;text-align:right;font-size:7.8pt;color:var(--ink-2)}
+.qr img{width:22mm;height:22mm;image-rendering:pixelated;border:1px solid var(--line);border-radius:1.4mm;padding:1mm;background:#fff}
+.qr code{font-family:var(--mono);font-size:7.6pt;color:var(--ink)}
+@page{size:A4;margin:0}
+@media print{html,body{background:#fff}.page{margin:0;box-shadow:none;width:210mm;height:297mm;min-height:0;overflow:hidden}}
+@media screen and (max-width:820px){
+ body{font-size:15px}
+ .page{width:auto;min-height:0;margin:0;padding:20px 16px 28px;gap:16px;box-shadow:none}
+ .hero,.row.c2,.row.c3,.row.c2e,.plan,.foot{grid-template-columns:1fr}
+ .cover{max-width:230px;margin:0 auto 10px}
+ .facts{grid-template-columns:1fr 1fr}.facts div:nth-child(2){border-right:0}.facts div:nth-child(-n+2){border-bottom:1px solid var(--line)}
+ h1{font-size:34px}.lead{font-size:17px}.card h2{font-size:17px}.plan h3{font-size:15px}
+ .top{flex-wrap:wrap;gap:8px}.top-r{flex-wrap:wrap}
+ .qr{justify-content:flex-start;text-align:left}
+}
+</style>
+</head>
+<body>
+<article class="page">
+  <header class="top">
+    <div class="brand"><span class="seal">AI</span>김민성 AI교육</div>
+    <div class="top-r"><span>학교·기관용 프로그램 소개 · 2026-11-04</span><span class="chip warn">준비 중 · 실제 수업 전</span></div>
+  </header>
+
+  <section class="hero">
+    <div>
+      <p class="eyebrow">MY DREAM DIARY · 진로 · 자기이해</p>
+      <h1>내꿈다이어리</h1>
+      <p class="lead">관심에서 이번 주 한 걸음까지, 학생이 쓰고 고치는 여섯 쪽 책.<br><em>AI는 꿈을 정해 주지 않습니다.</em> 학생이 AI의 말을 골라 쓰고, 자기 말로 고칩니다.</p>
+      <p class="sub">직업을 진단하거나 미래를 예측하지 않습니다. 해 본 경험에서 서로 다른 가능성 두 가지를 찾고, 이번 주에 할 수 있는 10~15분 행동으로 바꾸는 탐색 수업입니다.</p>
+    </div>
+    <figure class="cover" style="margin:0"><img src="img/book-cover.png" alt="예제 책 표지: 책 제목, 별칭, 나의 지도"><figcaption>예제 책 표지<br>가상 예시 학생</figcaption></figure>
+  </section>
+
+  <section class="facts" aria-label="수업 개요">
+    <div><small>대상</small><b>초등 5~6학년</b><span>초3~4·중학생은 조정안</span></div>
+    <div><small>형태</small><b>80분 체험형</b><span>또는 40분×4 제작형</span></div>
+    <div><small>인원</small><b>1학급</b><span>AI 담당 강사 1인 + 담임 협력</span></div>
+    <div><small>기기</small><b>태블릿 또는 종이</b><span>교탁 PC·큰 화면 1대</span></div>
+  </section>
+
+  <section class="row c2">
+    <div class="card"><h2>차시 구성 <i>TWO FORMATS</i></h2>
+      <div class="plan">
+        <div><h3>80분 체험형 · 1회 방문</h3><ol><li>관심·경험 쓰기</li><li>AI 질문 장면(교탁 화면) → 고르고 고치기</li><li>가능성 두 가지</li><li>이번 주 한 걸음 정하기</li><li>단정하는 문장 고치기 · 보관</li></ol></div>
+        <div><h3>40분×4 제작형 · 2회 방문</h3><ol><li>나의 경험 (1·2쪽)</li><li>두 가지 길과 AI (3·4쪽)</li><li class="gap">— 1주 동안 행동 하나 해 보기 —</li><li>목표와 이번 주 (5쪽)</li><li>돌아보기·고치기, 책 완성 (6쪽)</li></ol></div>
+      </div>
+    </div>
+    <div class="card"><h2>여섯 쪽 책 <i>6 PAGES</i></h2>
+      <ul class="pages">
+        <li><b>1</b>표지 · 나의 지도</li><li><b>2</b>관심 · 경험</li>
+        <li><b>3</b>가능성 두 가지</li><li><b>4</b>AI 질문 고쳐 쓰기</li>
+        <li><b>5</b>목표와 이번 주</li><li><b>6</b>돌아보기 · 고치기</li>
+      </ul>
+      <p class="note">태블릿 앱이나 인쇄 활동지(A4 6쪽) 어느 쪽으로도 같은 순서로 씁니다.</p>
+    </div>
+  </section>
+
+  <section class="row c3">
+    <div class="card who s"><h2>학생이 하는 일</h2><ul><li>해 본 일과 그때의 느낌을 씁니다</li><li>서로 다른 가능성 두 가지를 고릅니다</li><li>AI의 말을 ‘그대로 / 고쳐서 / 안 씀’으로 고르고 이유를 씁니다</li><li>이번 주 10~15분 행동과 쉬는 날을 정합니다</li><li>“반드시 ~된다”를 탐색하는 말로 고칩니다</li></ul></div>
+    <div class="card who a"><h2>AI가 하는 일</h2><ul><li>강사가 교탁 화면에서 학교가 허용한 AI에 학생 글(동의 후, 개인정보 없이)을 넣으면 질문과 작은 활동을 제안합니다</li><li>중학생은 학교 승인 계정(예: 부산 펜즈)이 있을 때만 직접 씁니다</li><li>AI의 단정하는 답은 고치기 재료가 됩니다</li></ul></div>
+    <div class="card who n"><h2>AI가 하지 않는 일</h2><ul><li>직업·적성 진단, 미래·성공 예측</li><li>학생 평가나 점수 매기기</li><li>만 13세 미만 학생의 직접 입력</li><li>학생 글 자동 전송(앱은 그 기기에만 저장)</li><li>앱 자체는 AI가 아님(점검·지도는 규칙형)</li></ul></div>
+  </section>
+
+  <section class="row c2e">
+    <div class="card"><h2>준비물</h2><ul><li><b>학교</b>: 학생 태블릿(1인 1대 권장) 또는 인쇄 활동지, <span style="white-space:nowrap">교실 Wi-Fi</span>, 교탁 화면 연결, 허용된 AI 서비스 확인</li><li><b>강사</b>: 노트북, 활동지 인쇄본, 예제 책</li></ul></div>
+    <div class="card"><h2>산출물</h2><ul><li>학생별 여섯 쪽 책(인쇄본 또는 PDF)과 이어 쓰는 저장 파일</li><li>강사 수업 기록(사용한 AI·시간·막힌 곳). 학생 글은 수집하지 않습니다</li></ul></div>
+  </section>
+
+  <section class="card price"><b>비용</b><p>홈페이지의 제안 견적 표를 따릅니다: 80분·1회·1학급 기본형 40~50만 원, 40분×4차시·2회 방문·1학급 제작형 80~100만 원. <b>확정 단가가 아니며</b> 학급 수·차시·기기 조건에 따라 협의합니다.</p></section>
+
+  <footer class="foot">
+    <div>
+      <p class="status"><strong>지금 상태</strong> · 앱·교안·활동지 v0.2 내부 제작 완료(2026-11-04). 실제 수업은 아직 없고, 학교 태블릿 확인과 리허설 전입니다. 효과·만족도 수치는 없습니다.</p>
+      <p class="contact"><b>김민성</b> 대표 · AI 수업 담당 · 010-8584-1753 · kim30707@gmail.com · 부산·경남</p>
+    </div>
+    <div class="qr"><div>시연판 바로 열기<br><code>kim30707.github.io/aiedu/diary/</code><br>로그인 없이 · 입력은 그 기기에만</div><img src="img/qr-diary.png" alt="내꿈다이어리 시연판 QR 코드"></div>
+  </footer>
+</article>
+</body>
+</html>

@@ -1,0 +1,62 @@
+{
+ "version": "0.2",
+ "url": "https://kim30707.github.io/aiedu/diary/",
+ "built": "build_v02.py",
+ "files": [
+  {
+   "path": "boot.js",
+   "bytes": 19,
+   "sha256": "c355a438a948ade7f729f9a932e3687c63e48dfb286c63e45433cbdef37f6878"
+  },
+  {
+   "path": "core.js",
+   "bytes": 9177,
+   "sha256": "b5e8c119e46e1502a7d52592f21123390c113ad2a444e6e44e57047b51c242f5"
+  },
+  {
+   "path": "dream.js",
+   "bytes": 34222,
+   "sha256": "fdb7eb1afd07fab99edb4dff822408eae054ba6c7ce82b3ba17ad640b3262abe"
+  },
+  {
+   "path": "guide.html",
+   "bytes": 12566,
+   "sha256": "116907e7ce0ef9685598270e955d0ddb9822f6dc4c09c1b1bffb4c28aff31ed5"
+  },
+  {
+   "path": "img/book-ai.png",
+   "bytes": 81967,
+   "sha256": "1c0822f8aebeb645969df2bc289c76956aea160ba069fa18b0e73225c7111cfd"
+  },
+  {
+   "path": "img/book-cover.png",
+   "bytes": 73477,
+   "sha256": "e1cff71a6ec12ad6b2aa6ba61505fad36a2b744196f24bd77b57fa5fa24a8ae5"
+  },
+  {
+   "path": "img/qr-diary.png",
+   "bytes": 4897,
+   "sha256": "09240b8741cf10d817334e278fa5ef18d7e804fbaabfc89cd1e80693d0d8ad9d"
+  },
+  {
+   "path": "index.html",
+   "bytes": 6271,
+   "sha256": "3bee860d6278299d8925062c031e74bdc791925ea3b71bffbe90d25fb03b0153"
+  },
+  {
+   "path": "intro.html",
+   "bytes": 12182,
+   "sha256": "80b8e7d675837e51cde3b2be9cb0838ffbbe364ae040c57b08d128735a97eab5"
+  },
+  {
+   "path": "style.css",
+   "bytes": 13576,
+   "sha256": "c1aeb1be9c45958420ce6074c00885b201ad7b9bffbdc6452eb645a7daa14b40"
+  },
+  {
+   "path": "worksheet.html",
+   "bytes": 2456,
+   "sha256": "e66aeb90199e5cb210242d223587d8a3cb21faf21f6d2e3c6f2ff2a9f96e2756"
+  }
+ ]
+}

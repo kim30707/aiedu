@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>내꿈다이어리 · 인쇄용 활동지</title>
+<style>
+html,body{background:#e9eefb;margin:0}
+body{font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;color:#111a2e;padding:0 12px 30px}
+.bar{max-width:210mm;margin:0 auto;padding:16px 0;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.bar p{margin:0;font-size:14px;color:#46526e;max-width:38em;line-height:1.6}
+.bar a,.bar button{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:999px;border:1px solid #b8c3dc;background:#fff;font:inherit;font-weight:700;font-size:15px;color:#111a2e;text-decoration:none;cursor:pointer}
+.bar button{background:#2b5bff;border-color:#2b5bff;color:#fff}
+.bar .group{display:flex;gap:8px;flex-wrap:wrap}
+@page{size:A4;margin:14mm}
+@media print{html,body{background:#fff;padding:0}.bar{display:none}}
+</style>
+<script src="dream.js" defer></script>
+</head>
+<body>
+<div class="bar">
+  <p id="what">빈 활동지 여섯 쪽입니다. 앱 없이 종이로만 수업해도 같은 순서로 씁니다. 인쇄할 때 배율 100%, A4 세로로 맞춰 주세요.</p>
+  <div class="group"><a href="./">앱으로 돌아가기</a><a id="swap" href="#example">예제 책 보기</a><button type="button" onclick="print()">인쇄 · PDF 저장</button></div>
+</div>
+<main id="book"></main>
+<script>
+addEventListener('DOMContentLoaded',()=>{
+  const s=window.DreamDiary,book=document.getElementById('book');
+  function show(){const ex=location.hash==='#example';
+    book.innerHTML=s.worksheet(ex?s.demo():s.defaults());
+    document.getElementById('what').textContent=ex?'예제 책입니다. 학생 ‘새싹’과 AI가 한 말은 모두 미리 쓴 가상 예시이고 실제 학생·실제 AI 답이 아닙니다.':'빈 활동지 여섯 쪽입니다. 앱 없이 종이로만 수업해도 같은 순서로 씁니다. 인쇄할 때 배율 100%, A4 세로로 맞춰 주세요.';
+    const a=document.getElementById('swap');a.href=ex?'#':'#example';a.textContent=ex?'빈 활동지 보기':'예제 책 보기';
+    document.title=ex?'내꿈다이어리 · 예제 책(가상 예시)':'내꿈다이어리 · 인쇄용 활동지';}
+  addEventListener('hashchange',show);show();
+});
+</script>
+</body>
+</html>
