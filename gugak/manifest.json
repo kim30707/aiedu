@@ -1,6 +1,6 @@
 {
-  "built_at": "2026-11-03T04:00:20.290564+09:00",
-  "version": "0.9-public",
+  "built_at": "2026-11-04T02:36:50.232370+09:00",
+  "version": "0.9.1-public",
   "samples": 210,
   "files": [
     {
@@ -45,8 +45,8 @@
     },
     {
       "path": "lesson.js",
-      "sha256": "36e15ac2cb6f59f7dc189bb2bfd8d752e198f39e634a25e08712d8d4bff1b489",
-      "bytes": 26912
+      "sha256": "59909eab6e43f7254d76fda8f34b827933e6ebd114432eae9878cf71ac857824",
+      "bytes": 27271
     },
     {
       "path": "measured-pitches.js",
@@ -55,33 +55,33 @@
     },
     {
       "path": "real-instruments.js",
-      "sha256": "114fa6c9675e010f0aa1de1de9aff202700a98f4f59c5bc0fedf105e356528c3",
-      "bytes": 40674
+      "sha256": "fb83d6c226f5df3e5f3182d76bbfdc7b706df666ca6c8dccf8987ce266c59ec8",
+      "bytes": 40902
     },
     {
       "path": "app.js",
-      "sha256": "799aef20628f6b9a5f3cf72010d055aea3ecf69dbf8fdea45fda86aee5bc2f02",
-      "bytes": 37848
+      "sha256": "0bb02a5c58f3785c76182dd387848c3806061c27ff90b5b4e46be56b9ebb538d",
+      "bytes": 38443
     },
     {
       "path": "songs.js",
-      "sha256": "8a5baa7b339054560820f079e102427665b54ef3e288a81c22a5006cdcae875d",
-      "bytes": 17550
+      "sha256": "8b964b500e8936dcd807bd6992e3b9f42d83b584592a8962f6a8653e7b47c58d",
+      "bytes": 18290
     },
     {
       "path": "student.js",
-      "sha256": "aa2ace07bf5691b885bcac895f2a580d73a78a1bd33034e512cf03f869ae0c0e",
-      "bytes": 5515
+      "sha256": "a5c7c1a50ecca7c5dfcf043cd75c2bf539bffb3b1185a970f2677e756b92244c",
+      "bytes": 5526
     },
     {
       "path": "feedback.js",
-      "sha256": "e1529f2e8ac61e893d9b5b100cfff71ac13dd0a0dbfb381a4bf7c5ee37e986df",
-      "bytes": 6526
+      "sha256": "f2afd0058f9d71d5f9cf15d977461c2b461e80ee0c4f30705957e2e3ef9f89b3",
+      "bytes": 6880
     },
     {
       "path": "ai-cards.js",
-      "sha256": "12cb3d273f2aef2d016489e6a6061f61695b184045ab8ecca8594b6d4442733a",
-      "bytes": 6266
+      "sha256": "0d7c7ef5d20418a73aa4c0bfc11dd184519b0748e50081f9d160d4b8cbf4d30a",
+      "bytes": 6353
     },
     {
       "path": "audio/bank-meta.js",
@@ -114,9 +114,9 @@
     },
     {
       "path": "index.html",
-      "sha256": "3fd3be38732777594dfeff19645d24f6e0e913969a0e54f02329fc4f41b1b885",
-      "bytes": 16516,
-      "title": "우리 소리 실험실 · 국악 웹악기 v0.9"
+      "sha256": "e966b4a80ddaf36561d189d1c95f6d39b756da2dea6268de113041fc88237a36",
+      "bytes": 17299,
+      "title": "우리 소리 실험실 · 국악 웹악기 v0.9.1"
     },
     {
       "path": "song-guide.html",
@@ -139,12 +139,11 @@
       "bytes": 10922
     }
   ],
+  "source": "02_문화예술_AI교육/04_음악_영상/2026/2026-11-03_181250_국악웹악기_v091_전체현황검토_오류수정/06_AI작업/GPT/웹악기",
   "notes": [
-    "claude.ai 아티팩트로 올리는 공개 시험판. 국악 강사의 원격 시험·의견용.",
+    "v0.9.1(GPT/Codex 11/3 수정판)을 공개 시험판 규칙으로 옮긴 사본. 국악 강사의 원격 시험·의견용.",
     "수업 악기 4개 녹음(210개)만. 추가 악기 6종·참고 WAV·보존 원본 경로 없음.",
-    "주소 ?쿼리는 아티팩트에서 전달되지 않으므로 #low #high #middle #doraji #janggu #teacher 해시를 쓴다.",
-    "의견 보내기는 db 기능(초대받은 편집자·구성원), 그 밖에는 복사하기.",
-    "AI 요청 카드는 sample 기능(보는 사람 Claude 계정, 허용 창)으로 묻거나 문장 복사.",
-    "교실 수업은 교사 컴퓨터의 8913 서버(태블릿웹악기_v09)로 한다."
+    "주소 ?쿼리 대신 #low #high #middle #doraji #janggu #teacher 해시를 쓴다.",
+    "교실 수업은 교사 컴퓨터의 8913 서버(태블릿웹악기_v091)로 한다."
   ]
 }

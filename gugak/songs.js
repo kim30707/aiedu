@@ -3,6 +3,7 @@
  * 가락: 위키백과 Arirang(en)·도라지타령(ko) 악보(LilyPond, 바장조 9/8)를 앱 가야금 조율 4~10현(G3 A3 C4 D4 E4 G4 A4)으로 옮김.
  * 장구: 세마치장단 기본형 덩 · · 덩 · 덕 쿵 덕 · (8분음표 9칸). 가락·장단 모두 국악 강사 검수 전.
  * 입력 판정: app.js가 실물 악기 화면의 연주를 'gugak:gesture' 이벤트로 알린다(현 번호·장구 면).
+ * v0.9.1: 재생 중 설정 변경은 안내 후 정지, 학년 빠르기 동기화, 같이 하기 덩 양손 입력도 300ms 이내로 판정.
  * v0.8(2026-11-03): 시범 보기·한 음씩·같이 하기에서 칠 곳을 검은 점(●)으로, 다음 칠 곳을 작은 고리(○)로 악기 위에 찍는다. 소리 경로는 v0.7과 같다.
  */
 (()=>{'use strict';
@@ -31,7 +32,7 @@ const SONGS={
 function parse(song){const notes=[];song.bars.forEach((bar,b)=>{let t=b*BAR;for(const group of bar.split('|')){const [syl,seq]=group.includes(':')?group.split(':'):['',group];seq.split(',').forEach((tok,k)=>{const m=/^([a-zA-Z]+)(\d+)$/.exec(tok),len=Number(m[2]);if(m[1]!=='r'){if(!(m[1] in DEG))throw new Error(song.name+' 음 '+tok);notes.push({t,len,string:DEG[m[1]],syl:k?'':syl,bar:b});}t+=len;});}if(t!==(b+1)*BAR)throw new Error(song.name+' '+(b+1)+'마디 길이 '+(t-b*BAR));});return notes;}
 function janggu(song,melody){const out=[];song.bars.forEach((_,b)=>SEMACHI.forEach(([pos,stroke],k)=>{const t=b*BAR+pos,next=SEMACHI[k+1]?.[0]??BAR;out.push({t,len:next-pos,stroke,syl:melody.find(n=>n.t===t)?.syl||'',bar:b});}));return out;}
 for(const s of Object.values(SONGS)){s.melody=parse(s);s.janggu=janggu(s,s.melody);}
-const S={song:'arirang',phrase:-1,tempo:50,together:true};let run=null,last=null,built=false,flashTimers=new Set();
+const S={song:'arirang',phrase:-1,tempo:50,together:true};let run=null,last=null,built=false,gradeAtRender=null,flashTimers=new Set();
 function part(){const i=app()?.state?.instrument;return PARTS.includes(i)?i:null;}
 function other(p){return p==='janggu'?'gayageum':'janggu';}
 function range(){const s=SONGS[S.song];if(S.phrase<0)return[0,s.bars.length];return[S.phrase*4,Math.min(s.bars.length,S.phrase*4+4)];}
@@ -77,19 +78,21 @@ function stepWrong(e,els){const r=run;r.wrong++;flash('song-bad',els);say('다�
 function hitEls(p,h){const scene=$('scene');return p==='janggu'?[...scene.querySelectorAll('[data-strike="'+h.side+'"]')]:[...scene.querySelectorAll('[data-string="'+h.string+'"]')];}
 function onStep(h,now){const r=run,e=r.own[r.k];if(!e)return;if(r.part!=='janggu')return h.string===e.string?stepGood():stepWrong(e,hitEls(r.part,h));const need=STROKE[e.stroke].sides;if(!need.includes(h.side))return stepWrong(e,hitEls(r.part,h));r.sides[h.side]=now;if(need.every(s=>now-(r.sides[s]??-1e9)<=DUO_MS))return stepGood();clearTimeout(r.duoTimer);r.duoTimer=setTimeout(()=>{if(run===r&&r.own[r.k]===e){r.wrong++;say('덩은 궁편과 채편을 함께 쳐요');}},DUO_MS+40);}
 function onAlong(h,now){const r=run;if(now<r.t0-AHEAD_MS)return;let best=null;r.own.forEach((e,k)=>{if(e.hit)return;const at=r.t0+e.t*r.e8;if(now<at-AHEAD_MS||now>at+Math.min(e.len*r.e8,LATE_MS))return;if(r.part==='janggu'?!STROKE[e.stroke].sides.includes(h.side):e.string!==h.string)return;const d=Math.abs(now-at);if(!best||d<best.d)best={e,k,d};});
- if(!best){flash('song-bad',hitEls(r.part,h));return;}const {e,k}=best;if(r.part==='janggu'){e.sides=e.sides||{};e.sides[h.side]=now;if(!STROKE[e.stroke].sides.every(s=>e.sides[s]))return;}e.hit=true;cell(k)?.classList.add('hit');flash('song-good',hitEls(r.part,h));}
+ if(!best){flash('song-bad',hitEls(r.part,h));return;}const {e,k}=best;if(r.part==='janggu'){e.sides=e.sides||{};e.sides[h.side]=now;if(!STROKE[e.stroke].sides.every(s=>e.sides[s]!==undefined&&now-e.sides[s]<=DUO_MS))return;}e.hit=true;cell(k)?.classList.add('hit');flash('song-good',hitEls(r.part,h));}
 function onGesture(ev){const r=run,d=ev.detail||{};if(!r||r.mode==='demo'||d.instrument!==r.part)return;const now=performance.now();let h;if(r.part==='janggu'){if(d.side!=='gung'&&d.side!=='chae')return;h={side:d.side};}else{const el=document.querySelector('#scene [data-string][data-position-note="'+d.index+'"]');if(!el)return;h={string:Number(el.dataset.string)};}r.mode==='step'?onStep(h,now):onAlong(h,now);}
 function hint(){const r=run;if(r?.mode!=='step')return;const e=r.own[r.k];sound(r.part,e,1);flash('song-good',targets(r.part,e));}
 function select(song){if(!SONGS[song])return false;stop();S.song=song;S.phrase=-1;renderControls();return true;}
 function setPhrase(n){n=Number(n);const max=Math.ceil(SONGS[S.song].bars.length/4)-1;if(!(n>=-1&&n<=max))return false;stop();S.phrase=n;renderControls();return true;}
-function setTempo(v){v=Math.round(Number(v));if(!(v>=30&&v<=110))return false;S.tempo=v;$('song-tempo-value').textContent='♩. = '+v;return true;}
+function stopForSetting(message){if(!run)return;stop();app()?.stopAll?.();say(message+' 다시 시작해 주세요.');}
+function setTempo(v){v=Math.round(Number(v));if(!(v>=30&&v<=110))return false;if(v!==S.tempo)stopForSetting('빠르기를 바꿨어요.');S.tempo=v;$('song-tempo').value=String(v);$('song-tempo-value').textContent='♩. = '+v;return true;}
+function setTogether(on){on=!!on;if(on!==S.together)stopForSetting('함께 듣기를 바꿨어요.');S.together=on;$('song-together').checked=on;return true;}
 function setPart(p){if(!PARTS.includes(p))return false;stop();if(app()?.state?.instrument!==p)app()?.selectInstrument?.(p);renderControls();return true;}
 function open(on=true){const d=$('song-panel');if(d)d.open=on;}
-function build(){const panel=$('song-panel');if(!panel)return;built=true;S.tempo=GRADE_TEMPO[app()?.state?.grade]||S.tempo;
+function build(){const panel=$('song-panel');if(!panel)return;built=true;gradeAtRender=app()?.state?.grade;S.tempo=GRADE_TEMPO[gradeAtRender]||S.tempo;
  panel.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.song)select(b.dataset.song);else if(b.dataset.songPart)setPart(b.dataset.songPart);else if(b.id==='song-demo')begin('demo');else if(b.id==='song-step')begin('step');else if(b.id==='song-along')begin('along');else if(b.id==='song-hint')hint();else if(b.id==='song-stop'){stop();app()?.stopAll?.();}});
- $('song-phrase').addEventListener('change',e=>setPhrase(e.target.value));$('song-tempo').addEventListener('input',e=>setTempo(e.target.value));$('song-together').addEventListener('change',e=>{S.together=e.target.checked;});
- window.addEventListener('gugak:gesture',onGesture);window.addEventListener('gugak:scene',()=>{if(run&&run.part!==part())stop();renderControls();});
+ $('song-phrase').addEventListener('change',e=>setPhrase(e.target.value));$('song-tempo').addEventListener('input',e=>setTempo(e.target.value));$('song-together').addEventListener('change',e=>setTogether(e.target.checked));
+ window.addEventListener('gugak:gesture',onGesture);window.addEventListener('gugak:scene',()=>{if(run&&run.part!==part())stop();const grade=app()?.state?.grade;if(grade!==gradeAtRender){gradeAtRender=grade;if(GRADE_TEMPO[grade])setTempo(GRADE_TEMPO[grade]);}renderControls();});
  const q=new URLSearchParams(location.search);if(SONGS[q.get('song')]){S.song=q.get('song');if(PARTS.includes(q.get('part')))setPart(q.get('part'));open(true);}renderControls();}
-window.GugakSongs={songs:SONGS,select,setPhrase,setTempo,setPart,open,start:begin,stop,hint,events,getState:()=>({...S,part:part(),running:run?{mode:run.mode,part:run.part,k:run.k??run.i,good:run.good,wrong:run.wrong,t0:run.t0,e8:run.e8}:null,last})};
+window.GugakSongs={songs:SONGS,select,setPhrase,setTempo,setTogether,setPart,open,start:begin,stop,hint,events,getState:()=>({...S,part:part(),running:run?{mode:run.mode,part:run.part,k:run.k??run.i,good:run.good,wrong:run.wrong,t0:run.t0,e8:run.e8}:null,last})};
 build();
 })();
