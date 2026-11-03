@@ -97,7 +97,7 @@
     }).join("");
     const months = ["2026-11-01", "2026-12-01", "2027-01-01", "2027-02-01", "2027-03-01"];
     const ticks = months.map((m, i) => `<span style="left:${pct(m)}%${i === months.length - 1 ? ";transform:translateX(-100%)" : i === 0 ? ";transform:none" : ""}">${parse(m).getMonth() + 1}월</span>`).join("");
-    return `<div class="tl" role="img" aria-label="일곱 분야 수업의 제작 목표 기간 표. 국악 11월 2일~22일, 교과 연극 11월 5일~22일, 협동연극 11월 4일~8일, 꿈 다이어리 11월 4일~8일, 게임 12월 28일~1월 10일, 수학 1월 11~17일, 영어 1월 18~31일, 과학 2월 1~14일.">${rows}<div class="axis"><div></div><div>${ticks}</div></div></div>`;
+    return `<div class="tl" role="img" aria-label="여덟 분야 수업의 제작 목표 기간 표. 국악 11월 2일~22일, 교과 연극 11월 5일~22일, 협동연극 11월 4일~8일, 꿈 다이어리 11월 4일~8일, 사실검증 편집실 11월 4일, 게임 12월 28일~1월 10일, 수학 1월 11~17일, 영어 1월 18~31일, 과학 2월 1~14일.">${rows}<div class="axis"><div></div><div>${ticks}</div></div></div>`;
   }
   function checklist(items) {
     return `<ul class="check">${items.map((r) => `<li><span class="m ${r.state}" aria-hidden="true">${r.state === "done" ? "✓" : ""}</span><div><b>${esc(r.item)}</b>${r.note ? `<span>${esc(r.note)}</span>` : ""}</div></li>`).join("")}</ul>`;
@@ -113,7 +113,7 @@
       <div>
         <span class="eyebrow appear appear--rise" style="--d:.05s">AI교육 수업 안내 · 2026–2027</span>
         <h1 style="margin-top:14px"><span class="line appear appear--blur" style="--d:.12s">AI가 만든 것을,</span><span class="line appear appear--blur" style="--d:.22s"><em>아이들이 고칩니다.</em></span></h1>
-        <p class="lead appear appear--rise" style="--d:.36s">국악·연극·수학·게임… 일곱 분야의 수업에서 학생은 AI에게 요청하고, 결과를 듣고 보고 검산해서 직접 바로잡습니다. 2026년 11월 국악 수업부터 차례로 준비합니다.</p>
+        <p class="lead appear appear--rise" style="--d:.36s">국악·연극·수학·게임… 여덟 분야의 수업에서 학생은 AI에게 요청하고, 결과를 듣고 보고 검산해서 직접 바로잡습니다. 2026년 11월 국악 수업부터 차례로 준비합니다.</p>
         <div class="ctas"><a class="btn primary appear appear--btn" style="--d:.48s" href="#gugak">국악 수업 먼저 보기</a><a class="btn appear appear--btn" style="--d:.56s" href="#schedule">일정 · 접수</a></div>
         <div class="meta appear appear--rise" style="--d:.64s"><span>첫 대상 <b>초등 5~6학년</b></span><span>구성 <b>2인 1조 · 80분</b></span><span>기기 <b>학교 태블릿</b></span></div>
       </div>
@@ -135,7 +135,7 @@
     </div></div>
 
     <section class="section"><div class="wrap">
-      <div class="head rv"><span class="eyebrow">7개 분야 · 수업 8가지</span><h2>학교가 필요한 수업 하나만 고르면 됩니다</h2><p>국악이 가장 먼저 준비되었고, 나머지는 제작 순서대로 열립니다. 각 수업을 누르면 진행 순서·준비물·준비 상황을 볼 수 있습니다.</p></div>
+      <div class="head rv"><span class="eyebrow">8개 분야 · 수업 9가지</span><h2>학교가 필요한 수업 하나만 고르면 됩니다</h2><p>국악이 가장 먼저 준비되었고, 나머지는 제작 순서대로 열립니다. 각 수업을 누르면 진행 순서·준비물·준비 상황을 볼 수 있습니다.</p></div>
       ${cards(S.P.programs)}
     </div></section>
 
@@ -156,7 +156,7 @@
     </div></section>
 
     <section class="section"><div class="wrap two">
-      <div class="rv"><span class="eyebrow">제작 순서</span><h2 style="font-size:clamp(1.5rem,2.6vw,2rem);margin:12px 0 18px">일곱 분야 제작 목표 기간</h2>${timeline()}<p class="tiny" style="margin-top:12px">${esc(S.SCH.note)}</p></div>
+      <div class="rv"><span class="eyebrow">제작 순서</span><h2 style="font-size:clamp(1.5rem,2.6vw,2rem);margin:12px 0 18px">여덟 분야 제작 목표 기간</h2>${timeline()}<p class="tiny" style="margin-top:12px">${esc(S.SCH.note)}</p></div>
       <div class="rv"><span class="eyebrow">국악 준비 상황</span><h2 style="font-size:clamp(1.5rem,2.6vw,2rem);margin:12px 0 18px">끝난 것과 남은 것</h2>${checklist(g.readiness)}</div>
     </div></section>
 
@@ -185,7 +185,7 @@
   /* ───────── 화면: 수업 목록 ───────── */
   function viewPrograms() {
     return `<section class="section view"><div class="wrap">
-      <div class="head"><span class="eyebrow">7개 분야 · 수업 8가지</span><h1 style="font-size:clamp(1.9rem,4vw,3rem)">수업 안내</h1><p>국악부터 제작 순서대로 준비합니다. 준비 상황은 각 수업 화면에 그대로 적어 두었습니다.</p></div>
+      <div class="head"><span class="eyebrow">8개 분야 · 수업 9가지</span><h1 style="font-size:clamp(1.9rem,4vw,3rem)">수업 안내</h1><p>국악부터 제작 순서대로 준비합니다. 준비 상황은 각 수업 화면에 그대로 적어 두었습니다.</p></div>
       ${cards(S.P.programs)}
       <div style="margin-top:48px">${timeline()}</div>
     </div></section>`;
@@ -202,6 +202,7 @@
         <figure class="rv" style="margin:0"><img src="img/app-error.jpg" alt="웹악기 v0.8 오류 찾기 화면 '소리 탐정 연구실'. 정상 듣기, 문제 탐색, 증거·추측, 직접 수정, 다시 검증 다섯 단계가 보인다." style="border-radius:var(--r-m);border:1px solid var(--line)"><figcaption class="tiny" style="margin-top:8px">2교시 ‘소리 탐정 연구실’ · 듣기 → 찾기 → 고치기 → 다시 확인</figcaption></figure>
       </div>
       <div class="subhead"><h3>수업료 (제안 견적)</h3></div>${pricing()}` : "";
+    const priceBox = p.price ? `<div class="subhead"><h3>수업료</h3><span class="tiny">${esc(p.price.note)}</span></div><div class="tablewrap"><table><thead><tr><th>형태</th><th>단위</th><th>수업료</th><th>조건</th></tr></thead><tbody>${p.price.rows.map((r) => `<tr><td><b>${esc(r.type)}</b></td><td>${esc(r.unit)}</td><td class="price num">${won(r.amount)}</td><td class="muted small">${esc(r.cond)}</td></tr>`).join("")}</tbody></table></div><p class="tiny" style="margin-top:10px">${esc(p.price.extra)}</p>` : "";
     const nav = S.P.programs.map((o) => `<a href="#${o.id}"${o.id === p.id ? ' class="on" aria-current="page"' : ""}>${esc(o.short)}</a>`).join("");
     return `<section class="section view" style="padding-top:28px"><div class="wrap">
       <div class="crumb"><a href="#home">홈</a><span>›</span><a href="#programs">수업</a><span>›</span><span>${esc(p.name)}</span></div>
@@ -221,7 +222,7 @@
         <div><div class="subhead"><h3>배우는 것</h3></div><ul class="list">${p.learn.map((t) => `<li>${esc(t)}</li>`).join("")}</ul></div>
         <div><div class="subhead"><h3>학교에서 준비할 것</h3></div><ul class="list">${p.prep.map((t) => `<li>${esc(t)}</li>`).join("")}</ul></div>
       </div>
-      ${gugakExtra}
+      ${gugakExtra}${priceBox}
       <div class="two" style="margin-top:8px">
         <div><div class="subhead"><h3>준비 상황</h3><span class="tiny">${esc(p.status.window)}</span></div>${checklist(p.readiness)}</div>
         <div><div class="subhead"><h3>일정 · 접수</h3><span class="tiny">${esc(p.status.booking)}</span></div>
@@ -329,7 +330,7 @@
 ${knowledge()}`;
 
   function ruleRecommend(input) {
-    const map = { music: ["gugak", "english"], korean: ["theater-basic", "theater"], career: ["diary"], coding: ["game"], math: ["math"], english: ["english"], science: ["science"] };
+    const map = { music: ["gugak", "english"], korean: ["theater-basic", "theater", "factcheck"], career: ["diary"], coding: ["game", "factcheck"], math: ["math"], english: ["english"], science: ["science"] };
     const ids = []; input.subjects.forEach((s) => (map[s] || []).forEach((id) => { if (!ids.includes(id)) ids.push(id); }));
     if (!ids.length) ids.push("gugak");
     return ids.slice(0, 3).map((id) => { const p = prog(id); return { id, reason: `${p.subject} 관심과 맞습니다. 대상: ${p.grades}. ${p.status.booking}.`, fit: p.status.phase === "building" ? "가장 먼저 준비됨" : "준비 예정" }; });
@@ -623,7 +624,7 @@ ${knowledge()}`;
   function footer() {
     const c = S.P.contact;
     $("#foot").innerHTML = `<div class="ph"><div class="big">김민성 AI교육</div><div>${esc(c.role)} · ${esc(c.region)}</div><div class="row"><span class="mono num">${esc(c.phone)}</span><button type="button" class="copy" data-label="번호 복사" data-text="${esc(c.phone)}">번호 복사</button></div><div class="row"><span class="mono">${esc(c.email)}</span><button type="button" class="copy" data-label="주소 복사" data-text="${esc(c.email)}">주소 복사</button></div><div class="tiny">상호: <span style="border-bottom:1px dashed var(--ink-3)">확인 필요</span> · 사업자 정보는 등록 후 표시</div></div>
-      <div><h4>자료와 표기</h4><p class="small">첫 화면과 수업 카드의 사진은 AI로 만든 예시 이미지(Higgsfield)이며 실제 수업 사진이 아닙니다. 협동연극 카드는 제작실 앱 v0.2 화면 캡처입니다. 웹악기 화면은 v0.8 실제 캡처입니다. 웹악기 소리는 국립국악원 국악기 디지털 음원(공공누리 제1유형)을 씁니다. ‘높이 탐정’ 체험의 가야금 줄 소리는 브라우저 합성음입니다(AI 아님).</p><p class="tiny" style="margin-top:8px">자료 기준일 ${esc(S.P.updated)}</p></div>
+      <div><h4>자료와 표기</h4><p class="small">첫 화면과 수업 카드의 사진은 AI로 만든 예시 이미지(Higgsfield)이며 실제 수업 사진이 아닙니다. 협동연극 카드는 제작실 앱 v0.2 화면 캡처, 사실검증 편집실 카드는 수업 자료 속 가상 행사를 직접 그린 그림입니다(AI 생성 아님). 웹악기 화면은 v0.8 실제 캡처입니다. 웹악기 소리는 국립국악원 국악기 디지털 음원(공공누리 제1유형)을 씁니다. ‘높이 탐정’ 체험의 가야금 줄 소리는 브라우저 합성음입니다(AI 아님).</p><p class="tiny" style="margin-top:8px">자료 기준일 ${esc(S.P.updated)}</p></div>
       <div><h4>휴대폰으로 열기</h4><div class="qr"><img src="img/qr-home.png" alt="이 홈페이지로 가는 QR 코드" onerror="this.replaceWith(document.createTextNode('QR 준비 중'))"></div></div>`;
   }
 
