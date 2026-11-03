@@ -96,7 +96,7 @@
     }).join("");
     const months = ["2026-11-01", "2026-12-01", "2027-01-01", "2027-02-01", "2027-03-01"];
     const ticks = months.map((m, i) => `<span style="left:${pct(m)}%${i === months.length - 1 ? ";transform:translateX(-100%)" : i === 0 ? ";transform:none" : ""}">${parse(m).getMonth() + 1}월</span>`).join("");
-    return `<div class="tl" role="img" aria-label="일곱 수업의 제작 목표 기간 표. 국악 11월 2일~22일, 연극 11월 23일~12월 13일, 꿈 다이어리 12월 14일~27일, 게임 12월 28일~1월 10일, 수학 1월 11~17일, 영어 1월 18~31일, 과학 2월 1~14일.">${rows}<div class="axis"><div></div><div>${ticks}</div></div></div>`;
+    return `<div class="tl" role="img" aria-label="일곱 수업의 제작 목표 기간 표. 국악 11월 2일~22일, 협동연극 11월 4일~8일, 꿈 다이어리 11월 4일~8일, 게임 12월 28일~1월 10일, 수학 1월 11~17일, 영어 1월 18~31일, 과학 2월 1~14일.">${rows}<div class="axis"><div></div><div>${ticks}</div></div></div>`;
   }
   function checklist(items) {
     return `<ul class="check">${items.map((r) => `<li><span class="m ${r.state}" aria-hidden="true">${r.state === "done" ? "✓" : ""}</span><div><b>${esc(r.item)}</b>${r.note ? `<span>${esc(r.note)}</span>` : ""}</div></li>`).join("")}</ul>`;
