@@ -128,7 +128,7 @@
     return `${rest ? "" : HERO}
 
     <div class="strip"><div class="wrap">
-      <div class="cell"><div class="k">수업</div><div class="v num">9가지</div><div class="n">8개 분야 · 초등 4~6학년 중심</div></div>
+      <div class="cell"><div class="k">수업</div><div class="v num">9가지</div><div class="n">8개 분야 · 초1~6 학년별 조정 · 다이어리는 중·고까지</div></div>
       <div class="cell"><div class="k">국악 웹악기</div><div class="v">4악기</div><div class="n">국립국악원 녹음 · 가야금·해금·아쟁·장구</div></div>
       <div class="cell"><div class="k">기본 시간</div><div class="v">80분 · 1회 방문</div><div class="n">40분 × 4차시 제작형도 있음</div></div>
       <div class="cell"><div class="k">희망일 접수</div><div class="v">11월 24일부터</div><div class="n">접수 뒤 담당자가 연락해 확정</div></div>
