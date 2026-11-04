@@ -1,3 +1,4 @@
+/* v0.10: 왼손잡이 배치 단추(.hand-button)는 음량 단추와 같은 모양. */
 /* v0.9 학생용 화면: 수업에 필요한 것만 보이고(연주·곡 따라 하기·오류 찾기), 선생님 설정·비교·분석은 선생님 모드에서만 */
 :root{color-scheme:light}
 body:not(.teacher-mode) .teacher-only{display:none!important}
@@ -54,3 +55,10 @@ body:not(.teacher-mode) .song-sub{display:none}
 /* 작은 화면: 소리 켜기는 항상 보이고(교안 첫 단계), 폰 너비에서는 머리띠를 두 줄로 */
 @media(max-width:900px){.sound-enable{display:inline-block!important;font-size:12px;padding:7px 9px}}
 @media(max-width:600px){:root{--bar:104px}.appbar{flex-wrap:wrap;height:var(--bar);align-content:center;row-gap:4px;padding:6px 9px}.instrument-menu{order:1}.main-tabs{order:2;margin-left:auto}.bar-actions{order:3;flex:1 0 100%;justify-content:space-between;gap:4px}.bar-actions button{min-height:38px}.stop-button span{display:inline}.feedback-button{min-width:40px}}
+
+/* v0.10 왼손잡이 배치 단추 */
+.hand-button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;line-height:1;padding:4px 9px;font-size:19px;min-width:48px}
+.hand-button small{font-size:9px;color:var(--muted);letter-spacing:.3px}
+.hand-button[aria-pressed=true]{background:#e9efe3;border-color:var(--green);color:var(--green)}
+.real-instrument.mirrored .real-caption::before{content:'왼손잡이 배치 · ';color:#7a5622}
+@media(max-width:600px){.hand-button{min-width:40px;padding:3px 6px;font-size:16px}.hand-button small{display:none}}

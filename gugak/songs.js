@@ -5,6 +5,7 @@
  * 입력 판정: app.js가 실물 악기 화면의 연주를 'gugak:gesture' 이벤트로 알린다(현 번호·장구 면).
  * v0.9.1: 재생 중 설정 변경은 안내 후 정지, 학년 빠르기 동기화, 같이 하기 덩 양손 입력도 300ms 이내로 판정.
  * v0.8(2026-11-03): 시범 보기·한 음씩·같이 하기에서 칠 곳을 검은 점(●)으로, 다음 칠 곳을 작은 고리(○)로 악기 위에 찍는다. 소리 경로는 v0.7과 같다.
+ * v0.10(2026-11-05): 왼손잡이 배치(좌우 반전)에서는 점 층을 악기 그림 그룹(.ri-stage) 안에 두어 함께 뒤집고, 궁편(왼쪽)·채편(오른쪽) 안내 글의 좌우를 바꾼다. 판정·소리는 그대로.
  */
 (()=>{'use strict';
 const $=id=>document.getElementById(id),app=()=>window.gugakApp;
@@ -39,13 +40,14 @@ function range(){const s=SONGS[S.song];if(S.phrase<0)return[0,s.bars.length];ret
 function events(p){const s=SONGS[S.song],[from,to]=range();return(p==='janggu'?s.janggu:s.melody).filter(e=>e.bar>=from&&e.bar<to).map(e=>({...e,t:e.t-from*BAR}));}
 function stringIndex(i){const midi=window.GugakReal?.gayageumMidis?.[i],g=app()?.groups('gayageum').find(x=>Number(x.officialMidi)===midi);return Number(g?.index??-1);}
 function noteName(e,p){return p==='janggu'?e.stroke+' · '+STROKE[e.stroke].hand:(e.string+1)+'현('+NOTE[e.string]+')';}
-function ask(e,p){return p==='janggu'?e.stroke+' · '+STROKE[e.stroke].say:(e.string+1)+'현('+NOTE[e.string]+')을 뜯어요';}
+function ask(e,p){return p==='janggu'?e.stroke+' · '+sideText(STROKE[e.stroke].say):(e.string+1)+'현('+NOTE[e.string]+')을 뜯어요';}
+const mirrored=()=>document.querySelector('#scene svg#real-instrument')?.dataset.mirror==='left',sideText=s=>mirrored()?s.replace(/왼쪽|오른쪽/g,m=>m==='왼쪽'?'오른쪽':'왼쪽'):s;
 function say(t){const f=$('song-feedback');if(f)f.textContent=t;}
 function targets(p,e){const scene=$('scene');if(!scene||!e)return[];if(p==='janggu')return STROKE[e.stroke].sides.flatMap(s=>[...scene.querySelectorAll('[data-strike="'+s+'"]')]);return[...scene.querySelectorAll('[data-string="'+e.string+'"],[data-visible-string="'+e.string+'"]')];}
 function mark(cls,p,e){document.querySelectorAll('#scene .'+cls).forEach(el=>el.classList.remove(cls));for(const el of targets(p,e))el.classList.add(cls);if(cls==='song-now')dots('now',p,e);else if(cls==='song-soon')dots('soon',p,e);}
 // v0.8: 칠 곳을 검은 점으로 찍는다. 가야금은 안족 오른쪽 현 위('오른손 뜯기' 표시 자리 x=875), 장구는 면 가운데. ●=지금 칠 곳, ○=다음 칠 곳(조금 옆). 점은 터치를 받지 않는다.
 const NS='http://www.w3.org/2000/svg',DOT_X=875;
-function dotLayer(){const svg=document.querySelector('#scene svg#real-instrument');if(!svg)return null;let g=svg.querySelector('.song-dots');if(!g){g=document.createElementNS(NS,'g');g.setAttribute('class','song-dots');g.setAttribute('pointer-events','none');svg.append(g);}return g;}
+function dotLayer(){const svg=document.querySelector('#scene svg#real-instrument');if(!svg)return null;let g=svg.querySelector('.song-dots');if(!g){g=document.createElementNS(NS,'g');g.setAttribute('class','song-dots');g.setAttribute('pointer-events','none');(svg.querySelector('.ri-stage')||svg).append(g);}return g;}
 function dotSpots(p,e,kind){const scene=$('scene');if(!scene||!e)return[];const soon=kind==='soon';if(p==='janggu')return STROKE[e.stroke].sides.map(s=>{const f=scene.querySelector('[data-strike="'+s+'"]');return f&&{x:Number(f.getAttribute('cx')),y:Number(f.getAttribute('cy'))-(soon?70:0),r:soon?15:26,side:s};}).filter(Boolean);const t=scene.querySelector('[data-string="'+e.string+'"]');return t?[{x:DOT_X+(soon?34:0),y:Number(t.getAttribute('y1')),r:soon?8:13,string:e.string}]:[];}
 function dots(kind,p,e){const g=dotLayer();if(!g)return;g.querySelectorAll('.dot-'+kind).forEach(d=>d.remove());for(const s of dotSpots(p,e,kind)){const c=document.createElementNS(NS,'circle');c.setAttribute('class','song-dot dot-'+kind);c.setAttribute('cx',s.x);c.setAttribute('cy',s.y);c.setAttribute('r',s.r);if(s.string!==undefined)c.dataset.dotString=s.string;if(s.side)c.dataset.dotSide=s.side;g.append(c);}}
 function clearMarks(){for(const t of flashTimers)clearTimeout(t);flashTimers.clear();document.querySelectorAll('#scene .song-now,#scene .song-soon,#scene .song-good,#scene .song-bad').forEach(el=>el.classList.remove('song-now','song-soon','song-good','song-bad'));document.querySelectorAll('#scene .song-dots').forEach(g=>g.remove());}

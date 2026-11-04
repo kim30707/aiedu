@@ -3,7 +3,7 @@
  * 글을 복사해 카카오톡·문자로 보내게 안내한다. 어느 쪽이든 이 기기에 보낸 글의 사본을 남긴다(localStorage). 학생 식별정보는 받지 않는다.
  */
 (()=>{'use strict';
-const $=id=>document.getElementById(id),app=()=>window.gugakApp,HIST='gugak-feedback-sent-v09',VERSION='0.9.1';
+const $=id=>document.getElementById(id),app=()=>window.gugakApp,HIST='gugak-feedback-sent-v09',VERSION='0.10';
 let db=null,canWrite=null,ready=null;
 function toast(t){const e=$('toast');if(!e)return;e.textContent=t;e.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>e.hidden=true,2600);}
 function context(){const a=app(),s=window.GugakSongs?.getState?.();return{version:VERSION,build:window.GUGAK_PUBLIC?'public':'local',instrument:a?.state?.instrument||'',grade:a?.state?.grade||'',view:a?.state?.view||'',interaction:a?.state?.interaction||'',song:s?.song||'',part:s?.part||'',lab:!!a?.getLabStatus?.().active,screen:innerWidth+'x'+innerHeight,touch:navigator.maxTouchPoints>0,ua:(navigator.userAgent.match(/(iPad|iPhone|Android|Macintosh|Windows)[^;)]*/)||[''])[0].slice(0,40)};}
