@@ -423,7 +423,7 @@ ${knowledge()}`;
           <label class="fld"><span>희망일 1</span><input id="a-date1" type="date" value="${esc(pf.date || "")}"></label>
           <label class="fld"><span>희망일 2</span><input id="a-date2" type="date"></label>
           <label class="fld"><span>학생 기기</span><select id="a-dev"><option>태블릿</option><option>크롬북·노트북</option><option>교탁 PC만</option><option>모름</option></select></label>
-          <label class="fld"><span>AI 사용 방식</span><select id="a-ai"><option>학교 학생 계정 (펜즈 등)으로 직접</option><option>교탁 화면에서 강사 입력</option><option>상담 후 결정</option></select></label>
+          <label class="fld"><span>AI 사용 방식</span><select id="a-ai"><option>학교 학생 계정 (펜즈 등)으로 직접</option><option>학교 계정 없음 (강사 기기에서 학생이 직접)</option><option>상담 후 결정</option></select></label>
           <label class="fld full"><span>요청 · 문의 사항</span><textarea id="a-msg" maxlength="1500" placeholder="수업 가능 교시, 공간, 행사 일정 등을 적어 주세요. 학생 개인정보는 적지 마세요."></textarea></label>
           <label class="consent full"><input type="checkbox" id="a-ok" required><span>개인정보 수집·이용 동의(필수): 연락과 수업 협의를 위해 학교명·담당자 성함·업무 연락처·이메일과 적어 주신 내용을 받습니다. 상담·수업이 끝난 뒤 1년 안에 파기합니다.</span></label>
           <div class="full" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><button class="btn primary" type="submit">접수하기</button><span class="tiny">* 표시는 꼭 적어 주세요</span></div>
@@ -445,7 +445,7 @@ ${knowledge()}`;
   }
   function messageText(d) {
     const p = prog(d.program);
-    return `[AI교육 수업 접수]
+    return `[셈제작소 수업 접수]
 학교: ${d.school}
 담당: ${d.name}${d.role ? " (" + d.role + ")" : ""}
 연락처: ${d.phone}${d.email ? " / " + d.email : ""}
