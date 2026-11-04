@@ -303,7 +303,7 @@
         <div class="chat" id="chat">
           <div class="bar"><span class="dot" id="chatdot"></span><span id="chatlabel">질문하기</span></div>
           <div class="log" id="log" aria-live="polite"><div class="msg sys">이 페이지의 수업 자료로만 답합니다. 자료에 없는 가격·일정은 ‘확인 필요’로 안내합니다.</div></div>
-          <div style="padding:0 12px 10px" class="chips" id="examples">${["2교시에 꼭 태블릿이 있어야 하나요?", "13세 미만 학생도 AI를 쓰나요?", "국악 강사는 누가 오나요?", "교과 성취기준과 연결되나요?"].map((q) => `<button type="button" class="chip" data-q="${esc(q)}">${esc(q)}</button>`).join("")}</div>
+          <div style="padding:0 12px 10px" class="chips" id="examples">${["2교시에 꼭 태블릿이 있어야 하나요?", "학생이 직접 AI를 쓰나요?", "국악 강사는 누가 오나요?", "교과 성취기준과 연결되나요?"].map((q) => `<button type="button" class="chip" data-q="${esc(q)}">${esc(q)}</button>`).join("")}</div>
           <form id="chatform"><label class="sr" for="chatin">질문</label><input id="chatin" maxlength="500" placeholder="예: 3학년도 국악 수업을 할 수 있나요?" autocomplete="off"><button class="btn primary sm" type="submit">보내기</button></form>
         </div>
       </div>
@@ -423,7 +423,7 @@ ${knowledge()}`;
           <label class="fld"><span>희망일 1</span><input id="a-date1" type="date" value="${esc(pf.date || "")}"></label>
           <label class="fld"><span>희망일 2</span><input id="a-date2" type="date"></label>
           <label class="fld"><span>학생 기기</span><select id="a-dev"><option>태블릿</option><option>크롬북·노트북</option><option>교탁 PC만</option><option>모름</option></select></label>
-          <label class="fld"><span>AI 사용 방식</span><select id="a-ai"><option>교탁 화면에서 강사 입력</option><option>학교 허용 학생 계정 (펜즈 등)</option><option>상담 후 결정</option></select></label>
+          <label class="fld"><span>AI 사용 방식</span><select id="a-ai"><option>학교 학생 계정 (펜즈 등)으로 직접</option><option>교탁 화면에서 강사 입력</option><option>상담 후 결정</option></select></label>
           <label class="fld full"><span>요청 · 문의 사항</span><textarea id="a-msg" maxlength="1500" placeholder="수업 가능 교시, 공간, 행사 일정 등을 적어 주세요. 학생 개인정보는 적지 마세요."></textarea></label>
           <label class="consent full"><input type="checkbox" id="a-ok" required><span>개인정보 수집·이용 동의(필수): 연락과 수업 협의를 위해 학교명·담당자 성함·업무 연락처·이메일과 적어 주신 내용을 받습니다. 상담·수업이 끝난 뒤 1년 안에 파기합니다.</span></label>
           <div class="full" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><button class="btn primary" type="submit">접수하기</button><span class="tiny">* 표시는 꼭 적어 주세요</span></div>
