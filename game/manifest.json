@@ -1,0 +1,18 @@
+{
+ "app": "게임 제작실",
+ "version": "0.3",
+ "date": "2026-11-05",
+ "files": {
+  "boot.js": "c355a438a948ade7f729f9a932e3687c63e48dfb286c63e45433cbdef37f6878",
+  "core.js": "92ffa55dcd77aa7cba1bf5931ef97d19b77a7fcb39b0441d02a9624564138b2c",
+  "game.js": "53294a73e3743fc17d0b52dd7ac05cd24979d30067881453acd45900f1df35d3",
+  "guide.html": "d728ac7972509f8b605b45d22d40297c60b2195f21e49a1200851547759883a0",
+  "index.html": "427802ad519e7bd446cbdfccf2731b906cadeb01185886b5f05ce5991d94df6c",
+  "logo/semjejakso_mark.svg": "19fd1131ac344c1a1b5a91aa2af22f4098ba33495b2b1c98a3ba815e77395288",
+  "logo/semjejakso_mark_mono.svg": "a275a35d0a552daebe34e4d03d530cb6b20e96cf2fbece372c1f2353cb63363f",
+  "logo/semjejakso_mark_small.svg": "3757acacbd3d85e5c7edca85400af201031100f8f660e9891f611ec825f5a609",
+  "logo/semjejakso_mark_white.svg": "4732a8eb653e32b18e63f8eb61abd623338c7fcc3180888e6f6cc770b5579774",
+  "sample.js": "e1928c387487d07dea836867c3e081a90a3e6b3270c1c828054cc95f61b62e88",
+  "style.css": "cb86bbedbf5268ba097b58e2911f083c04d3d430dce30ef1b888ab7fc0654a98"
+ }
+}

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#f3faf8">
+<meta name="app-version" content="0.3 (2026-11-05)">
+<title>게임 제작실 · 한 화면 게임 만들기 · 셈제작소</title>
+<meta name="description" content="규칙을 문장으로 쓰고, 판을 만들고, AI에게 받은 게임 코드와 숨은 버그 판을 같은 길로 시험해 고치는 한 화면 게임 수업 도구.">
+<link rel="icon" href="logo/semjejakso_mark_small.svg">
+<link rel="stylesheet" href="style.css">
+<script src="core.js" defer></script>
+<script src="sample.js" defer></script>
+<script src="game.js" defer></script>
+<script src="boot.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<header class="top"><div class="wrap">
+  <a class="brand" href="./" aria-label="게임 제작실 처음 화면"><img class="seal" src="logo/semjejakso_mark.svg" alt=""><span class="wordmark">게임 제작실<small>셈제작소 · 한 화면 게임 만들기</small></span></a>
+  <details class="teacher-menu"><summary>선생님 메뉴</summary>
+    <div class="menu-panel">
+      <a href="guide.html">수업 안내<small>80분 체험형 / 40분×4 제작형 · 로그인이 안 될 때 · 종이판</small></a>
+      <button id="prompt-open" type="button">요청 카드 3장 모아 보기<small>교탁 기기에서 학생이 직접 칠 때 · 자동으로 보내지 않음</small></button>
+      <button id="recovery-export" type="button">읽지 못한 저장 기록 내보내기<small>문제가 생겼을 때만</small></button>
+    </div>
+  </details>
+</div></header>
+<main id="main" class="wrap" tabindex="-1">
+  <section class="intro">
+    <p class="eyebrow">ONE-SCREEN GAME · RULES · AI · BUGS</p>
+    <h1>규칙을 쓰고, AI 게임도 직접 시험해요</h1>
+    <p class="lead">6×6 판에 벽과 별을 놓아 내 게임을 만들고, 우리 규칙으로 <b>AI에게 받은 게임 코드</b>와 숨은 버그 판을 <b>같은 길로</b> 시험해 고쳐요.</p>
+    <div class="pills"><span class="pill">초등 5~6학년 기준</span><span class="pill">2인 1조 · 태블릿 1대</span><span class="pill">80분 체험형 · 40분×4 제작형</span><span class="pill mint">AI는 학교 계정으로 우리가 직접</span></div>
+  </section>
+  <div class="toolbar" aria-label="기록 관리">
+    <div class="tool-group"><button id="example" type="button">예제 보기</button><button id="new-work" type="button" class="quiet">처음부터</button></div>
+    <div class="tool-group"><span id="save-state" role="status">이 기기에만 저장됨</span><button id="export-work" type="button">파일 저장</button><button id="import-open" type="button">불러오기</button><button id="preview-open" type="button" class="primary">기록 보기 · 인쇄</button></div>
+    <input id="import-work" type="file" accept="application/json,.json" hidden>
+  </div>
+  <div id="module-root"></div>
+  <p class="privacy">입력한 내용은 <b>이 기기 브라우저에만</b> 저장되고 어디에도 보내지지 않아요. AI에는 우리가 카드를 복사해 직접 붙여 넣어요. 다른 기기로 옮길 때는 ‘파일 저장’과 ‘불러오기’를 써요. 여럿이 함께 쓰는 기기라면 끝난 뒤 ‘처음부터’로 지워 주세요. 이름·학교·연락처는 쓰지 않아요.</p>
+</main>
+<footer><div class="wrap">셈제작소 · 학교 AI 수업 · 게임 제작실 · 이 화면은 AI에 자동으로 연결되지 않아요 · 버그 판은 수업용으로 미리 심어 둔 것 · 예제는 가상 예시</div></footer>
+
+<dialog id="preview-dialog" class="wide" aria-labelledby="preview-title"><div class="dialog-head"><h2 id="preview-title">기록 미리보기</h2><button data-close class="icon-btn" type="button" aria-label="미리보기 닫기">×</button></div><div id="preview-content" class="paper-preview"></div><div class="dialog-actions"><button id="print-work" class="button primary" type="button">인쇄 · PDF 저장</button><button id="html-work" class="button" type="button">기록 HTML 저장</button><button data-close class="button" type="button">돌아가기</button></div></dialog>
+<dialog id="text-dialog" aria-labelledby="text-title"><div class="dialog-head"><h2 id="text-title">요청 카드</h2><button data-close class="icon-btn" type="button" aria-label="카드 닫기">×</button></div><p id="text-help" class="small"></p><textarea id="copy-text" rows="12" aria-label="복사할 내용" readonly></textarea><div class="dialog-actions"><button id="copy-button" class="button primary" type="button">내용 복사</button><button data-close class="button" type="button">닫기</button></div></dialog>
+<dialog id="replace-dialog" aria-labelledby="replace-title"><h2 id="replace-title">바꿀까요?</h2><p style="margin-top:8px">지금 기록이 새 내용으로 바뀌어요. 필요하면 먼저 파일로 저장하세요.</p><div class="dialog-actions"><button id="replace-export" class="button" type="button">지금 기록 파일 저장</button><button id="replace-confirm" class="button primary" type="button">바꾸기</button><button data-close class="button" type="button">취소</button></div></dialog>
+<div id="toast" role="status" aria-live="polite" hidden></div>
+<div id="print-area" aria-hidden="true"></div>
+</body>
+</html>
