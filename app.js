@@ -619,7 +619,7 @@ ${knowledge()}`;
   function footer() {
     const c = S.P.contact;
     $("#foot").innerHTML = `<div class="ph"><div class="big">셈제작소</div><div class="small">학교 AI 수업</div><div>${esc(c.role)} · ${esc(c.region)}</div><div class="row"><span class="mono num">${esc(c.phone)}</span><button type="button" class="copy" data-label="번호 복사" data-text="${esc(c.phone)}">번호 복사</button></div><div class="row"><span class="mono">${esc(c.email)}</span><button type="button" class="copy" data-label="주소 복사" data-text="${esc(c.email)}">주소 복사</button></div><div class="tiny">상호: 셈제작소 · 사업자 정보는 등록 후 표시</div></div>
-      <div><h4>자료와 표기</h4><p class="small">협동연극·게임·과학 카드는 수업 앱 화면이고, 사실검증 편집실 카드는 수업 자료 속 가상 행사를 그린 그림입니다. 수업 앱은 학생 입력을 저장하지 않으며, 학생 이름은 어떤 화면에도 받지 않습니다.</p></div>
+      <div><h4>자료와 표기</h4><p class="small">협동연극·게임·과학 카드는 수업 앱 화면이고, 사실검증 편집실 카드는 수업 자료 속 가상 행사를 그린 그림입니다. 수업 앱은 학생 입력을 서버로 보내지 않으며(꿈 다이어리·게임 제작실은 그 기기에만 저장), 학생 이름은 어떤 화면에도 받지 않습니다.</p></div>
       <div><h4>휴대폰으로 열기</h4><div class="qr"><img src="img/qr-home.png" alt="이 홈페이지로 가는 QR 코드" onerror="this.replaceWith(document.createTextNode('QR 준비 중'))"></div></div>`;
   }
 
