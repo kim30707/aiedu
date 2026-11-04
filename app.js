@@ -312,7 +312,7 @@
   function knowledge() {
     const c = S.P.contact;
     const progs = S.P.programs.map((p) => ({ id: p.id, 이름: p.name, 교과: p.subject, 대상: p.grades, 시간: p.time, 진행: p.team, 기기: p.devices, 상태: p.status.label + " · " + p.status.window, 접수: p.status.booking, 흐름: p.flow.map((f) => `${f.part} ${f.min}분 ${f.title}${f.ai ? "(AI 사용)" : ""}: ${f.desc}`), 배우는것: p.learn, 정확한사실: p.honest, 준비물: p.prep, 준비상황: p.readiness.map((r) => `${r.item}: ${r.state === "done" ? "완료" : "남음"}${r.note ? " — " + r.note : ""}`) }));
-    return JSON.stringify({ 담당: `${c.name} (${c.role}) 전화 ${c.phone} 이메일 ${c.email} · 상호 미정`, 가격: S.P.pricing, 수업: progs, 자주묻는질문: S.P.faq, 일정메모: S.SCH.note });
+    return JSON.stringify({ 담당: `${c.name} (${c.role}) 전화 ${c.phone} 이메일 ${c.email} · 셈제작소`, 가격: S.P.pricing, 수업: progs, 자주묻는질문: S.P.faq, 일정메모: S.SCH.note });
   }
   const RULES = () => `당신은 학교 담당 교사에게 AI교육 수업을 안내하는 도우미입니다. 아래 [자료]에 적힌 내용만 근거로 한국어 존댓말로 답하세요.
 규칙:
@@ -618,7 +618,7 @@ ${knowledge()}`;
   }
   function footer() {
     const c = S.P.contact;
-    $("#foot").innerHTML = `<div class="ph"><div class="big">셈제작소</div><div class="small">학교 AI 수업</div><div>${esc(c.role)} · ${esc(c.region)}</div><div class="row"><span class="mono num">${esc(c.phone)}</span><button type="button" class="copy" data-label="번호 복사" data-text="${esc(c.phone)}">번호 복사</button></div><div class="row"><span class="mono">${esc(c.email)}</span><button type="button" class="copy" data-label="주소 복사" data-text="${esc(c.email)}">주소 복사</button></div><div class="tiny">상호: <span style="border-bottom:1px dashed var(--ink-3)">확인 필요</span> · 사업자 정보는 등록 후 표시</div></div>
+    $("#foot").innerHTML = `<div class="ph"><div class="big">셈제작소</div><div class="small">학교 AI 수업</div><div>${esc(c.role)} · ${esc(c.region)}</div><div class="row"><span class="mono num">${esc(c.phone)}</span><button type="button" class="copy" data-label="번호 복사" data-text="${esc(c.phone)}">번호 복사</button></div><div class="row"><span class="mono">${esc(c.email)}</span><button type="button" class="copy" data-label="주소 복사" data-text="${esc(c.email)}">주소 복사</button></div><div class="tiny">상호: 셈제작소 · 사업자 정보는 등록 후 표시</div></div>
       <div><h4>자료와 표기</h4><p class="small">협동연극·게임·과학 카드는 수업 앱 화면이고, 사실검증 편집실 카드는 수업 자료 속 가상 행사를 그린 그림입니다. 수업 앱은 학생 입력을 저장하지 않으며, 학생 이름은 어떤 화면에도 받지 않습니다.</p></div>
       <div><h4>휴대폰으로 열기</h4><div class="qr"><img src="img/qr-home.png" alt="이 홈페이지로 가는 QR 코드" onerror="this.replaceWith(document.createTextNode('QR 준비 중'))"></div></div>`;
   }
