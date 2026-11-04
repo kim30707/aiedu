@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex">
-<meta name="description" content="학교·기관을 위한 AI 융합 수업 안내. 국악·연극·게임·영어·과학 수업에서 AI가 만든 결과를 학생이 직접 확인하고 고칩니다.">
+<meta name="description" content="셈제작소 학교 AI 수업 안내. 국악·연극·다이어리·사실검증·게임·수학·영어·과학 수업에서 AI가 만든 결과를 학생이 직접 확인하고 고칩니다. 부산·경남 학교 방문 수업.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="김민성 AI교육 수업 안내">
-<meta property="og:description" content="AI가 만든 것을, 아이들이 고칩니다. 학교·기관을 위한 AI 융합 수업 안내.">
+<meta property="og:title" content="셈제작소 · 학교 AI 수업">
+<meta property="og:description" content="AI가 만든 것을, 아이들이 고칩니다. 셈제작소 학교 AI 수업 안내.">
 <meta property="og:url" content="https://kim30707.github.io/aiedu/">
 <meta property="og:image" content="https://kim30707.github.io/aiedu/img/hero.jpg">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<title>김민성 AI교육 수업 안내</title>
+<title>셈제작소 · 학교 AI 수업</title>
 <script>document.documentElement.classList.add("js")</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -19,12 +19,13 @@
 /* Layout concept: "밝은 소리 실험실 — 찾고, 고치고, 다시 듣기" (v2, 2026-11-03) — cool white lab paper with a dot grid, one cobalt brand colour, mint for "확인됨", violet for AI. Sans only.
    Deliberately unlike 극단 도깨비 (dark ink, warm hanji, red/gold, serif): different company, different look. */
 :root{
-  --paper:#f4f7ff; --paper-2:#e9eefb; --paper-3:#dce4f7; --surface:#ffffff;
-  --ink:#111a2e; --ink-2:#46526e; --ink-3:#66728f; --line:#d3dbee; --line-2:#b8c3dc;
-  --brand:#2b5bff; --brand-ink:#ffffff; --brand-deep:#1f45e6; --violet:#6d4aff; --mint:#04876f; --sky:#0a7fc2;
-  --ok:#04876f; --warn:#0a7fc2; --todo:#8a94ab;
-  --dot:rgba(43,91,255,.16);
-  --shadow:0 18px 40px -22px rgba(31,69,230,.35);
+  /* 셈제작소 브랜드 2026-11-05: 틸 주색 · 코랄 강조 · 노랑 보조 */
+  --paper:#f3faf8; --paper-2:#e6f3ef; --paper-3:#d5e9e3; --surface:#ffffff;
+  --ink:#10221f; --ink-2:#3f5752; --ink-3:#5f7772; --line:#cfe0db; --line-2:#b3cbc4;
+  --brand:#0b7a75; --brand-ink:#ffffff; --brand-deep:#085f5b; --violet:#e8562f; --mint:#138a7f; --sky:#c9731f;
+  --ok:#138a7f; --warn:#e8562f; --todo:#7f948f;
+  --dot:rgba(11,122,117,.16);
+  --shadow:0 18px 40px -22px rgba(8,95,91,.35);
   --display:'Noto Sans KR',"Apple SD Gothic Neo",system-ui,sans-serif;
   --body:'Noto Sans KR',"Apple SD Gothic Neo",system-ui,sans-serif;
   --mono:'IBM Plex Mono','Noto Sans KR',"Apple SD Gothic Neo",monospace;
@@ -34,21 +35,21 @@
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --paper:#0b1020; --paper-2:#121a30; --paper-3:#1a2440; --surface:#0f1628;
-    --ink:#eef2ff; --ink-2:#b7c2e0; --ink-3:#8b96b4; --line:#24304d; --line-2:#34426a;
-    --brand:#6b8cff; --brand-ink:#0b1020; --brand-deep:#2a4fe0; --violet:#a28bff; --mint:#3ddbb9; --sky:#5cc8ff;
-    --ok:#3ddbb9; --warn:#5cc8ff; --todo:#8b96b4;
-    --dot:rgba(107,140,255,.14);
+    --paper:#0a1816; --paper-2:#112421; --paper-3:#18302c; --surface:#0e1f1c;
+    --ink:#eaf5f2; --ink-2:#b5cdc7; --ink-3:#86a39c; --line:#213b36; --line-2:#2f4f49;
+    --brand:#3fc1b6; --brand-ink:#0a1816; --brand-deep:#1f8f85; --violet:#ff8a66; --mint:#4fd3c4; --sky:#ffb15c;
+    --ok:#4fd3c4; --warn:#ff8a66; --todo:#86a39c;
+    --dot:rgba(63,193,182,.14);
     --shadow:0 18px 40px -22px rgba(0,0,0,.7);
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --paper:#0b1020; --paper-2:#121a30; --paper-3:#1a2440; --surface:#0f1628;
-  --ink:#eef2ff; --ink-2:#b7c2e0; --ink-3:#8b96b4; --line:#24304d; --line-2:#34426a;
-  --brand:#6b8cff; --brand-ink:#0b1020; --brand-deep:#2a4fe0; --violet:#a28bff; --mint:#3ddbb9; --sky:#5cc8ff;
-  --ok:#3ddbb9; --warn:#5cc8ff; --todo:#8b96b4;
-  --dot:rgba(107,140,255,.14);
+  --paper:#0a1816; --paper-2:#112421; --paper-3:#18302c; --surface:#0e1f1c;
+  --ink:#eaf5f2; --ink-2:#b5cdc7; --ink-3:#86a39c; --line:#213b36; --line-2:#2f4f49;
+  --brand:#3fc1b6; --brand-ink:#0a1816; --brand-deep:#1f8f85; --violet:#ff8a66; --mint:#4fd3c4; --sky:#ffb15c;
+  --ok:#4fd3c4; --warn:#ff8a66; --todo:#86a39c;
+  --dot:rgba(63,193,182,.14);
   --shadow:0 18px 40px -22px rgba(0,0,0,.7);
   color-scheme:dark;
 }
@@ -406,8 +407,8 @@ footer .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 <header class="top">
   <div class="wrap">
     <a class="brand" href="#home" aria-label="홈으로">
-      <span class="seal" aria-hidden="true">AI</span>
-      <span class="wordmark">김민성 AI교육<small>부산 · 경남 학교 수업</small></span>
+      <span class="seal" aria-hidden="true" style="background:none;box-shadow:none"><img src="img/logo-mark.svg" alt="" width="36" height="36" style="display:block;width:36px;height:36px"></span>
+      <span class="wordmark">셈제작소<small>학교 AI 수업 · 부산 · 경남</small></span>
     </a>
     <nav class="main" aria-label="주요 메뉴">
       <a href="#home" data-nav="home">소개</a>
@@ -423,14 +424,14 @@ footer .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 <main id="app" aria-live="polite">
   <section class="hero"><div class="wrap">
       <div>
-        <span class="eyebrow appear appear--rise" style="--d:.05s">AI교육 수업 안내 · 2026–2027</span>
+        <span class="eyebrow appear appear--rise" style="--d:.05s">셈제작소 · 학교 AI 수업 2026–2027</span>
         <h1 style="margin-top:14px"><span class="line appear appear--blur" style="--d:.12s">AI가 만든 것을,</span><span class="line appear appear--blur" style="--d:.22s"><em>아이들이 고칩니다.</em></span></h1>
-        <p class="lead appear appear--rise" style="--d:.36s">국악·연극·수학·게임… 여덟 분야의 수업에서 학생은 AI에게 요청하고, 결과를 듣고 보고 검산해서 직접 바로잡습니다. 2026년 11월 국악 수업부터 차례로 준비합니다.</p>
+        <p class="lead appear appear--rise" style="--d:.36s">국악·연극·수학·게임… 여덟 분야의 수업에서 학생은 AI에게 요청하고, 결과를 듣고 보고 검산해서 직접 바로잡습니다. 2026년 11월 24일부터 학교 희망일을 받습니다.</p>
         <div class="ctas"><a class="btn primary appear appear--btn" style="--d:.48s" href="#gugak">국악 수업 먼저 보기</a><a class="btn appear appear--btn" style="--d:.56s" href="#schedule">일정 · 접수</a></div>
         <div class="meta appear appear--rise" style="--d:.64s"><span>첫 대상 <b>초등 5~6학년</b></span><span>구성 <b>2인 1조 · 80분</b></span><span>기기 <b>학교 태블릿</b></span></div>
       </div>
       <figure class="scene appear appear--rise" style="--d:.10s;--dur:1s">
-        <div class="ph"><img src="img/hero.jpg" width="1280" height="956" fetchpriority="high" alt="AI 생성 예시 이미지: 책상 위에 가야금 줄과 안족, 파형이 뜬 태블릿, 빈 요청 카드와 연필이 놓여 있다. 가야금 줄 하나와 태블릿 파형 하나만 민트색으로 표시되어 있다."><span class="aitag">AI 생성 예시 이미지</span></div>
+        <div class="ph"><img src="img/hero.jpg" width="1280" height="956" fetchpriority="high" alt="책상 위에 가야금 줄과 안족, 파형이 뜬 태블릿, 빈 요청 카드와 연필이 놓여 있다. 가야금 줄 하나와 태블릿 파형 하나만 민트색으로 표시되어 있다."></div>
         <div class="bubble ai appear appear--rise" style="--d:.55s"><i class="d" aria-hidden="true">AI</i><span><span class="who">AI 답 · 예시</span>“높게 나는 줄을 낮춰 보세요”</span></div>
         <div class="bubble fix appear appear--rise" style="--d:.75s"><i class="d" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg></i><span><span class="who">학생</span>귀로 확인하고 직접 고침</span></div>
       </figure>

@@ -2,7 +2,7 @@
    - 화면: #home #programs #<수업id> #schedule #ask #apply (해시 토큰)
    - 공유 일정: db `schedule/days` (모두 읽기, 관리자만 쓰기)
    - 접수: db `requests/<id>` (본인·관리자만 읽기). 쓸 수 없는 방문자는 복사용 접수 메시지로 안내
-   - AI: sample (방문자 본인의 Claude 계정). 없으면 규칙 추천·FAQ 검색(‘AI 아님’ 표시) */
+   - AI: sample (방문자 본인의 Claude 계정). 없으면 규칙 추천·FAQ 검색 */
 (function () {
   "use strict";
 
@@ -51,10 +51,10 @@
     }
     if (closed) return { s: "closed", label: closed.label, key };
     if (dow === 0 || dow === 6) return { s: "weekend", label: "", key };
-    if (date < parse(S.SCH.openFrom)) return { s: "prep", label: "준비 기간", key };
+    if (date < parse(S.SCH.openFrom)) return { s: "prep", label: "접수 전", key };
     if (date > parse(S.SCH.openUntil)) return { s: "later", label: "", key };
     const av = availableOn(date);
-    if (!av.length) return { s: "prep", label: "준비 기간", key };
+    if (!av.length) return { s: "prep", label: "접수 전", key };
     return { s: "open", label: av.length === 1 ? av[0].short : av[0].short + " 외 " + (av.length - 1), key, av };
   }
   function nextOpenDates(pid, n) {
@@ -73,7 +73,7 @@
   function card(p, feature) {
     const facts = feature ? `<dl class="facts"><div><dt>대상</dt><dd>${esc(p.grades)}</dd></div><div><dt>시간</dt><dd>${esc(p.time)}</dd></div><div><dt>준비</dt><dd>${esc(p.devices)}</dd></div></dl>` : "";
     return `<a class="card rv${feature ? " feature" : ""}" href="#${p.id}">
-      <div class="pic"><img src="${esc(p.image)}" alt="${esc(p.imageAlt || p.name + " 수업 장면 예시 (AI 생성 예시 이미지, 실제 수업 사진 아님)")}" loading="lazy" onerror="this.remove()"><span class="aitag" aria-hidden="true">${esc(p.imageTag || "AI 생성 예시")}</span></div>
+      <div class="pic"><img src="${esc(p.image)}" alt="${esc(p.imageAlt || p.name + " 수업 장면")}" loading="lazy" onerror="this.remove()"></div>
       <div class="body">
         <div class="sub"><span>${String(p.order).padStart(2, "0")} · ${esc(p.track || p.subject)}</span>${pill(p)}</div>
         <h3>${esc(p.name)}</h3>
@@ -97,28 +97,28 @@
     }).join("");
     const months = ["2026-11-01", "2026-11-08", "2026-11-15", "2026-11-22", "2026-12-01"];
     const ticks = months.map((m, i) => `<span style="left:${pct(m)}%${i === months.length - 1 ? ";transform:translateX(-100%)" : i === 0 ? ";transform:none" : ""}">${parse(m).getMonth() + 1}/${parse(m).getDate()}</span>`).join("");
-    return `<div class="tl" role="img" aria-label="여덟 분야 수업의 제작 목표 기간 표. 국악 11월 2일~22일, 교과 연극 11월 5일~22일, 협동연극 11월 4일~8일, 꿈 다이어리 11월 4일~8일, 사실검증 편집실 11월 4일, 게임 11월 4일~15일, 수학 11월 4일~15일, 영어 11월 4일~22일, 과학 11월 4일~22일. 모든 수업은 11월 24일부터 희망일 신청.">${rows}<div class="axis"><div></div><div>${ticks}</div></div></div>`;
+    return `<div class="tl" role="img" aria-label="수업별 자료 준비 기간 표">${rows}<div class="axis"><div></div><div>${ticks}</div></div></div>`;
   }
   function checklist(items) {
     return `<ul class="check">${items.map((r) => `<li><span class="m ${r.state}" aria-hidden="true">${r.state === "done" ? "✓" : ""}</span><div><b>${esc(r.item)}</b>${r.note ? `<span>${esc(r.note)}</span>` : ""}</div></li>`).join("")}</ul>`;
   }
   function pricing() {
     const pr = S.P.pricing;
-    return `<div class="tablewrap"><table><thead><tr><th>유형</th><th>단위</th><th>제안 범위</th><th>조건</th></tr></thead><tbody>${pr.rows.map((r) => `<tr><td><b>${esc(r.type)}</b></td><td>${esc(r.unit)}</td><td class="price num">${won(r.min)} ~ ${won(r.max)}</td><td class="muted small">${esc(r.cond)}</td></tr>`).join("")}</tbody></table></div><p class="tiny" style="margin-top:10px">${esc(pr.note)}</p>`;
+    return `<div class="tablewrap"><table><thead><tr><th>유형</th><th>단위</th><th>수업료</th><th>조건</th></tr></thead><tbody>${pr.rows.map((r) => `<tr><td><b>${esc(r.type)}</b></td><td>${esc(r.unit)}</td><td class="price num">${won(r.min)} ~ ${won(r.max)}</td><td class="muted small">${esc(r.cond)}</td></tr>`).join("")}</tbody></table></div><p class="tiny" style="margin-top:10px">${esc(pr.note)}</p>`;
   }
   function honestBox(title, items) { return `<div class="honest rv"><h3>${esc(title)}</h3><ul>${items.map((t) => `<li>${esc(t)}</li>`).join("")}</ul></div>`; }
 
   /* ───────── 화면: 소개 ───────── */
   const HERO = `<section class="hero"><div class="wrap">
       <div>
-        <span class="eyebrow appear appear--rise" style="--d:.05s">AI교육 수업 안내 · 2026–2027</span>
+        <span class="eyebrow appear appear--rise" style="--d:.05s">셈제작소 · 학교 AI 수업 2026–2027</span>
         <h1 style="margin-top:14px"><span class="line appear appear--blur" style="--d:.12s">AI가 만든 것을,</span><span class="line appear appear--blur" style="--d:.22s"><em>아이들이 고칩니다.</em></span></h1>
-        <p class="lead appear appear--rise" style="--d:.36s">국악·연극·수학·게임… 여덟 분야의 수업에서 학생은 AI에게 요청하고, 결과를 듣고 보고 검산해서 직접 바로잡습니다. 2026년 11월 국악 수업부터 차례로 준비합니다.</p>
+        <p class="lead appear appear--rise" style="--d:.36s">국악·연극·수학·게임… 여덟 분야의 수업에서 학생은 AI에게 요청하고, 결과를 듣고 보고 검산해서 직접 바로잡습니다. 2026년 11월 24일부터 학교 희망일을 받습니다.</p>
         <div class="ctas"><a class="btn primary appear appear--btn" style="--d:.48s" href="#gugak">국악 수업 먼저 보기</a><a class="btn appear appear--btn" style="--d:.56s" href="#schedule">일정 · 접수</a></div>
         <div class="meta appear appear--rise" style="--d:.64s"><span>첫 대상 <b>초등 5~6학년</b></span><span>구성 <b>2인 1조 · 80분</b></span><span>기기 <b>학교 태블릿</b></span></div>
       </div>
       <figure class="scene appear appear--rise" style="--d:.10s;--dur:1s">
-        <div class="ph"><img src="img/hero.jpg" width="1280" height="956" fetchpriority="high" alt="AI 생성 예시 이미지: 책상 위에 가야금 줄과 안족, 파형이 뜬 태블릿, 빈 요청 카드와 연필이 놓여 있다. 가야금 줄 하나와 태블릿 파형 하나만 민트색으로 표시되어 있다."><span class="aitag">AI 생성 예시 이미지</span></div>
+        <div class="ph"><img src="img/hero.jpg" width="1280" height="956" fetchpriority="high" alt="책상 위에 가야금 줄과 안족, 파형이 뜬 태블릿, 빈 요청 카드와 연필이 놓여 있다. 가야금 줄 하나와 태블릿 파형 하나만 민트색으로 표시되어 있다."></div>
         <div class="bubble ai appear appear--rise" style="--d:.55s"><i class="d" aria-hidden="true">AI</i><span><span class="who">AI 답 · 예시</span>“높게 나는 줄을 낮춰 보세요”</span></div>
         <div class="bubble fix appear appear--rise" style="--d:.75s"><i class="d" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg></i><span><span class="who">학생</span>귀로 확인하고 직접 고침</span></div>
       </figure>
@@ -128,14 +128,14 @@
     return `${rest ? "" : HERO}
 
     <div class="strip"><div class="wrap">
-      <div class="cell"><div class="k">국악 웹악기</div><div class="v"><span class="ck" aria-hidden="true">✓</span>v0.8 완성</div><div class="n">국립국악원 녹음 · 4악기</div></div>
-      <div class="cell"><div class="k">80분 교안</div><div class="v"><span class="ck" aria-hidden="true">✓</span>v0.3 완성</div><div class="n">아리랑 1구절 합주</div></div>
-      <div class="cell"><div class="k">다음 단계</div><div class="v">강사 검수 · 리허설</div><div class="n">11월 중 목표</div></div>
-      <div class="cell"><div class="k">실제 수업</div><div class="v num">0회</div><div class="n">11월 24일부터 희망일 신청</div></div>
+      <div class="cell"><div class="k">수업</div><div class="v num">9가지</div><div class="n">8개 분야 · 초등 4~6학년 중심</div></div>
+      <div class="cell"><div class="k">국악 웹악기</div><div class="v">4악기</div><div class="n">국립국악원 녹음 · 가야금·해금·아쟁·장구</div></div>
+      <div class="cell"><div class="k">기본 시간</div><div class="v">80분 · 1회 방문</div><div class="n">40분 × 4차시 제작형도 있음</div></div>
+      <div class="cell"><div class="k">희망일 접수</div><div class="v">11월 24일부터</div><div class="n">접수 뒤 담당자가 연락해 확정</div></div>
     </div></div>
 
     <section class="section"><div class="wrap">
-      <div class="head rv"><span class="eyebrow">8개 분야 · 수업 9가지</span><h2>학교가 필요한 수업 하나만 고르면 됩니다</h2><p>국악이 가장 먼저 준비되었고, 모든 수업이 11월 24일부터 희망일 신청을 받습니다. 각 수업을 누르면 진행 순서·준비물·준비 상황을 볼 수 있습니다.</p></div>
+      <div class="head rv"><span class="eyebrow">8개 분야 · 수업 9가지</span><h2>학교가 필요한 수업 하나만 고르면 됩니다</h2><p>국악이 가장 먼저 준비되었고, 모든 수업이 11월 24일부터 희망일 신청을 받습니다. 각 수업을 누르면 진행 순서·준비물·수업료를 볼 수 있습니다.</p></div>
       ${cards(S.P.programs)}
     </div></section>
 
@@ -149,26 +149,24 @@
         </ol>
       </div>
       <div class="pitchlab rv" id="lab">
-        <div class="lh"><b>높이 탐정 · 직접 해 보기</b><span class="pill">AI 아님 · 합성음</span></div>
+        <div class="lh"><b>높이 탐정 · 직접 해 보기</b><span class="pill">합성음</span></div>
         <div class="cvw"><canvas id="cv" tabindex="0" role="img" aria-label="가야금 열두 줄 그림. 줄을 쓸면 소리가 나고, 한 줄을 누르면 그 줄이 튀는 줄인지 알려 줍니다. 키보드는 위아래 화살표로 줄을 고르고 Enter로 고릅니다."></canvas></div>
         <div class="lf"><p class="lmsg" id="labmsg" aria-live="polite"></p><button type="button" class="btn sm primary" id="labbtn" hidden>이 줄 고치기</button></div>
       </div>
     </div></section>
 
     <section class="section"><div class="wrap two">
-      <div class="rv"><span class="eyebrow">제작 순서</span><h2 style="font-size:clamp(1.5rem,2.6vw,2rem);margin:12px 0 18px">여덟 분야 제작 목표 기간</h2>${timeline()}<p class="tiny" style="margin-top:12px">${esc(S.SCH.note)}</p></div>
-      <div class="rv"><span class="eyebrow">국악 준비 상황</span><h2 style="font-size:clamp(1.5rem,2.6vw,2rem);margin:12px 0 18px">끝난 것과 남은 것</h2>${checklist(g.readiness)}</div>
+      <div class="rv"><span class="eyebrow">접수 안내</span><h2 style="font-size:clamp(1.5rem,2.6vw,2rem);margin:12px 0 18px">세 단계로 끝납니다</h2>
+        <ul class="check">
+          <li><span class="m done" aria-hidden="true">1</span><div><b>희망일 고르기</b><span>일정 화면에서 11월 24일 이후 평일을 고르고 학교·담당 선생님 연락처만 적습니다.</span></div></li>
+          <li><span class="m done" aria-hidden="true">2</span><div><b>담당자 연락</b><span>학년·인원·기기·AI 허용 여부를 함께 확인하고 수업 형태(80분 / 4차시)를 정합니다.</span></div></li>
+          <li><span class="m done" aria-hidden="true">3</span><div><b>날짜 확정 · 방문 수업</b><span>강사가 자료와 기기를 준비해 학교로 갑니다. 수업 뒤 활동지와 결과물은 학교에 남깁니다.</span></div></li>
+        </ul></div>
+      <div class="rv"><span class="eyebrow">학교 준비</span><h2 style="font-size:clamp(1.5rem,2.6vw,2rem);margin:12px 0 18px">국악 수업 기준 준비물</h2><ul class="list">${g.prep.map((t) => `<li>${esc(t)}</li>`).join("")}</ul></div>
     </div></section>
 
-    <section class="section band"><div class="wrap two">
-      ${honestBox("지금 말씀드릴 수 있는 것과 아닌 것", [
-        "아직 실제 수업을 한 적이 없습니다. 교육 효과나 만족도 수치를 드리지 않습니다.",
-        "국악 웹악기의 시범 연주는 미리 넣은 악보로 동작하는 규칙형 기능이며 AI가 아닙니다.",
-        "실제 AI는 교탁 화면이나 학교가 허용한 학생 계정에서 씁니다. 13세 미만은 어른이 입력합니다.",
-        "이 페이지의 수업 사진은 AI로 만든 예시 이미지입니다. 실제 수업 사진이 아닙니다.",
-        "아래 가격은 제안 견적이며 학교 조건에 따라 협의합니다.",
-      ])}
-      <div class="rv"><span class="eyebrow">제안 견적</span><h2 style="font-size:clamp(1.5rem,2.6vw,2rem);margin:12px 0 18px">국악 수업 기준 수업료</h2>${pricing()}</div>
+    <section class="section band"><div class="wrap">
+      <div class="rv"><span class="eyebrow">수업료</span><h2 style="font-size:clamp(1.5rem,2.6vw,2rem);margin:12px 0 18px">국악 수업 기준 수업료</h2>${pricing()}</div>
     </div></section>
 
     <section class="section"><div class="wrap two">
@@ -185,9 +183,8 @@
   /* ───────── 화면: 수업 목록 ───────── */
   function viewPrograms() {
     return `<section class="section view"><div class="wrap">
-      <div class="head"><span class="eyebrow">8개 분야 · 수업 9가지</span><h1 style="font-size:clamp(1.9rem,4vw,3rem)">수업 안내</h1><p>모든 수업이 11월 24일부터 희망일 신청을 받습니다. 교과 검수·리허설 같은 준비 상황은 각 수업 화면에 그대로 적어 두었습니다.</p></div>
+      <div class="head"><span class="eyebrow">8개 분야 · 수업 9가지</span><h1 style="font-size:clamp(1.9rem,4vw,3rem)">수업 안내</h1><p>모든 수업이 11월 24일부터 희망일 신청을 받습니다. 수업마다 진행 순서·배우는 것·학교 준비물을 그대로 적어 두었습니다.</p></div>
       ${cards(S.P.programs)}
-      <div style="margin-top:48px">${timeline()}</div>
     </div></section>`;
   }
 
@@ -196,19 +193,19 @@
     const opens = nextOpenDates(p.id, 6);
     const flow = p.flow.map((f) => `<div class="part"><div class="pt">${esc(f.part)}</div><div class="mn num">${esc(f.min)}분</div><div><h4>${esc(f.title)}<span class="who${f.ai ? " ai" : ""}">${esc(f.who)}${f.ai ? " · AI 사용" : ""}</span></h4><p>${esc(f.desc)}</p></div></div>`).join("");
     const gugakExtra = p.id === "gugak" ? `
-      <div class="subhead"><h3>실제 웹악기 화면</h3><span class="tiny">v0.8 · 2026-11-03 캡처</span></div>
+      <div class="subhead"><h3>국악 웹악기 화면</h3></div>
       <div class="two">
-        <figure class="rv" style="margin:0"><img src="img/app-demo.jpg" alt="웹악기 v0.8 시범 보기 화면. 가야금 4현 위에 칠 곳을 알리는 검은 점과 다음 칠 곳을 알리는 빈 동그라미가 보이고, 위쪽에 '미리 넣은 악보를 앱이 연주 · AI 아님' 표시가 있다." style="border-radius:var(--r-m);border:1px solid var(--line)"><figcaption class="tiny" style="margin-top:8px">1교시 ‘시범 보기’ · 칠 곳 ● 다음 칠 곳 ○ · 화면 오른쪽 위 ‘AI 아님’ 표시</figcaption></figure>
-        <figure class="rv" style="margin:0"><img src="img/app-error.jpg" alt="웹악기 v0.8 오류 찾기 화면 '소리 탐정 연구실'. 정상 듣기, 문제 탐색, 증거·추측, 직접 수정, 다시 검증 다섯 단계가 보인다." style="border-radius:var(--r-m);border:1px solid var(--line)"><figcaption class="tiny" style="margin-top:8px">2교시 ‘소리 탐정 연구실’ · 듣기 → 찾기 → 고치기 → 다시 확인</figcaption></figure>
+        <figure class="rv" style="margin:0"><img src="img/app-demo.jpg" alt="웹악기 본보기 연주 화면. 가야금 4현 위에 칠 곳을 알리는 검은 점과 다음 칠 곳을 알리는 빈 동그라미가 보이고." style="border-radius:var(--r-m);border:1px solid var(--line)"><figcaption class="tiny" style="margin-top:8px">1교시 ‘본보기 보기’ · 칠 곳 ● 다음 칠 곳 ○</figcaption></figure>
+        <figure class="rv" style="margin:0"><img src="img/app-error.jpg" alt="웹악기 오류 찾기 화면 '소리 탐정 연구실'. 정상 듣기, 문제 탐색, 증거·추측, 직접 수정, 다시 검증 다섯 단계가 보인다." style="border-radius:var(--r-m);border:1px solid var(--line)"><figcaption class="tiny" style="margin-top:8px">2교시 ‘소리 탐정 연구실’ · 듣기 → 찾기 → 고치기 → 다시 확인</figcaption></figure>
       </div>
-      <div class="subhead"><h3>수업료 (제안 견적)</h3></div>${pricing()}` : "";
+      <div class="subhead"><h3>수업료</h3></div>${pricing()}` : "";
     const priceBox = p.price ? `<div class="subhead"><h3>수업료</h3><span class="tiny">${esc(p.price.note)}</span></div><div class="tablewrap"><table><thead><tr><th>형태</th><th>단위</th><th>수업료</th><th>조건</th></tr></thead><tbody>${p.price.rows.map((r) => `<tr><td><b>${esc(r.type)}</b></td><td>${esc(r.unit)}</td><td class="price num">${won(r.amount)}</td><td class="muted small">${esc(r.cond)}</td></tr>`).join("")}</tbody></table></div><p class="tiny" style="margin-top:10px">${esc(p.price.extra)}</p>` : "";
     const nav = S.P.programs.map((o) => `<a href="#${o.id}"${o.id === p.id ? ' class="on" aria-current="page"' : ""}>${esc(o.short)}</a>`).join("");
     return `<section class="section view" style="padding-top:28px"><div class="wrap">
       <div class="crumb"><a href="#home">홈</a><span>›</span><a href="#programs">수업</a><span>›</span><span>${esc(p.name)}</span></div>
       <div class="phero"><img src="${esc(p.image)}" alt="" onerror="this.remove()"><div class="in">${pill(p)}${p.track ? `<span class="mono" style="font-size:.78rem;letter-spacing:.06em;color:rgba(255,255,255,.82)">${esc(p.track)}</span>` : ""}<h1>${esc(p.name)}</h1><p>${esc(p.tagline)}</p>
         <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:6px"><a class="btn primary" href="#apply" data-pick="${esc(p.id)}">이 수업 접수하기</a><a class="btn" style="color:#fff;border-color:rgba(255,255,255,.45)" href="#ask" data-ask="${esc(p.id)}">이 수업 질문하기</a></div></div></div>
-      <p class="tiny" style="margin-top:8px">${esc(p.imageCaption || "사진: AI 생성 예시 이미지(Higgsfield) · 실제 수업 사진 아님")}</p>
+      ${p.imageCaption ? `<p class="tiny" style="margin-top:8px">${esc(p.imageCaption)}</p>` : ""}
       <div class="meta-grid">
         <div><div class="k">교과</div><div class="v">${esc(p.subject)}</div></div>
         <div><div class="k">대상</div><div class="v">${esc(p.grades)}</div></div>
@@ -224,12 +221,11 @@
       </div>
       ${gugakExtra}${priceBox}
       <div class="two" style="margin-top:8px">
-        <div><div class="subhead"><h3>준비 상황</h3><span class="tiny">${esc(p.status.window)}</span></div>${checklist(p.readiness)}</div>
+        <div><div class="subhead"><h3>수업에 포함된 것</h3></div>${checklist(p.readiness)}</div>
         <div><div class="subhead"><h3>일정 · 접수</h3><span class="tiny">${esc(p.status.booking)}</span></div>
           ${opens.length ? `<p class="muted small" style="margin-bottom:12px">희망일을 고르면 접수 화면으로 이어집니다. 접수 후 담당자가 연락해 확정합니다.</p><div class="chips">${opens.map((d) => `<button type="button" class="chip" data-date="${ymd(d)}" data-pick="${esc(p.id)}">${fmtDay(d)}</button>`).join("")}</div><p style="margin-top:14px"><a class="btn sm" href="#schedule">전체 달력 보기</a></p>` : `<p class="muted">아직 희망일을 받을 수 있는 날이 없습니다. 관심 학교로 먼저 접수해 주시면 준비되는 대로 연락드립니다.</p><p style="margin-top:14px"><a class="btn sm primary" href="#apply" data-pick="${esc(p.id)}">관심 학교로 접수</a></p>`}
         </div>
       </div>
-      <div style="margin-top:40px">${honestBox("이 수업에 대해 정확히 말씀드리면", p.honest)}</div>
       <div class="subhead"><h3>다른 수업</h3></div><div class="others">${nav}</div>
     </div></section>`;
   }
@@ -241,13 +237,12 @@
       <div id="adminbar"></div>
       <div class="two lean">
         <div><div class="cal" id="cal"></div>
-          <div class="legend"><span><i class="open"></i>희망일 신청 가능</span><span><i class="pending"></i>협의 중</span><span><i class="booked"></i>예약 완료</span><span><i class="prep"></i>준비 기간</span><span><i></i>주말·휴일</span></div>
+          <div class="legend"><span><i class="open"></i>희망일 신청 가능</span><span><i class="pending"></i>협의 중</span><span><i class="booked"></i>예약 완료</span><span><i class="prep"></i>접수 전</span><span><i></i>주말·휴일</span></div>
           <p class="tiny" style="margin-top:10px" id="calsrc"></p></div>
         <div><h3 style="font-size:1.2rem;margin-bottom:14px">수업별 접수 시작</h3>
           <ul class="check">${S.P.programs.map((p) => { const r = readyFrom(p); const start = r ? (r < parse(S.SCH.openFrom) ? parse(S.SCH.openFrom) : r) : null; return `<li><span class="m ${p.status.phase === "building" ? "done" : "todo"}" aria-hidden="true"></span><div><b><a href="#${p.id}">${esc(p.name)}</a></b><span>${start ? fmtDay(start) + "부터 희망일 신청" : ""} · ${esc(p.status.label)}</span></div></li>`; }).join("")}</ul>
           <p class="tiny" style="margin-top:12px">${esc(S.SCH.note)} 겨울방학 기간은 학교마다 다릅니다.</p></div>
       </div>
-      <div class="subhead" style="margin-top:56px"><h3>제작 목표 기간</h3></div>${timeline()}
     </div></section>`;
   }
   function renderCal() {
@@ -262,7 +257,7 @@
       const date = new Date(y, m, d); const info = dayInfo(date);
       const clickable = S.isAdmin ? info.s !== "weekend" : info.s === "open";
       const cls = ["day", info.s, info.key === today ? "today" : "", S.isAdmin ? "admin" : ""].join(" ");
-      const label = `${m + 1}월 ${d}일 ${{ open: "희망일 신청 가능", pending: "협의 중", booked: "예약 완료", closed: "휴일", weekend: "주말", prep: "준비 기간", later: "" }[info.s] || ""} ${info.label || ""}`.trim();
+      const label = `${m + 1}월 ${d}일 ${{ open: "희망일 신청 가능", pending: "협의 중", booked: "예약 완료", closed: "휴일", weekend: "주말", prep: "접수 전", later: "" }[info.s] || ""} ${info.label || ""}`.trim();
       cells += clickable
         ? `<button type="button" class="${cls}" data-day="${info.key}" aria-label="${esc(label)}"><span class="d num">${d}</span><span class="s">${esc(info.label)}</span></button>`
         : `<div class="${cls}" aria-label="${esc(label)}"><span class="d num">${d}</span><span class="s">${esc(info.label)}</span></div>`;
@@ -323,7 +318,7 @@
 규칙:
 - 자료에 없는 가격·날짜·강사 이름·실적·교육 효과·수강생 수는 만들지 말고 "확인이 필요합니다. 담당자(${S.P.contact.phone}, ${S.P.contact.email})에게 문의해 주세요"라고 답합니다.
 - 실제 수업은 아직 0회입니다. 효과를 약속하지 않습니다.
-- 국악 웹악기의 시범 연주는 규칙형이며 AI가 아니라는 점을 정확히 말합니다.
+- 국악 웹악기의 본보기 연주는 규칙형이며 AI가 아니라는 점을 정확히 말합니다.
 - 학생 이름·연락처 같은 학생 개인정보를 묻거나 받지 않습니다.
 - 3~6문장, 필요하면 짧은 목록. 마크다운 굵게 표시는 쓰지 않습니다.
 [자료]
@@ -337,7 +332,7 @@ ${knowledge()}`;
   }
   function renderRec(out, data, isAI) {
     const picks = (data.picks || []).filter((x) => prog(String(x.id)));
-    out.innerHTML = `<div class="result"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center"><b>${isAI ? "AI 추천" : "자동 규칙 추천 · AI 아님"}</b><span class="tiny">${isAI ? "이 페이지 자료만 보고 정리 · 최종 판단은 담당자 상담에서" : "AI를 쓸 수 없는 보기라 교과 선택으로만 골랐습니다"}</span></div>
+    out.innerHTML = `<div class="result"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center"><b>${isAI ? "AI 추천" : "자동 규칙 추천"}</b><span class="tiny">${isAI ? "이 페이지 자료만 보고 정리 · 최종 판단은 담당자 상담에서" : "AI를 쓸 수 없는 보기라 교과 선택으로만 골랐습니다"}</span></div>
       ${picks.map((x) => { const p = prog(String(x.id)); return `<a class="req" href="#${p.id}" style="text-decoration:none"><b>${esc(p.name)} ${pill(p)}</b><span class="muted small">${esc(x.reason || "")}</span>${x.fit ? `<span class="tiny">${esc(x.fit)}</span>` : ""}</a>`; }).join("")}
       ${data.caution ? `<div class="note">${esc(data.caution)}</div>` : ""}
       ${data.summary ? `<div><div class="tiny" style="margin-bottom:6px">학교 내부 검토용 요약 (복사해서 쓰세요)</div><pre id="recsum">${esc(data.summary)}</pre><div style="margin-top:8px"><button type="button" class="copy" data-label="요약 복사" data-sel="#recsum" data-copy="recsum">요약 복사</button></div></div>` : ""}
@@ -380,7 +375,7 @@ ${knowledge()}`;
     clean.split(/\s+/).filter(Boolean).forEach((w) => { if (w.length === 1) return; for (let i = 0; i < w.length - 1; i++) grams.add(w.slice(i, i + 2)); });
     let best = null, score = 0;
     for (const f of S.P.faq) { let s = 0; grams.forEach((g) => { if (f.q.includes(g)) s += 2; if (f.a.includes(g)) s += 1; }); if (s > score) { score = s; best = f; } }
-    return best && score >= 2 ? `자주 묻는 질문에서 찾은 답입니다 (AI 아님).\n\n${best.q}\n${best.a}` : `자주 묻는 질문에서 맞는 답을 찾지 못했습니다 (AI 아님). 담당자에게 문의해 주세요: ${S.P.contact.phone} · ${S.P.contact.email}`;
+    return best && score >= 2 ? `자주 묻는 질문에서 찾은 답입니다.\n\n${best.q}\n${best.a}` : `자주 묻는 질문에서 맞는 답을 찾지 못했습니다. 담당자에게 문의해 주세요: ${S.P.contact.phone} · ${S.P.contact.email}`;
   }
   function addMsg(kind, text) { const log = $("#log"); if (!log) return null; const m = document.createElement("div"); m.className = "msg " + kind; m.textContent = text; log.appendChild(m); log.scrollTop = log.scrollHeight; return m; }
   async function ask(q) {
@@ -402,15 +397,15 @@ ${knowledge()}`;
   function setAIState() {
     const st = $("#aistate"), dot = $("#chatdot"), lab = $("#chatlabel");
     const on = !!S.sample;
-    if (st) st.textContent = S.sampleState === "checking" ? "AI 연결 확인 중…" : on ? "AI 사용: 이 페이지를 보는 분의 Claude 계정으로 동작합니다. 처음 한 번 허용을 묻습니다." : "이 보기에서는 AI를 쓸 수 없어 규칙 추천과 자주 묻는 질문 검색으로 안내합니다 (AI 아님).";
+    if (st) st.textContent = S.sampleState === "checking" ? "AI 연결 확인 중…" : on ? "AI 사용: 이 페이지를 보는 분의 Claude 계정으로 동작합니다. 처음 한 번 허용을 묻습니다." : "이 보기에서는 AI를 쓸 수 없어 규칙 추천과 자주 묻는 질문 검색으로 안내합니다.";
     if (dot) dot.classList.toggle("off", !on);
-    if (lab) lab.textContent = on ? "AI에게 질문하기 · Claude" : "자주 묻는 질문 검색 · AI 아님";
+    if (lab) lab.textContent = on ? "AI에게 질문하기 · Claude" : "자주 묻는 질문 검색";
   }
 
   /* ───────── 화면: 접수 ───────── */
   function viewApply() {
     const pf = S.prefill; const c = S.P.contact;
-    const opt = S.P.programs.map((p) => `<option value="${p.id}"${pf.program === p.id ? " selected" : ""}>${esc(p.name)} · ${esc(p.status.label)}</option>`).join("");
+    const opt = S.P.programs.map((p) => `<option value="${p.id}"${pf.program === p.id ? " selected" : ""}>${esc(p.name)}</option>`).join("");
     return `<section class="section view"><div class="wrap">
       <div class="head"><span class="eyebrow">수업 접수</span><h1 style="font-size:clamp(1.9rem,4vw,3rem)">수업 접수</h1><p>학교와 담당 선생님의 업무 연락처만 받습니다. 학생 이름·연락처 등 학생 개인정보는 적지 마세요.</p></div>
       <div id="reqadmin"></div>
@@ -600,7 +595,7 @@ ${knowledge()}`;
     else app.innerHTML = p ? viewProgram(p) : VIEWS[key]();
     S.booted = true;
     $$("nav.main a").forEach((a) => a.classList.toggle("on", a.dataset.nav === (p ? "programs" : key)));
-    document.title = p ? p.name + " · 김민성 AI교육 수업 안내" : "김민성 AI교육 수업 안내";
+    document.title = p ? p.name + " · 셈제작소" : "셈제작소 · 학교 AI 수업";
     if (key === "home") initStrings();
     if (key === "schedule") { renderAdminBar(); renderCal(); }
     if (key === "ask") setAIState();
@@ -623,8 +618,8 @@ ${knowledge()}`;
   }
   function footer() {
     const c = S.P.contact;
-    $("#foot").innerHTML = `<div class="ph"><div class="big">김민성 AI교육</div><div>${esc(c.role)} · ${esc(c.region)}</div><div class="row"><span class="mono num">${esc(c.phone)}</span><button type="button" class="copy" data-label="번호 복사" data-text="${esc(c.phone)}">번호 복사</button></div><div class="row"><span class="mono">${esc(c.email)}</span><button type="button" class="copy" data-label="주소 복사" data-text="${esc(c.email)}">주소 복사</button></div><div class="tiny">상호: <span style="border-bottom:1px dashed var(--ink-3)">확인 필요</span> · 사업자 정보는 등록 후 표시</div></div>
-      <div><h4>자료와 표기</h4><p class="small">첫 화면과 수업 카드의 사진은 AI로 만든 예시 이미지(Higgsfield)이며 실제 수업 사진이 아닙니다. 협동연극·게임·과학 카드는 각 수업 앱 v0.2 화면 캡처, 사실검증 편집실 카드는 수업 자료 속 가상 행사를 직접 그린 그림입니다(AI 생성 아님). 웹악기 화면은 v0.8 실제 캡처입니다. 웹악기 소리는 국립국악원 국악기 디지털 음원(공공누리 제1유형)을 씁니다. ‘높이 탐정’ 체험의 가야금 줄 소리는 브라우저 합성음입니다(AI 아님).</p><p class="tiny" style="margin-top:8px">자료 기준일 ${esc(S.P.updated)}</p></div>
+    $("#foot").innerHTML = `<div class="ph"><div class="big">셈제작소</div><div class="small">학교 AI 수업</div><div>${esc(c.role)} · ${esc(c.region)}</div><div class="row"><span class="mono num">${esc(c.phone)}</span><button type="button" class="copy" data-label="번호 복사" data-text="${esc(c.phone)}">번호 복사</button></div><div class="row"><span class="mono">${esc(c.email)}</span><button type="button" class="copy" data-label="주소 복사" data-text="${esc(c.email)}">주소 복사</button></div><div class="tiny">상호: <span style="border-bottom:1px dashed var(--ink-3)">확인 필요</span> · 사업자 정보는 등록 후 표시</div></div>
+      <div><h4>자료와 표기</h4><p class="small">협동연극·게임·과학 카드는 수업 앱 화면이고, 사실검증 편집실 카드는 수업 자료 속 가상 행사를 그린 그림입니다. 수업 앱은 학생 입력을 저장하지 않으며, 학생 이름은 어떤 화면에도 받지 않습니다.</p></div>
       <div><h4>휴대폰으로 열기</h4><div class="qr"><img src="img/qr-home.png" alt="이 홈페이지로 가는 QR 코드" onerror="this.replaceWith(document.createTextNode('QR 준비 중'))"></div></div>`;
   }
 
