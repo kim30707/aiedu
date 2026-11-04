@@ -86,18 +86,18 @@
     return `${feat.map((p) => card(p, true)).join("")}<div class="grid rail" role="region" aria-label="다른 수업 ${rest.length}가지" tabindex="0">${rest.map((p) => card(p)).join("")}</div><p class="rail-hint">옆으로 밀어 더 보기 →</p>`;
   }
   function timeline(highlight) {
-    const start = parse("2026-11-01"), end = parse("2027-03-01"), span = end - start;
+    const start = parse("2026-11-01"), end = parse("2026-12-01"), span = end - start;
     const pct = (d) => Math.max(0, Math.min(100, ((parse(d) - start) / span) * 100));
     const rows = S.SCH.blocks.map((b) => {
       const p = b.program ? prog(b.program) : null;
       const cls = p ? p.accent : "";
-      const l = pct(b.start), w = Math.max(1.5, pct(b.end) + (100 / 120) - l);
+      const l = pct(b.start), w = Math.max(1.5, pct(b.end) + (100 / 30) - l);
       return `<div class="row"><div class="lab"${highlight && p && p.id === highlight ? ' style="color:var(--brand)"' : ""}>${esc(p ? p.short : "여유")}</div>
         <div class="bar" title="${esc(b.label)} ${esc(b.start)} ~ ${esc(b.end)}"><i class="${cls}" style="left:${l}%;width:${w}%;${highlight && p && p.id !== highlight ? "opacity:.35" : ""}"></i></div></div>`;
     }).join("");
-    const months = ["2026-11-01", "2026-12-01", "2027-01-01", "2027-02-01", "2027-03-01"];
-    const ticks = months.map((m, i) => `<span style="left:${pct(m)}%${i === months.length - 1 ? ";transform:translateX(-100%)" : i === 0 ? ";transform:none" : ""}">${parse(m).getMonth() + 1}월</span>`).join("");
-    return `<div class="tl" role="img" aria-label="여덟 분야 수업의 제작 목표 기간 표. 국악 11월 2일~22일, 교과 연극 11월 5일~22일, 협동연극 11월 4일~8일, 꿈 다이어리 11월 4일~8일, 사실검증 편집실 11월 4일, 게임 12월 28일~1월 10일, 수학 1월 11~17일, 영어 1월 18~31일, 과학 2월 1~14일.">${rows}<div class="axis"><div></div><div>${ticks}</div></div></div>`;
+    const months = ["2026-11-01", "2026-11-08", "2026-11-15", "2026-11-22", "2026-12-01"];
+    const ticks = months.map((m, i) => `<span style="left:${pct(m)}%${i === months.length - 1 ? ";transform:translateX(-100%)" : i === 0 ? ";transform:none" : ""}">${parse(m).getMonth() + 1}/${parse(m).getDate()}</span>`).join("");
+    return `<div class="tl" role="img" aria-label="여덟 분야 수업의 제작 목표 기간 표. 국악 11월 2일~22일, 교과 연극 11월 5일~22일, 협동연극 11월 4일~8일, 꿈 다이어리 11월 4일~8일, 사실검증 편집실 11월 4일, 게임 11월 4일~15일, 수학 11월 4일~15일, 영어 11월 4일~22일, 과학 11월 4일~22일. 모든 수업은 11월 24일부터 희망일 신청.">${rows}<div class="axis"><div></div><div>${ticks}</div></div></div>`;
   }
   function checklist(items) {
     return `<ul class="check">${items.map((r) => `<li><span class="m ${r.state}" aria-hidden="true">${r.state === "done" ? "✓" : ""}</span><div><b>${esc(r.item)}</b>${r.note ? `<span>${esc(r.note)}</span>` : ""}</div></li>`).join("")}</ul>`;
@@ -135,7 +135,7 @@
     </div></div>
 
     <section class="section"><div class="wrap">
-      <div class="head rv"><span class="eyebrow">8개 분야 · 수업 9가지</span><h2>학교가 필요한 수업 하나만 고르면 됩니다</h2><p>국악이 가장 먼저 준비되었고, 나머지는 제작 순서대로 열립니다. 각 수업을 누르면 진행 순서·준비물·준비 상황을 볼 수 있습니다.</p></div>
+      <div class="head rv"><span class="eyebrow">8개 분야 · 수업 9가지</span><h2>학교가 필요한 수업 하나만 고르면 됩니다</h2><p>국악이 가장 먼저 준비되었고, 모든 수업이 11월 24일부터 희망일 신청을 받습니다. 각 수업을 누르면 진행 순서·준비물·준비 상황을 볼 수 있습니다.</p></div>
       ${cards(S.P.programs)}
     </div></section>
 
@@ -185,7 +185,7 @@
   /* ───────── 화면: 수업 목록 ───────── */
   function viewPrograms() {
     return `<section class="section view"><div class="wrap">
-      <div class="head"><span class="eyebrow">8개 분야 · 수업 9가지</span><h1 style="font-size:clamp(1.9rem,4vw,3rem)">수업 안내</h1><p>국악부터 제작 순서대로 준비합니다. 준비 상황은 각 수업 화면에 그대로 적어 두었습니다.</p></div>
+      <div class="head"><span class="eyebrow">8개 분야 · 수업 9가지</span><h1 style="font-size:clamp(1.9rem,4vw,3rem)">수업 안내</h1><p>모든 수업이 11월 24일부터 희망일 신청을 받습니다. 교과 검수·리허설 같은 준비 상황은 각 수업 화면에 그대로 적어 두었습니다.</p></div>
       ${cards(S.P.programs)}
       <div style="margin-top:48px">${timeline()}</div>
     </div></section>`;
@@ -624,7 +624,7 @@ ${knowledge()}`;
   function footer() {
     const c = S.P.contact;
     $("#foot").innerHTML = `<div class="ph"><div class="big">김민성 AI교육</div><div>${esc(c.role)} · ${esc(c.region)}</div><div class="row"><span class="mono num">${esc(c.phone)}</span><button type="button" class="copy" data-label="번호 복사" data-text="${esc(c.phone)}">번호 복사</button></div><div class="row"><span class="mono">${esc(c.email)}</span><button type="button" class="copy" data-label="주소 복사" data-text="${esc(c.email)}">주소 복사</button></div><div class="tiny">상호: <span style="border-bottom:1px dashed var(--ink-3)">확인 필요</span> · 사업자 정보는 등록 후 표시</div></div>
-      <div><h4>자료와 표기</h4><p class="small">첫 화면과 수업 카드의 사진은 AI로 만든 예시 이미지(Higgsfield)이며 실제 수업 사진이 아닙니다. 협동연극 카드는 제작실 앱 v0.2 화면 캡처, 사실검증 편집실 카드는 수업 자료 속 가상 행사를 직접 그린 그림입니다(AI 생성 아님). 웹악기 화면은 v0.8 실제 캡처입니다. 웹악기 소리는 국립국악원 국악기 디지털 음원(공공누리 제1유형)을 씁니다. ‘높이 탐정’ 체험의 가야금 줄 소리는 브라우저 합성음입니다(AI 아님).</p><p class="tiny" style="margin-top:8px">자료 기준일 ${esc(S.P.updated)}</p></div>
+      <div><h4>자료와 표기</h4><p class="small">첫 화면과 수업 카드의 사진은 AI로 만든 예시 이미지(Higgsfield)이며 실제 수업 사진이 아닙니다. 협동연극·게임·과학 카드는 각 수업 앱 v0.2 화면 캡처, 사실검증 편집실 카드는 수업 자료 속 가상 행사를 직접 그린 그림입니다(AI 생성 아님). 웹악기 화면은 v0.8 실제 캡처입니다. 웹악기 소리는 국립국악원 국악기 디지털 음원(공공누리 제1유형)을 씁니다. ‘높이 탐정’ 체험의 가야금 줄 소리는 브라우저 합성음입니다(AI 아님).</p><p class="tiny" style="margin-top:8px">자료 기준일 ${esc(S.P.updated)}</p></div>
       <div><h4>휴대폰으로 열기</h4><div class="qr"><img src="img/qr-home.png" alt="이 홈페이지로 가는 QR 코드" onerror="this.replaceWith(document.createTextNode('QR 준비 중'))"></div></div>`;
   }
 
