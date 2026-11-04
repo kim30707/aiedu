@@ -104,7 +104,7 @@
   }
   function pricing() {
     const pr = S.P.pricing;
-    return `<div class="tablewrap"><table><thead><tr><th>유형</th><th>단위</th><th>수업료</th><th>조건</th></tr></thead><tbody>${pr.rows.map((r) => `<tr><td><b>${esc(r.type)}</b></td><td>${esc(r.unit)}</td><td class="price num">${won(r.min)} ~ ${won(r.max)}</td><td class="muted small">${esc(r.cond)}</td></tr>`).join("")}</tbody></table></div><p class="tiny" style="margin-top:10px">${esc(pr.note)}</p>`;
+    return `<div class="tablewrap"><table><thead><tr><th>형태</th><th>단위</th><th>수업료</th><th>첫 운영 학교</th><th>해당 수업 · 조건</th></tr></thead><tbody>${pr.rows.map((r) => `<tr><td><b>${esc(r.type)}</b></td><td>${esc(r.unit)}</td><td class="price num">${esc(r.price)}</td><td class="price num">${r.first ? esc(r.first) : '<span class="muted">—</span>'}</td><td class="muted small">${esc(r.cond)}</td></tr>`).join("")}</tbody></table></div><p class="tiny" style="margin-top:10px">${esc(pr.note)}</p>`;
   }
   function honestBox(title, items) { return `<div class="honest rv"><h3>${esc(title)}</h3><ul>${items.map((t) => `<li>${esc(t)}</li>`).join("")}</ul></div>`; }
 
@@ -166,7 +166,7 @@
     </div></section>
 
     <section class="section band"><div class="wrap">
-      <div class="rv"><span class="eyebrow">수업료</span><h2 style="font-size:clamp(1.5rem,2.6vw,2rem);margin:12px 0 18px">국악 수업 기준 수업료</h2>${pricing()}</div>
+      <div class="rv"><span class="eyebrow">수업료</span><h2 style="font-size:clamp(1.5rem,2.6vw,2rem);margin:12px 0 18px">수업료 (1학급 총액)</h2>${pricing()}</div>
     </div></section>
 
     <section class="section"><div class="wrap two">
@@ -198,8 +198,8 @@
         <figure class="rv" style="margin:0"><img src="img/app-demo.jpg" alt="웹악기 본보기 연주 화면. 가야금 4현 위에 칠 곳을 알리는 검은 점과 다음 칠 곳을 알리는 빈 동그라미가 보이고." style="border-radius:var(--r-m);border:1px solid var(--line)"><figcaption class="tiny" style="margin-top:8px">1교시 ‘본보기 보기’ · 칠 곳 ● 다음 칠 곳 ○</figcaption></figure>
         <figure class="rv" style="margin:0"><img src="img/app-error.jpg" alt="웹악기 오류 찾기 화면 '소리 탐정 연구실'. 정상 듣기, 문제 탐색, 증거·추측, 직접 수정, 다시 검증 다섯 단계가 보인다." style="border-radius:var(--r-m);border:1px solid var(--line)"><figcaption class="tiny" style="margin-top:8px">2교시 ‘소리 탐정 연구실’ · 듣기 → 찾기 → 고치기 → 다시 확인</figcaption></figure>
       </div>
-      <div class="subhead"><h3>수업료</h3></div>${pricing()}` : "";
-    const priceBox = p.price ? `<div class="subhead"><h3>수업료</h3><span class="tiny">${esc(p.price.note)}</span></div><div class="tablewrap"><table><thead><tr><th>형태</th><th>단위</th><th>수업료</th><th>조건</th></tr></thead><tbody>${p.price.rows.map((r) => `<tr><td><b>${esc(r.type)}</b></td><td>${esc(r.unit)}</td><td class="price num">${won(r.amount)}</td><td class="muted small">${esc(r.cond)}</td></tr>`).join("")}</tbody></table></div><p class="tiny" style="margin-top:10px">${esc(p.price.extra)}</p>` : "";
+` : "";
+    const priceBox = p.price ? `<div class="subhead"><h3>수업료</h3><span class="tiny">${esc(p.price.note)}</span></div><div class="tablewrap"><table><thead><tr><th>형태</th><th>단위</th><th>수업료</th><th>조건</th></tr></thead><tbody>${p.price.rows.map((r) => `<tr><td><b>${esc(r.type)}</b></td><td>${esc(r.unit)}</td><td class="price num">${r.amount ? won(r.amount) : esc(r.price || "접수 시 견적")}</td><td class="muted small">${esc(r.cond)}</td></tr>`).join("")}</tbody></table></div><p class="tiny" style="margin-top:10px">${esc(p.price.extra)}</p>` : "";
     const nav = S.P.programs.map((o) => `<a href="#${o.id}"${o.id === p.id ? ' class="on" aria-current="page"' : ""}>${esc(o.short)}</a>`).join("");
     return `<section class="section view" style="padding-top:28px"><div class="wrap">
       <div class="crumb"><a href="#home">홈</a><span>›</span><a href="#programs">수업</a><span>›</span><span>${esc(p.name)}</span></div>
