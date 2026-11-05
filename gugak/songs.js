@@ -1,7 +1,7 @@
 /* GugakSongs v0.7. 아리랑·도라지타령 시범 연주와 따라 하기.
  * 시범 연주는 미리 넣은 악보를 앱이 순서대로 연주하는 규칙형 기능이다. AI·네트워크·저장 없음.
  * 가락: 위키백과 Arirang(en)·도라지타령(ko) 악보(LilyPond, 바장조 9/8)를 앱 가야금 조율 4~10현(G3 A3 C4 D4 E4 G4 A4)으로 옮김.
- * 장구: 세마치장단 기본형 덩 · · 덩 · 덕 쿵 덕 · (8분음표 9칸). 가락·장단 모두 국악 강사 검수 전.
+ * 장구: 세마치장단 기본형 덩 · · 덩 · 덕 쿵 덕 · (8분음표 9칸). 가락·장단 출처는 곡 따라 하기 안내(song-guide.html).
  * 입력 판정: app.js가 실물 악기 화면의 연주를 'gugak:gesture' 이벤트로 알린다(현 번호·장구 면).
  * v0.9.1: 재생 중 설정 변경은 안내 후 정지, 학년 빠르기 동기화, 같이 하기 덩 양손 입력도 300ms 이내로 판정.
  * v0.8(2026-11-03): 시범 보기·한 음씩·같이 하기에서 칠 곳을 검은 점(●)으로, 다음 칠 곳을 작은 고리(○)로 악기 위에 찍는다. 소리 경로는 v0.7과 같다.
@@ -61,18 +61,18 @@ function renderStrip(){const strip=$('song-strip');if(!strip)return;strip.replac
 function renderControls(){if(!built)return;const s=SONGS[S.song],p=part();document.querySelectorAll('[data-song]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.song===S.song)));document.querySelectorAll('[data-song-part]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.songPart===p)));
  const sel=$('song-phrase');sel.replaceChildren(new Option('전체 ('+s.bars.length+'마디)','-1'),...s.phrases.map((t,i)=>new Option((i+1)+'구절 · '+t,String(i))));sel.value=String(S.phrase);
  $('song-tempo').value=String(S.tempo);$('song-tempo-value').textContent='♩. = '+S.tempo;$('song-together').checked=S.together;$('song-together-label').textContent=(p?NAMES[other(p)]:'다른 악기')+' 함께 듣기';
- for(const id of['song-demo','song-step','song-along'])$(id).disabled=!p;$('song-hint').hidden=run?.mode!=='step';$('song-source').textContent='가락: '+s.source+'을 앱 가야금 4~10현으로 옮김 · 장단: 세마치 기본형 · 원래 빠르기 '+s.original+' · 국악 강사 검수 전';renderStrip();}
+ for(const id of['song-demo','song-step','song-along'])$(id).disabled=!p;$('song-hint').hidden=run?.mode!=='step';$('song-source').textContent='가락: '+s.source+'을 앱 가야금 4~10현으로 옮김 · 장단: 세마치 기본형 · 원래 빠르기 '+s.original;renderStrip();}
 function stop(reason){if(!run)return false;const r=run;run=null;clearInterval(r.timer);clearTimeout(r.duoTimer);clearMarks();$('song-strip')?.querySelectorAll('.now').forEach(c=>c.classList.remove('now'));if($('song-hint'))$('song-hint').hidden=true;document.body.classList.remove('song-running');if(reason!=='done'&&reason!=='restart')say('멈췄어요');return true;}
 function begin(mode){const p=part();if(!p)return false;stop('restart');app()?.stopAll?.();renderStrip();const own=events(p);if(!own.length)return false;document.body.classList.add('song-running');
  if(mode==='step'){run={mode,part:p,own,k:0,good:0,wrong:0,sides:{}};$('song-hint').hidden=false;stepShow();return true;}
  const e8=60000/(S.tempo*3),acc=S.together?events(other(p)).map(e=>({...e,part:other(p)})):[];
  run={mode,part:p,own,acc,e8,t0:performance.now()+3*3*e8,i:0,j:0,nowUntil:0,total:(range()[1]-range()[0])*BAR};prewarm([...own.map(e=>[p,e]),...acc.map(e=>[e.part,e])]);mark('song-soon',p,own[0]);tick();run.timer=setInterval(tick,15);return true;}
-function tick(){const r=run;if(!r)return;const now=performance.now();if(now<r.t0){const beats=Math.ceil((r.t0-now)/(3*r.e8));say((r.mode==='demo'?'시범 연주 · ':'같이 하기 · ')+'준비 '+(['','하나','둘','셋'][beats]||''));return;}
- while(r.i<r.own.length&&r.t0+r.own[r.i].t*r.e8<=now){const e=r.own[r.i],k=r.i++;if(r.mode==='demo')sound(r.part,e,1);mark('song-now',r.part,e);mark('song-soon',r.part,r.own[k+1]);cellNow(k);r.nowUntil=r.t0+(e.t+e.len)*r.e8-40;say((r.mode==='demo'?'시범 · ':'같이 · ')+(e.syl?'“'+e.syl+'” ':'')+noteName(e,r.part));}
+function tick(){const r=run;if(!r)return;const now=performance.now();if(now<r.t0){const beats=Math.ceil((r.t0-now)/(3*r.e8));say((r.mode==='demo'?'들려주기 · ':'같이 하기 · ')+'준비 '+(['','하나','둘','셋'][beats]||''));return;}
+ while(r.i<r.own.length&&r.t0+r.own[r.i].t*r.e8<=now){const e=r.own[r.i],k=r.i++;if(r.mode==='demo')sound(r.part,e,1);mark('song-now',r.part,e);mark('song-soon',r.part,r.own[k+1]);cellNow(k);r.nowUntil=r.t0+(e.t+e.len)*r.e8-40;say((r.mode==='demo'?'듣기 · ':'같이 · ')+(e.syl?'“'+e.syl+'” ':'')+noteName(e,r.part));}
  while(r.j<r.acc.length&&r.t0+r.acc[r.j].t*r.e8<=now){const e=r.acc[r.j++];sound(e.part,e,.55);}
  if(r.nowUntil&&now>r.nowUntil){mark('song-now',r.part,null);r.nowUntil=0;}
  if(now>r.t0+r.total*r.e8+350)finish();}
-function finish(){const r=run;if(!r)return;if(r.mode==='demo')say('시범 끝 · 이제 “한 음씩 따라 하기”로 연습해 보세요');else if(r.mode==='along'){const hit=r.own.filter(e=>e.hit).length;r.own.forEach((e,k)=>cell(k)?.classList.toggle('miss',!e.hit));say('같이 하기 끝 · 제때 맞힌 음 '+hit+' / '+r.own.length);r.result={hit,total:r.own.length};}else{say('끝까지 했어요! 맞게 친 음 '+r.good+'개 · 다른 곳 '+r.wrong+'번');r.result={good:r.good,wrong:r.wrong};}
+function finish(){const r=run;if(!r)return;if(r.mode==='demo')say('들려주기 끝 · 이제 “한 음씩 따라 하기”로 연습해 보세요');else if(r.mode==='along'){const hit=r.own.filter(e=>e.hit).length;r.own.forEach((e,k)=>cell(k)?.classList.toggle('miss',!e.hit));say('같이 하기 끝 · 제때 맞힌 음 '+hit+' / '+r.own.length);r.result={hit,total:r.own.length};}else{say('끝까지 했어요! 맞게 친 음 '+r.good+'개 · 다른 곳 '+r.wrong+'번');r.result={good:r.good,wrong:r.wrong};}
  last={mode:r.mode,part:r.part,song:S.song,phrase:S.phrase,...(r.result||{})};stop('done');}
 function stepShow(){const r=run,e=r.own[r.k];mark('song-now',r.part,e);mark('song-soon',r.part,r.own[r.k+1]);cellNow(r.k);say((r.k+1)+' / '+r.own.length+' · '+(e.syl?'“'+e.syl+'” ':'')+ask(e,r.part));}
 function stepGood(){const r=run;clearTimeout(r.duoTimer);r.sides={};flash('song-good',targets(r.part,r.own[r.k]));cell(r.k)?.classList.add('hit');r.good++;r.k++;if(r.k>=r.own.length)return finish();stepShow();}

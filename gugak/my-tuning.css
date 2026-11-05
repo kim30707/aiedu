@@ -1,0 +1,34 @@
+/* v0.12 G1 조율 — AI에게 부탁하고 받은 조율 설정 붙여 넣기 · 셈제작소 틸 #0b7a75 · 코랄 #e8562f */
+.kit-tune{border:1px solid #b9d8d3;border-radius:14px;background:#f6fbfa;padding:10px 12px}
+.kit-tune>summary{list-style:none;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;min-height:36px}
+.kit-tune>summary::-webkit-details-marker{display:none}
+.kit-tune>summary::before{content:'▸';color:var(--teal,#0b7a75);font-size:12px}
+.kit-tune[open]>summary::before{content:'▾'}
+.kit-tune .tune-title{font-size:16px;color:var(--deep,#10221f);font-weight:750}
+.kit-tune>summary small{font-size:11px;font-weight:500;color:var(--muted)}
+.tune-steps{margin:8px 0 6px;padding-left:0;list-style:none;display:grid;gap:12px}
+.tune-steps>li{display:grid;gap:6px}
+.tune-steps>li>b{font-size:14px;color:var(--deep,#10221f)}
+.tune-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.tune-row button{min-height:44px}
+.tune-row .song-main{background:var(--teal,#0b7a75);border-color:var(--teal,#0b7a75)}
+#tune-apply{background:#e8562f;border-color:#e8562f}
+.kit-tune textarea{width:100%;font:13px/1.5 ui-monospace,Menlo,monospace;border:1px dashed #b9d8d3;border-radius:10px;padding:9px 11px;color:var(--deep,#10221f);background:#fff}
+#tune-answer{border-style:solid;border-color:#8fbfb8}
+.kit-ideas [aria-pressed=true]{background:var(--teal,#0b7a75);color:#fff;border-color:var(--teal,#0b7a75)}
+.tune-card-box summary,.tune-examples summary{font-size:13px;color:var(--teal,#0b7a75)}
+.tune-result{border-radius:12px;background:#fff;border:1px solid #d7e6e3;padding:10px 12px;display:grid;gap:8px}
+.tune-verdict{margin:0;font-weight:750;font-size:15px}
+.tune-verdict.ok{color:var(--teal,#0b7a75)}
+.tune-verdict.bad{color:#b93a1d}
+.tune-notes{margin:0;padding-left:18px;font-size:13px;line-height:1.5}
+.tune-notes li.bad{color:#b93a1d}
+.tune-notes li.warn{color:#8a5a00}
+.tune-reason{margin:0;font-size:13px;background:#fff8e6;border-radius:8px;padding:7px 10px}
+.tune-table{width:100%;border-collapse:collapse;font-size:12.5px;font-variant-numeric:tabular-nums}
+.tune-table th,.tune-table td{padding:4px 6px;border-bottom:1px solid #e6efed;text-align:left}
+.tune-table th{font-size:11px;color:var(--muted);font-weight:600}
+.tune-table tr.changed td{background:#fff1ea}
+.tune-table tr.changed td:nth-child(3){color:#b93a1d;font-weight:700}
+.tune-mini{min-height:32px!important;padding:3px 8px;font-size:11.5px;margin-right:4px}
+@media(max-width:600px){.tune-table th:nth-child(4),.tune-table td:nth-child(4){display:none}.tune-mini{padding:3px 6px}}

@@ -11,7 +11,7 @@ class AudioEngine{
  async ready(){
   if(!this.readyPromise)this.readyPromise=(async()=>{
    if(!this.ctx)this.ctx=new (window.AudioContext||window.webkitAudioContext)({latencyHint:'interactive'});
-   this.master=this.ctx.createGain();this.master.gain.value=this.masterVolume;this.master.connect(this.ctx.destination);this.backend='원음 기반 Web Audio';
+   this.master=this.ctx.createGain();this.master.gain.value=this.masterVolume;this.master.connect(this.ctx.destination);this.backend='원음 기반 Web Audio';if(this.pendingReverb){const l=this.pendingReverb;this.pendingReverb=0;this.setReverb(l);}
   })();
   await this.readyPromise;if(!this.offline&&this.ctx.state==='suspended')await this.ctx.resume();
  }
@@ -135,6 +135,19 @@ class AudioEngine{
  allOff(){for(const v of [...this.liveVoices])this.retire(v,.025);this.voices.clear();if(this.modelNode)this.send('clear');this.relevel();}
  relevel(){if(this.master){const count=[...this.liveVoices].filter(v=>!v.pending&&!v.cleaned&&v.src).length;const target=this.masterVolume/Math.max(1,count),now=this.ctx.currentTime;this.master.gain.cancelScheduledValues(now);if(target<this.master.gain.value)this.master.gain.setValueAtTime(target,now);else this.master.gain.setTargetAtTime(target,now,.02);}}
  volume(value){this.masterVolume=bounded(value,0,.8,.45);this.relevel();}
+ // v0.11(2026-11-05, Claude): 울림(공간감) 3단계. 0=없음(기존과 같은 소리 경로), 1=조금, 2=많이.
+ // 기기 안에서 만든 인공 잔향(고정 씨앗의 감쇠 잡음)이며 녹음한 공간의 소리가 아니다. 원음 경로(master→destination)는 그대로 두고 젖은 소리만 더한다.
+ reverbLevel(){return this.reverb?.level||0;}
+ setReverb(level){
+  level=[0,1,2].includes(Number(level))?Number(level):0;
+  if(!this.ctx||!this.master){this.pendingReverb=level;return level;}
+  const R=[null,{seconds:1.3,wet:.2,dry:.95},{seconds:2.6,wet:.36,dry:.88}][level];
+  if(!this.reverb){this.reverb={level:0,dry:this.ctx.createGain(),wet:this.ctx.createGain(),node:this.ctx.createConvolver(),buffers:{}};this.master.disconnect();this.master.connect(this.reverb.dry);this.reverb.dry.connect(this.ctx.destination);this.master.connect(this.reverb.node);this.reverb.node.connect(this.reverb.wet);this.reverb.wet.connect(this.ctx.destination);this.reverb.wet.gain.value=0;}
+  const r=this.reverb,now=this.ctx.currentTime;
+  if(R){if(!r.buffers[level])r.buffers[level]=this.impulse(R.seconds);if(r.node.buffer!==r.buffers[level])r.node.buffer=r.buffers[level];}
+  r.wetTarget=R?R.wet:0;r.dryTarget=R?R.dry:1;r.wet.gain.setTargetAtTime(r.wetTarget,now,.03);r.dry.gain.setTargetAtTime(r.dryTarget,now,.03);r.level=level;return level;
+ }
+ impulse(seconds){const rate=this.ctx.sampleRate,n=Math.max(1,Math.floor(rate*seconds)),b=this.ctx.createBuffer(2,n,rate);let seed=20261105;const rnd=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296*2-1;};for(let c=0;c<2;c++){const d=b.getChannelData(c);for(let i=0;i<n;i++){const t=i/n;d[i]=rnd()*Math.pow(1-t,3)*(i<rate*.004?i/(rate*.004):1);}}return b;}
 }
 window.GugakEngine=AudioEngine;
 })();

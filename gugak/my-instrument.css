@@ -1,0 +1,67 @@
+/* v0.11 내 악기(나만의 디지털 가야금) 화면 · 셈제작소 틸 #0b7a75 · 코랄 #e8562f · 노랑 #ffd166 · 연민트 #f3faf8 · 글자 #10221f */
+:root{--teal:#0b7a75;--coral:#e8562f;--sun:#ffd166;--mint:#f3faf8;--deep:#10221f}
+.kit-button{min-height:36px;padding:5px 13px;border-radius:99px;border:1.5px solid var(--teal);background:#fff;color:var(--teal);font-size:13px;font-weight:700;white-space:nowrap;max-width:240px;overflow:hidden;text-overflow:ellipsis}
+.kit-button.on{background:var(--coral);border-color:var(--coral);color:#fff}
+.kit-banner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 14px;border-radius:14px;background:var(--mint);border:1.5px solid #bfe0da;color:var(--deep)}
+.kit-banner-text{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px;min-width:0}
+.kit-banner small{font-size:11px;color:var(--teal);font-weight:700;letter-spacing:.2px}
+.kit-banner strong{font-size:17px}
+.kit-banner span{font-size:12px;color:#40605a}
+.kit-banner-actions{display:flex;gap:6px;flex:none}
+.kit-banner button{min-height:34px;padding:4px 12px;font-size:12px}
+.kit-banner #kit-banner-end{background:var(--coral);border-color:var(--coral)}
+.kit-banner.presenting{background:var(--deep);border-color:var(--deep);color:#fff;padding:14px 18px}
+.kit-banner.presenting small{color:var(--sun)}
+.kit-banner.presenting strong{font-size:30px;letter-spacing:-.5px}
+.kit-banner.presenting span{color:#cfe6e2;font-size:14px}
+.kit-banner.presenting .kit-soft{background:transparent;color:#fff;border-color:#ffffff66}
+.kit-soft{background:#fff;color:var(--teal);border-color:#b9d8d3}
+.kit-sheet{width:min(680px,100%);background:#fbfdfc}
+.kit-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.kit-head .eyebrow{color:var(--coral);font-weight:800}
+.kit-rule{margin:0;padding:9px 12px;border-radius:10px;background:var(--mint);border-left:4px solid var(--teal);font-size:13px;color:var(--deep)}
+.kit-part{display:grid;gap:6px}
+.kit-part h3{margin:0;font-size:16px;color:var(--deep);display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.kit-part h3 small,.kit-saved h3 small{font-size:11px;font-weight:500;color:var(--muted)}
+.kit-part h3 label{display:inline;font-size:16px;color:var(--deep)}
+.kit-seg{display:flex;flex-wrap:wrap;border:1.5px solid #b9d8d3;border-radius:14px;overflow:hidden;background:#fff;width:max-content;max-width:100%}
+.kit-seg button{border:0;border-radius:0;background:#fff;color:var(--deep);min-height:48px;min-width:96px;padding:8px 18px;font-size:16px;font-weight:700}
+.kit-seg button+button{border-left:1.5px solid #b9d8d3}
+.kit-seg button[aria-pressed=true]{background:var(--teal);color:#fff}
+.kit-hint{margin:0;font-size:11.5px;color:var(--muted);line-height:1.5}
+.kit-name input{font:inherit;font-size:16px;color:var(--deep);background:#fff;border:1.5px solid #b9d8d3;border-radius:10px;padding:9px 12px;min-height:46px;max-width:320px}
+.kit-ideas{display:flex;flex-wrap:wrap;gap:6px}
+.kit-chip{min-height:36px;padding:5px 12px;border-radius:99px;background:#fff;color:var(--teal);border:1px solid #b9d8d3;font-size:13px}
+.kit-code-row{margin:0;font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
+.kit-code-row b{font:800 22px/1 ui-monospace,'SF Mono',Menlo,monospace;letter-spacing:3px;color:var(--coral);background:#fff3ee;border-radius:8px;padding:4px 10px}
+.kit-sheet .sheet-actions button{min-height:44px}
+.kit-sheet .sheet-actions .song-main{background:var(--teal);border-color:var(--teal)}
+#kit-present{background:var(--coral);border-color:var(--coral);color:#fff}
+.kit-saved h3{margin:0;font-size:16px;color:var(--deep)}
+.kit-list{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:6px}
+.kit-list li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 10px;border:1px solid #d6e8e4;border-radius:12px;background:#fff}
+.kit-item-text{display:grid;min-width:0}
+.kit-item-text strong{font-size:15px;color:var(--deep);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.kit-item-text small{font-size:11px;color:var(--muted)}
+.kit-item-actions{display:flex;gap:5px;flex:none}
+.kit-item-actions button{min-height:36px;padding:4px 11px;font-size:12px}
+.kit-open-code{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.kit-open-code label{font-size:14px;color:var(--deep);font-weight:700}
+.kit-open-code input{font:800 18px/1 ui-monospace,'SF Mono',Menlo,monospace;letter-spacing:3px;text-transform:uppercase;width:110px;min-height:44px;padding:6px 10px;border:1.5px solid #b9d8d3;border-radius:10px;color:var(--deep)}
+.kit-ai summary{font-size:14px;color:var(--teal)}
+.kit-ai textarea{width:100%;font:13px/1.55 -apple-system,'Apple SD Gothic Neo',sans-serif;border:1px dashed #b9d8d3;border-radius:10px;padding:9px 11px;margin:6px 0;color:var(--deep);background:#fff}
+.kit-status{margin:0;min-height:18px;font-size:12.5px;color:var(--teal);font-weight:600}
+body.kit-presenting .kit-button{display:none}
+@media(max-width:600px){
+ .kit-button{font-size:11px;min-height:30px;padding:3px 9px;max-width:170px}
+ .kit-banner{padding:7px 10px;gap:8px}
+ .kit-banner strong{font-size:15px}
+ .kit-banner span{font-size:10.5px}
+ .kit-banner.presenting strong{font-size:22px}
+ .kit-banner button{min-height:30px;padding:3px 9px;font-size:11px}
+ .kit-seg button{min-width:0;flex:1 1 auto;padding:8px 14px;font-size:15px}
+ .kit-seg{width:100%}
+ .kit-list li{flex-direction:column;align-items:stretch}
+ .kit-item-actions button{flex:1}
+}
+.kit-banner{margin-top:8px}

@@ -1,12 +1,12 @@
 {
-  "built_at": "2026-11-05T01:28:24.077508+09:00",
-  "version": "0.10-public",
+  "built_at": "2026-11-05T21:46:30.623204+09:00",
+  "version": "0.12-public",
   "samples": 210,
   "files": [
     {
       "path": "style.css",
-      "sha256": "bc9f4aa50eab141e5feae8aa5a27c3c1d0724d9b0793252799156cfa537a7373",
-      "bytes": 25765
+      "sha256": "6401e119efcbe2f71ebd52cf2462227ac1226eda055ae94f1fe5f868c7cae4bc",
+      "bytes": 25907
     },
     {
       "path": "lesson.css",
@@ -22,6 +22,16 @@
       "path": "student.css",
       "sha256": "4ef4e6d91509a67294921a14a6be5dececc65665dd46b36b7dae0f88b6a71cb5",
       "bytes": 6004
+    },
+    {
+      "path": "my-instrument.css",
+      "sha256": "3514f6592a9adc4da5c1d88c9e0c144a5361c68f07b7f49c779ac73f059e5962",
+      "bytes": 5567
+    },
+    {
+      "path": "my-tuning.css",
+      "sha256": "7a0a811cbcec562ea12a1f5e51fb897e204856fd6823897ce137557ff3a89f21",
+      "bytes": 2578
     },
     {
       "path": "audio-features.js",
@@ -40,13 +50,13 @@
     },
     {
       "path": "engine.js",
-      "sha256": "2c1e26d039b052a0840008a64d2316ed547b5a8121aa3361cad323b1361e6322",
-      "bytes": 11786
+      "sha256": "0b512f5048e91da7f4ef07abd6c2b0dcbde1dc40ed69aaf326189a89c3c6be0a",
+      "bytes": 13609
     },
     {
       "path": "lesson.js",
-      "sha256": "59909eab6e43f7254d76fda8f34b827933e6ebd114432eae9878cf71ac857824",
-      "bytes": 27271
+      "sha256": "4629efbab6b43c69392185b68d762651a03e17de3dbd9acb71a91cfdfba1fcd0",
+      "bytes": 28124
     },
     {
       "path": "measured-pitches.js",
@@ -55,28 +65,28 @@
     },
     {
       "path": "real-instruments.js",
-      "sha256": "369b0a55337a91f7d905e5eaec6a57663bb26622fffd56dd1729904636935d32",
-      "bytes": 42261
+      "sha256": "e91bae71d9055c206ed5a5737d543fd5e5a43ff4697f66e60daa7d87617c7e5f",
+      "bytes": 42234
     },
     {
       "path": "app.js",
-      "sha256": "900278f1e9ef27cf6a98b728cff40b4946c0dfb35f18d0d8157d9f43acd4d297",
-      "bytes": 40074
+      "sha256": "b6f0b2d55209a38c7f0e0c462499e1646932b711a517324b68305569cb28f352",
+      "bytes": 47239
     },
     {
       "path": "songs.js",
-      "sha256": "d882ec2dc9236566fc0be4ed70421441b25dbb2a4f8edbfbfa166469def1e280",
-      "bytes": 18764
+      "sha256": "3ffd6ae58eeda0e338fcab0fba6bb0583aab83a1a4c4f2d82bbc733cfa64f120",
+      "bytes": 18758
     },
     {
       "path": "student.js",
-      "sha256": "a0920de7bd31526b8922fcf028a38e3e9a8c2bc5c66fee54d96399e7312bb93c",
-      "bytes": 5673
+      "sha256": "99d0e9de2e7c7160a910420bb7eb67f3447bb1f49c05824e01c59d6192c27036",
+      "bytes": 5875
     },
     {
       "path": "feedback.js",
-      "sha256": "c3be4bc590014c452474d50e44dd124055deabb0463b08013779b4b88acb4c54",
-      "bytes": 6879
+      "sha256": "c3ebfad021607f49d6afb1d623bf333c3dd4cc0c4d633c5fc31d4a467b200edd",
+      "bytes": 6860
     },
     {
       "path": "ai-cards.js",
@@ -84,9 +94,24 @@
       "bytes": 8214
     },
     {
+      "path": "my-instrument.js",
+      "sha256": "3e7ef783a378779ed48ddaa39c1cdc2049c8b86d4abebb1dfdc99f489812e279",
+      "bytes": 15076
+    },
+    {
+      "path": "tune-examples.js",
+      "sha256": "5fdfc86d7d052fbef5e9762e103678a4482414239bea873505c023feb5e3d4bd",
+      "bytes": 6450
+    },
+    {
+      "path": "my-tuning.js",
+      "sha256": "851e7ed992353a31bfd7e6f920a45dc96e5de6a72299e55bb0c57501c4121fee",
+      "bytes": 17126
+    },
+    {
       "path": "audio/bank-meta.js",
-      "sha256": "a4a75d7676673b5726beba337a23d0a992007815c580eabcb85c528e7444fcab",
-      "bytes": 1294
+      "sha256": "9cec8b0da7c2862f2974e162b42c9d6659808aba05d09cb11e338bf79d766505",
+      "bytes": 1287
     },
     {
       "path": "audio/bank-gayageum.js",
@@ -114,36 +139,38 @@
     },
     {
       "path": "index.html",
-      "sha256": "eaee982241496fdcdf7d6bf516efce2265966393efa7742d324cab0b4e9f4a6b",
-      "bytes": 17850,
-      "title": "우리 소리 실험실 · 국악 웹악기 v0.10"
+      "sha256": "d62d30abda8915b479f6622d09a247371a79a01ac676dc40e8c00054ddce1ab2",
+      "bytes": 18094,
+      "title": "우리 소리 실험실 · 국악 웹악기 v0.12"
     },
     {
       "path": "song-guide.html",
-      "sha256": "229d6770523070af7424dd1795a3f0d51f684f664d22f5fd3721d4bd9e43677d",
-      "bytes": 12422
+      "sha256": "cb72fefcf47eeb064da8bd189c01efe8ccba27596285881a727d0be0f8dbbdcc",
+      "bytes": 16833
     },
     {
       "path": "worksheet.html",
-      "sha256": "bc821889f975099c94436fa9ffedb210eae0a33f36dde97a9ef7940e1925402f",
-      "bytes": 7637
+      "sha256": "f6079bcafa01653b020594ea8b1c1abafa8c028d379521816528f0bb9104b768",
+      "bytes": 7573
     },
     {
       "path": "playing-guide.html",
-      "sha256": "74904ca170244d998902af8bdf58d452797e690b42c58c35aca22f654d1d556f",
-      "bytes": 2995
+      "sha256": "3057eba04bf50d646adb203f006f45bcd5c31ed88541bacfd4e104f5d37e29e0",
+      "bytes": 2980
     },
     {
       "path": "teacher.html",
-      "sha256": "2ac1c67dfc6023ea860c2ff78eee972614ac0c9ee6a7e42d587568a76c7c7507",
-      "bytes": 10922
+      "sha256": "0902d2a0e4971d4f5884e8cc9715dc4749db20292e7b010e95edd332a63200f8",
+      "bytes": 11397
     }
   ],
-  "source": "02_문화예술_AI교육/04_음악_영상/2026/2026-11-05_011003_국악웹악기_v010_P1_왼손잡이거울배치_요청카드갱신/06_AI작업/Claude/웹악기",
+  "source": "02_문화예술_AI교육/04_음악_영상/2026/2026-11-05_212916_국악웹악기_v012_G1조율설정붙여넣기/06_AI작업/Claude/웹악기",
   "notes": [
-    "v0.10 P1(2026-11-05 Claude: 왼손잡이 배치 토글 #left·&hand=left, AI 요청 카드 4장)을 공개 시험판 규칙으로 옮긴 사본. 대표님 승인 전에는 저장소에 올리지 않는다.",
+    "v0.12(2026-11-05 Claude: G1 조율 붙여 넣기 — 내 악기 창의 조율 칸. 부탁 카드 복사 → 학교 계정 AI → 받은 조율 설정 붙여 넣기 → 앱 검사(12줄·줄 이름·줄마다 ±200 cent·울림 0~2) → 전·후 아리랑 비교 → 적용하기. 미리 받아 둔 예시 답 세 쌍. 앱 안 AI 연결 없음)을 공개판 규칙으로 옮긴 사본. 대표님 승인 전에는 저장소에 올리지 않는다(게시는 총괄창).",
+    "v0.11(2026-11-05 Claude: G2 내 악기 — 줄 묶음 소리·울림 3단계·이 기기 저장·발표 코드 #kit-AH1, G3 오류 찾기 반음·미세 문제) 유지.",
+    "v0.10 기능(왼손잡이 배치 #left, AI 요청 카드 4장) 유지.",
     "수업 악기 4개 녹음(210개)만. 추가 악기 6종·참고 WAV·보존 원본 경로 없음.",
-    "주소 ?쿼리 대신 #low #high #middle #doraji #janggu #left #teacher 해시를 쓴다.",
-    "교실 수업은 교사 컴퓨터의 8913 서버(태블릿웹악기_v091)로 한다."
+    "주소 ?쿼리 대신 #low #high #middle #doraji #janggu #left #kit-AH1 #teacher #tune 해시를 쓴다.",
+    "교실 수업은 교사 컴퓨터의 8913 서버(태블릿웹악기_v012)로 한다."
   ]
 }
