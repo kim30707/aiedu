@@ -40,12 +40,13 @@ const arrows = (route) => { if (!route) return '—'; const out = []; let i = 0;
 const where = (s) => `${s.y + 1}행 ${s.x + 1}열`;
 
 function defaults() {
+  const letter = randomLetter();
   return {
     title: '', ruleWin: '', ruleLose: '', ruleScore: '', goal: 3, seconds: 60, points: 1,
     walls: [...PRESETS.normal.walls], stars: [...PRESETS.normal.stars],
     checks: { edge: '', wall: '', again: '', end: '' }, checkNotes: { edge: '', wall: '', again: '', end: '' },
     runs: [],
-    bug: { letter: randomLetter(), code: null, repro: { route: '', rule: 0, expect: '', actual: '', replayed: false, differs: false }, request: '', verified: false, suite: null },
+    bug: { letter, code: bugCode(letter), repro: { route: '', rule: 0, expect: '', actual: '', replayed: false, differs: false }, request: '', verified: false, suite: null },
     reflectFix: '', reflectLeft: '', reflectNext: '',
     ai: aiDefaults()
   };
@@ -59,7 +60,7 @@ function aiDefaults() { return { by: '', card: '1', slot: 1, code1: '', code2: '
 function normalizeAi(raw) {
   const a = aiDefaults(), r = raw && typeof raw === 'object' && !Array.isArray(raw) ? raw : {};
   if (AI_BY.some(([k]) => k === r.by)) a.by = r.by;
-  if (['1', '2', '2b'].includes(r.card)) a.card = r.card;
+  if (['1', '2', '2b', '3'].includes(r.card)) a.card = r.card;
   a.slot = r.slot === 2 ? 2 : 1;
   a.code1 = str(r.code1, MAX_CODE); a.code2 = str(r.code2, MAX_CODE);
   if (r.verdict && typeof r.verdict === 'object') VERDICT.forEach(([k]) => { if (['', 'ok', 'diff', 'na'].includes(r.verdict[k])) a.verdict[k] = r.verdict[k]; });
@@ -85,7 +86,8 @@ function scanCode(code) {
   if (/<script[^>]*\ssrc\s*=/i.test(code) || /<link[^>]*\shref\s*=/i.test(code)) block.push('바깥 파일을 불러오는 줄이 있어요.');
   if (/\bfetch\s*\(|XMLHttpRequest|WebSocket|EventSource|sendBeacon|\bimport\s*\(|^\s*import\s/m.test(code)) block.push('인터넷으로 무언가를 주고받는 코드가 있어요.');
   if (/localStorage|sessionStorage|indexedDB|document\.cookie/.test(code)) block.push('기기에 저장하는 코드가 있어요.');
-  if (/<(iframe|object|embed|form)\b/i.test(code) || /window\.open\s*\(|\blocation\s*(\.href)?\s*=/.test(code)) block.push('다른 화면을 열거나 보내는 코드가 있어요.');
+  if (/<(iframe|object|embed|form|base)\b/i.test(code) || /window\.open\s*\(|\blocation\b|\.navigate\s*\(|history\.(push|replace)State/.test(code)
+      || /<meta[^>]*http-equiv\s*=\s*["']?refresh/i.test(code) || /<a\b[^>]*\bhref\s*=\s*["']?(?!#)/i.test(code)) block.push('다른 화면을 열거나 다른 곳으로 넘어가는 코드가 있어요.');
   if (/<textarea\b|<input[^>]*type\s*=\s*["']?(text|email|tel|search)|<input(?![^>]*type=)[^>]*>|\bprompt\s*\(/i.test(code)) warn.push('글을 쓰는 칸이 있어요. 이름·학교는 쓰지 않아요.');
   if (code.length >= MAX_CODE) warn.push('코드가 길어서 뒷부분이 잘렸을 수 있어요.');
   return { block, warn };
@@ -269,7 +271,7 @@ function mount(root, ctx) {
     <div class="subpanel"><h3>AI에 누가 입력했나요?</h3><div class="chips wrap" role="group" aria-label="AI 입력 방식">${AI_BY.map(([k, l]) => chip('ai-by', k, l, `data-ai="by"`)).join('')}</div>
       <p class="small muted">기본은 우리 태블릿에서 직접이에요. 로그인이 안 되면 선생님 기기에 가서 우리가 직접 쳐요. 선생님이 대신 입력하는 것은 마지막 방법이에요.</p></div>
     <div class="subpanel"><h3><span class="num-dot">1</span>요청 카드 고르고 복사하기</h3>
-      <div class="chips" role="group" aria-label="요청 카드">${chip('ai-card', '1', '카드 1 · 게임 만들어 주세요', 'data-ai="card"')}${chip('ai-card', '2', '카드 2 · 고쳐 주세요', 'data-ai="card"')}${chip('ai-card', '2b', '카드 2-B · 규칙 하나 바꿔 주세요', 'data-ai="card"')}</div>
+      <div class="chips" role="group" aria-label="요청 카드">${chip('ai-card', '1', '카드 1 · 게임 만들어 주세요', 'data-ai="card"')}${chip('ai-card', '2', '카드 2 · 고쳐 주세요', 'data-ai="card"')}${chip('ai-card', '2b', '카드 2-B · 규칙 하나 바꿔 주세요', 'data-ai="card"')}${chip('ai-card', '3', '카드 3 · 새 대화로 이어서 (지난 대화가 안 열릴 때)', 'data-ai="card"')}</div>
       <pre id="g-card" class="cardtext" tabindex="0" aria-label="요청 카드 내용"></pre>
       <div class="row-btns"><button type="button" class="button primary" id="g-card-copy">카드 복사</button><span class="small muted">학교 계정 AI 화면에 붙여 넣어요. 이 화면은 AI에 자동으로 보내지 않아요.</span></div></div>
     <div class="subpanel"><h3><span class="num-dot">2</span>받은 코드 넣고 열기</h3>
@@ -277,7 +279,7 @@ function mount(root, ctx) {
       <textarea id="g-code-in" rows="5" maxlength="${MAX_CODE}" spellcheck="false" placeholder="AI 답에서 &lt;!DOCTYPE html&gt; 부터 &lt;/html&gt; 까지 복사해 붙여 넣어요" aria-label="받은 코드"></textarea>
       <div class="row-btns"><button type="button" class="button primary" id="g-run">기본 검사하고 열기</button><button type="button" class="button" id="g-stop">닫기</button><button type="button" class="button tiny ghost" id="g-sample">AI를 쓸 수 없을 때 · 미리 받아 둔 예시 코드</button></div>
       <div id="g-scan" class="feedback" role="status" aria-live="polite"></div>
-      <div class="sandbox" id="g-sandbox-box" hidden><p class="small muted">아래는 받은 코드가 움직이는 화면이에요. 눌러서 게임을 시작해요. 인터넷·저장·다른 창 열기는 막혀 있어요.</p><iframe id="g-sandbox" sandbox="allow-scripts" referrerpolicy="no-referrer" title="AI 게임 시험대"></iframe></div></div>
+      <div class="sandbox" id="g-sandbox-box" hidden><p class="small muted">아래는 받은 코드가 움직이는 화면이에요. 눌러서 게임을 시작해요. 기본 검사는 금지 표현만 거른 것이고, 모든 위험을 막는다는 뜻은 아니에요. 이상하면 멈추고 손을 들어요.</p><iframe id="g-sandbox" sandbox="allow-scripts" referrerpolicy="no-referrer" title="AI 게임 시험대"></iframe></div></div>
     <div class="subpanel"><h3><span class="num-dot">3</span>우리 규칙표대로인가요?</h3><p class="small muted">해 보기 전에 어떻게 되어야 하는지 먼저 말하고, 하나씩 해 봐요.</p>
       <div class="checks">${VERDICT.map(([k, l]) => `<div class="check-row v3"><span class="ck-label">${l}</span><div class="chips" role="group" aria-label="${l} 결과">${chip('v-' + k, 'ok', '맞음', `data-v="${k}"`)}${chip('v-' + k, 'diff', '다름', `data-v="${k}"`)}${chip('v-' + k, 'na', '못 해 봄', `data-v="${k}"`)}</div></div>`).join('')}</div></div>
     <div class="subpanel"><h3><span class="num-dot">4</span>다르게 움직인 곳 · 재현 기록</h3>
@@ -495,7 +497,7 @@ function mount(root, ctx) {
   const aiQ = () => d.ai;
   function setRadio(name, val) { root.querySelectorAll(`input[name="${name}"]`).forEach((r) => (r.checked = r.value === String(val))); }
   function drawCard() { q('#g-card').textContent = cards(d)[d.ai.card]; }
-  function closeSandbox() { const f = q('#g-sandbox'); if (f && f.getAttribute('srcdoc')) f.removeAttribute('srcdoc'); if (f) f.src = 'about:blank'; const box = q('#g-sandbox-box'); if (box) box.hidden = true; }
+  function closeSandbox() { const f = q('#g-sandbox'); if (f) f.onload = null; if (f && f.getAttribute('srcdoc')) f.removeAttribute('srcdoc'); if (f) f.src = 'about:blank'; const box = q('#g-sandbox-box'); if (box) box.hidden = true; }
   function drawAI() {
     const a = d.ai;
     setRadio('ai-by', a.by); setRadio('ai-card', a.card); setRadio('ai-slot', a.slot); setRadio('ai-after', a.after);
@@ -513,16 +515,20 @@ function mount(root, ctx) {
   function runCode() {
     const a = d.ai, raw = q('#g-code-in').value, code = cleanCode(raw);
     if (code !== raw) { q('#g-code-in').value = code; }
-    a['code' + a.slot] = code; save();
+    a['code' + a.slot] = code; save(); if (a.card === '3') drawCard();
     const res = scanCode(code); showScan(res); closeSandbox();
     if (res.block.length) { ctx.status('기본 검사에서 막혔어요. 이유를 읽고 다시 요청해요.'); return; }
-    const f = q('#g-sandbox'); f.removeAttribute('src'); f.srcdoc = sandboxDoc(code); q('#g-sandbox-box').hidden = false;
+    // 실행할 때마다 새 상자를 만든다. 첫 load는 받은 코드, 그다음 load가 오면 다른 곳으로 넘어간 것이라 바로 닫는다.
+    const old = q('#g-sandbox'), f = old.cloneNode(false); f.removeAttribute('src'); f.removeAttribute('srcdoc');
+    let loads = 0;
+    f.onload = () => { loads += 1; if (loads > 1) { closeSandbox(); showScan({ block: ['게임이 다른 화면으로 넘어가려 해서 닫았어요. 그 부분을 빼 달라고 같은 대화에 다시 요청해요.'], warn: [] }); ctx.status('시험대를 닫았어요. 이유를 읽고 다시 요청해요.'); } };
+    f.srcdoc = sandboxDoc(code); old.replaceWith(f); q('#g-sandbox-box').hidden = false;
     ctx.status(a.slot === 2 ? '고친 코드를 열었어요. 같은 길로 다시 해 봐요.' : '받은 코드를 열었어요. 규칙 1·2·3을 하나씩 시험해요.');
   }
   function addRoute(k) {
     const a = d.ai;
     if (k === 'clear') a.route = ''; else if (k === 'back') a.route = a.route.slice(0, -1); else if (a.route.length < 60) a.route += k;
-    q('#g-ai-route').textContent = a.route ? arrows(a.route) : '—'; save(); if (a.card === '2') drawCard();
+    q('#g-ai-route').textContent = a.route ? arrows(a.route) : '—'; save(); if (a.card === '2' || a.card === '3') drawCard();
   }
 
   /* 공통 */
@@ -616,7 +622,7 @@ function worksheet(data) {
     <tr><th>고친 뒤 같은 길</th><td>${verify}</td></tr></table>
     ${suite ? `<table class="ptable"><tr><th>시험 길</th><th>관련 줄</th><th>결과</th></tr>${suite}</table>` : ''}</section>
   <section><h2>4. 정리</h2><p><b>고친 것과 근거</b> ${esc(d.reflectFix) || '—'}</p><p><b>아직 확인하지 못한 것</b> ${esc(d.reflectLeft) || '—'}</p><p><b>다음 시험</b> ${esc(d.reflectNext) || '—'}</p></section>
-  <footer>버그 판의 버그는 수업용으로 미리 심어 둔 것입니다. AI 게임은 학생이 학교 계정 AI에서 받은 코드를 시험대에서 시험한 결과입니다. 시험한 길에서 확인한 결과이고, 모든 경우가 맞다는 뜻은 아닙니다.</footer></article>`;
+  <footer>버그 판의 버그는 수업용으로 미리 심어 둔 것입니다. AI 게임에 쓴 코드의 출처와 입력 방식은 위 ‘AI에 입력한 방법’ 기록을 따릅니다. 시험한 길에서 확인한 결과이고, 모든 경우가 맞다는 뜻은 아닙니다.</footer></article>`;
 }
 function cards(data) {
   const d = normalize(data), a = d.ai, ruleLabel = (AI_RULES.find(([k]) => k === a.rule) || ['', '(규칙 번호)'])[1];
@@ -643,11 +649,26 @@ ${mapText(d.walls, d.stars)}
   const c2b = `다른 규칙과 판 모양은 그대로 두고, 별 하나의 점수만 ${np}점으로 바꾼 전체 코드를 주세요. 무엇을 바꿨는지 한 줄로 알려 주세요.
 인터넷 주소, 바깥 파일, 저장 기능은 이번에도 쓰지 마세요.
 (바꾼 뒤 같은 길로 다시 해서 점수만 바뀌었는지 확인하겠습니다.)`;
-  return { '1': c1, '2': c2, '2b': c2b };
+  // 카드 3: 2회 방문에서 지난 대화가 안 열릴 때 새 대화에 붙여 넣는 카드 (규칙·판·재현 기록·지난번 코드를 모두 담음)
+  const prev = a.code2 || a.code1;
+  const c3 = `지난 시간에 AI와 함께 만든 한 화면 게임을 이어서 고치려고 해요. 지난 대화는 열 수 없어서 새 대화에 다시 적어요.
+아래 규칙과 지난번에 받은 코드를 읽고, 시험에서 규칙과 다르게 움직인 부분만 고친 전체 코드를 주세요. 무엇을 바꿨는지 한 줄로 알려 주세요.
+- 판 모양 (S 시작, # 벽, * 별, . 빈칸):
+${mapText(d.walls, d.stars)}
+- 게임 제목: ${d.title || '(제목)'}
+- 규칙 1 (성공): ${d.ruleWin || '(성공 규칙)'}
+- 규칙 2 (실패): ${d.ruleLose || '(실패 규칙)'}
+- 규칙 3 (점수): ${d.ruleScore || '(점수 규칙)'}
+- 설정: 별 하나 ${d.points}점, 이길 점수 ${d.goal}점, 제한 시간 ${d.seconds}초.
+- 시험 기록: 시작부터 누른 길 ${a.route ? arrows(a.route) : '(누른 방향 순서)'} · ${ruleLabel}에 따르면 ${a.expect || '(기대한 결과)'} · 실제로는 ${a.actual || '(실제 결과)'}
+다른 규칙과 판 모양은 그대로 두어 주세요. 인터넷 주소, 바깥 파일, 저장 기능은 쓰지 마세요.
+[지난번에 받은 코드]
+${prev || '(시험대에 붙여 넣었던 코드를 여기에 붙여 넣기)'}`;
+  return { '1': c1, '2': c2, '2b': c2b, '3': c3 };
 }
 function prompt(data) {
   const c = cards(data);
-  return `[요청 카드 3장] 학생이 학교 계정 AI 화면에 직접 붙여 넣는 카드입니다. 로그인이 안 되면 교탁 기기에서 학생이 와서 직접 붙여 넣습니다.
+  return `[요청 카드 4장] 학생이 학교 계정 AI 화면에 직접 붙여 넣는 카드입니다. 로그인이 안 되면 교탁 기기에서 학생이 와서 직접 붙여 넣습니다.
 이 화면은 AI에 자동으로 보내지 않습니다. 학생 이름·학교·반은 넣지 않습니다.
 
 ━━ 카드 1 · 게임 만들어 주세요 ━━
@@ -658,6 +679,9 @@ ${c['2']}
 
 ━━ 카드 2-B · 다른 곳을 못 찾았을 때: 규칙 하나 바꿔 주세요 ━━
 ${c['2b']}
+
+━━ 카드 3 · 새 대화로 이어서 (두 번째 방문에 지난 대화가 안 열릴 때) ━━
+${c['3']}
 
 ※ 받은 코드는 제작실 ‘AI 게임 시험대’에 붙여 넣어 기본 검사 뒤 막힌 상자에서만 엽니다. 인터넷 주소·바깥 파일·저장 기능이 있으면 열지 않고 다시 요청합니다.`;
 }

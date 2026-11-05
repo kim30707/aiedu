@@ -1,140 +1,678 @@
 <!doctype html>
+<!--
+  셈제작소 공통틀 v1 — 홍보 A4 2장
+  형식: A4 세로 · 2쪽 · 컬러 · 그림 중심
+사용법
+  학교·기관에 PDF로 보내거나 컬러 인쇄하는 홍보지. 1쪽 = 이름·핵심 한 줄·큰 그림·핵심 숫자 3칸·왜 3개, 2쪽 = 수업 흐름 그림·배우는 것·학교 준비·접수 4단계·연락처.
+  채울 것: name·oneLine·status·image(없으면 기본 그림)·grades·visit·size·why(3)·flow(4~8)·learn(4)·prep(4)·apply(4)·phone·site·email·price.
+  그림 칸(.hero-art)은 쪽 면적의 40% 안팎을 유지한다. 실제 사진·앱 화면으로 바꿀 때 image에 상대경로(img/파일.jpg)를 넣는다.
+  공통: 1) 아래 <script id="program-data"> JSON만 바꾼다(키 이름은 그대로). 2) 같은 폴더에 logo/ 를 둔다.
+        3) 주소 끝에 #slots 를 붙이면 예시 대신 {{자리표시}}가 보인다. 4) 인쇄는 브라우저 인쇄 → 여백 없음·배경 그래픽 켬,
+        또는 node 점검.cjs 이파일.html 로 PDF·캡처·넘침 확인. 5) 문구 규칙은 README.md(미완성 문구 금지·AI 표기·숫자 근거).
+자리표시({{이름}}=JSON 키)
+  {{접수상태}}=status · {{프로그램명}}=name · {{핵심한줄}}=oneLine · {{대표그림}}=image · {{대상학년}}=grades · {{방문형태}}=visit · {{학급규모}}=size · {{왜}}=why · {{전화번호}}=phone · {{홈페이지주소}}=site · {{흐름_핵심한줄}}=flowLine · {{흐름}}=flow · {{배우는것}}=learn · {{학교준비물}}=prep · {{AI입력방식}}=aiMode · {{접수단계}}=apply · {{가격}}=price
+  [전화번호] [팩스번호] [가격] [홈페이지 주소] [이메일] — 값이 정해질 때까지 대괄호 그대로 둔다.
+-->
 <html lang="ko">
 <head>
+<meta name="robots" content="noindex">
+<link rel="icon" href="logo/semjejakso_mark_small.svg">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex">
-<title>내꿈다이어리 프로그램 소개 · 김민성 AI교육</title>
-<meta name="description" content="학교·기관용 한 장 소개. 초등 5~6학년 기준, 80분 체험형·40분×4 제작형. 학생이 쓰고 고치는 여섯 쪽 책. 준비 중 · 실제 수업 전.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<title>내 꿈 다이어리 · 홍보 A4 2장 · 셈제작소</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
-:root{--paper:#f4f7ff;--paper-2:#e9eefb;--ink:#111a2e;--ink-2:#46526e;--ink-3:#66728f;--line:#d3dbee;--line-2:#b8c3dc;--brand:#2b5bff;--brand-deep:#1f45e6;--violet:#6d4aff;--mint:#04876f;--mint-soft:#e3f4ef;--font:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace}
-*{box-sizing:border-box}
-html,body{margin:0;background:#dfe5f3}
-body{font-family:var(--font);color:var(--ink);font-size:9.1pt;line-height:1.5;word-break:keep-all;overflow-wrap:anywhere;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-h1,h2,h3,p,ul{margin:0}
-ul{padding-left:1.1em}li{margin:.12em 0}
-.page{width:210mm;min-height:297mm;margin:18px auto;background:#fff;padding:10mm 12mm 9mm;display:flex;flex-direction:column;gap:3.1mm;box-shadow:0 20px 50px -30px rgba(17,26,46,.5);background-image:radial-gradient(rgba(43,91,255,.10) .6px,transparent .8px);background-size:5.5mm 5.5mm;background-position:0 0}
-.page>*{flex-shrink:0}
-.top{display:flex;justify-content:space-between;align-items:center;border-bottom:1.5px solid var(--brand);padding-bottom:2.6mm}
-.brand{display:flex;align-items:center;gap:2.4mm;font-weight:800;font-size:11pt}
-.seal{display:inline-grid;place-items:center;width:8mm;height:8mm;border-radius:2.4mm;background:var(--brand);color:#fff;font-family:var(--mono);font-weight:500;font-size:8.5pt}
-.top-r{display:flex;align-items:center;gap:2.4mm;font-size:8.5pt;color:var(--ink-2)}
-.chip{display:inline-block;border-radius:99px;padding:.6mm 2.6mm;font-size:8pt;font-weight:700;background:var(--mint-soft);color:#035e4d;border:1px solid #bfe3d8}
-.chip.warn{background:#fff4e5;color:#8a4b00;border-color:#f3d2a2}
-.hero{display:grid;grid-template-columns:1fr 33mm;gap:7mm;align-items:center}
-.eyebrow{font-family:var(--mono);font-size:8pt;letter-spacing:.06em;color:var(--brand)}
-h1{font-size:26pt;font-weight:900;letter-spacing:-.035em;line-height:1.1;margin:.6mm 0 1.6mm}
-.lead{font-size:10.8pt;font-weight:700;line-height:1.5;letter-spacing:-.01em}
-.lead em{font-style:normal;color:var(--brand-deep);background:linear-gradient(transparent 62%,#d6e2ff 0)}
-.sub{color:var(--ink-2);margin-top:1.4mm;font-size:9.1pt}
-.cover{position:relative}
-.cover img{display:block;width:100%;border:1px solid var(--line-2);border-radius:1.6mm;box-shadow:0 10px 20px -12px rgba(17,26,46,.5);background:#fff}
-.cover figcaption{font-size:7.2pt;color:var(--ink-3);margin-top:1.4mm;text-align:center;line-height:1.35}
-.facts{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:3mm;overflow:hidden;background:#fff}
-.facts div{padding:2.4mm 3mm;border-right:1px solid var(--line)}.facts div:last-child{border-right:0}
-.facts small{display:block;font-family:var(--mono);font-size:7.4pt;color:var(--brand);letter-spacing:.04em}
-.facts b{display:block;font-size:10pt;line-height:1.35}.facts span{display:block;font-size:8.2pt;color:var(--ink-2)}
-.row{display:grid;gap:3.2mm}.row.c2{grid-template-columns:1.25fr 1fr}.row.c3{grid-template-columns:repeat(3,1fr)}.row.c2e{grid-template-columns:1fr 1fr}
-.card{background:#fff;border:1px solid var(--line);border-radius:3mm;padding:2.5mm 3.4mm}
-.card h2{font-size:10.2pt;font-weight:800;letter-spacing:-.02em;margin-bottom:1.2mm;display:flex;align-items:center;gap:1.8mm}
-.card h2 i{font-style:normal;font-family:var(--mono);font-size:7.6pt;color:var(--brand);font-weight:500}
-.plan{display:grid;grid-template-columns:1fr 1fr;gap:3mm}
-.plan h3{font-size:9.4pt;font-weight:800;color:var(--brand-deep);margin-bottom:1mm}
-.plan ol{margin:0;padding-left:1.15em}.plan li{margin:.15em 0}
-.plan .gap{list-style:none;margin-left:-1.15em;color:var(--mint);font-weight:700;font-size:8.6pt}
-.pages{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:1.4mm 3mm}
-.pages li{display:flex;gap:2mm;align-items:baseline;margin:0}
-.pages b{display:inline-grid;place-items:center;flex:none;width:5mm;height:5mm;border-radius:50%;border:1.2px solid var(--brand);color:var(--brand);font-size:7.6pt;font-family:var(--mono);font-weight:500}
-.pages .new{color:var(--mint);font-weight:700;font-size:7.6pt}
-.who.s{border-top:3px solid var(--brand)}.who.a{border-top:3px solid var(--violet)}.who.n{border-top:3px solid var(--mint)}
-.who.n li::marker{content:"✕  ";color:var(--mint);font-weight:700}
-.who.n ul{padding-left:1.25em}
-.note{font-size:8.2pt;color:var(--ink-2);margin-top:1.2mm}
-.price{display:grid;grid-template-columns:auto 1fr;gap:3mm;align-items:start}
-.price b{font-size:9.6pt}
-.foot{margin-top:auto;display:grid;grid-template-columns:1fr auto;gap:5mm;align-items:end;border-top:1.5px solid var(--brand);padding-top:3mm}
-.status{font-size:8.6pt;color:var(--ink-2)}.status strong{color:var(--ink)}
-.contact{font-size:9.4pt;margin-top:1.6mm}.contact b{font-size:10.4pt}
-.qr{display:flex;gap:2.6mm;align-items:center;text-align:right;font-size:7.8pt;color:var(--ink-2)}
-.qr img{width:22mm;height:22mm;image-rendering:pixelated;border:1px solid var(--line);border-radius:1.4mm;padding:1mm;background:#fff}
-.qr code{font-family:var(--mono);font-size:7.6pt;color:var(--ink)}
-@page{size:A4;margin:0}
-@media print{html,body{background:#fff}.page{margin:0;box-shadow:none;width:210mm;height:297mm;min-height:0;overflow:hidden}}
-@media screen and (max-width:820px){
- body{font-size:15px}
- .page{width:auto;min-height:0;margin:0;padding:20px 16px 28px;gap:16px;box-shadow:none}
- .hero,.row.c2,.row.c3,.row.c2e,.plan,.foot{grid-template-columns:1fr}
- .cover{max-width:230px;margin:0 auto 10px}
- .facts{grid-template-columns:1fr 1fr}.facts div:nth-child(2){border-right:0}.facts div:nth-child(-n+2){border-bottom:1px solid var(--line)}
- h1{font-size:34px}.lead{font-size:17px}.card h2{font-size:17px}.plan h3{font-size:15px}
- .top{flex-wrap:wrap;gap:8px}.top-r{flex-wrap:wrap}
- .qr{justify-content:flex-start;text-align:left}
+/* ===== 셈제작소 공통 토큰 (컬러 2안 · Noto Sans KR + IBM Plex Mono) ===== */
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --teal:#0b7a75; --teal-dk:#085e5a; --teal-lt:#d6ecea; --teal-line:#a9d3cf;
+  --coral:#e8562f; --coral-dk:#b8401d; --coral-lt:#fde4dc;
+  --yellow:#ffd166; --yellow-lt:#fff4d6;
+  --mint:#f3faf8; --ink:#10221f; --ink-2:#3d524e; --line:#cfe3df; --white:#fff;
+  --f:'Noto Sans KR',system-ui,-apple-system,'Apple SD Gothic Neo',sans-serif;
+  --m:'IBM Plex Mono','Noto Sans KR',ui-monospace,monospace;
 }
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{font-family:var(--f);color:var(--ink);background:#e4edeb;word-break:keep-all;overflow-wrap:break-word;line-height:1.45;font-weight:400}
+.mono{font-family:var(--m);letter-spacing:.02em}
+img{display:block;max-width:100%}
+svg.i{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none;vertical-align:-.14em}
+b,strong{font-weight:700}
+
+/* 브랜드 */
+.brand{display:flex;align-items:center;gap:.5em;line-height:1.05}
+.brand img{width:2.2em;height:2.2em}
+.brand b{display:block;font-weight:900;font-size:1em;letter-spacing:-.01em}
+.brand span{display:block;font-weight:500;font-size:.62em;color:var(--ink-2);margin-top:.18em}
+.brand.on-dark span{color:#fff}
+.brand.on-dark b{color:#fff}
+
+/* 공통 부품 */
+.pill{display:inline-flex;align-items:center;gap:.45em;border-radius:999px;padding:.38em .9em;font-weight:700;line-height:1.2}
+.status{background:var(--yellow);color:var(--ink)}
+.status .dot{width:.6em;height:.6em;border-radius:50%;background:var(--coral);display:inline-block}
+.chip{display:inline-flex;align-items:center;gap:.45em;border-radius:999px;padding:.35em .85em;background:var(--white);border:1.5px solid var(--line);font-weight:500;line-height:1.2}
+.chip svg.i{color:var(--teal)}
+.label{font-family:var(--m);font-weight:600;font-size:.78em;letter-spacing:.08em;color:var(--teal);text-transform:uppercase}
+.one{font-weight:800}
+.bead{display:inline-grid;place-items:center;border-radius:50%;background:var(--teal);color:#fff;font-family:var(--m);font-weight:600;flex:none}
+.bead.ai{background:var(--coral)}
+.card{background:var(--white);border:1.5px solid var(--line);border-radius:18px}
+.qr{display:grid;place-items:center;border:2px dashed var(--teal-line);border-radius:12px;color:var(--teal);font-family:var(--m);font-weight:600;background:#fff}
+
+/* 주판 흐름(가로) — 공통 */
+.rod{position:relative;display:flex}
+.rod::before{content:"";position:absolute;left:0;right:0;height:4px;border-radius:4px;background:var(--teal);opacity:.35}
+.rod .step{flex:1 1 0;min-width:0;position:relative;display:flex;flex-direction:column;align-items:center;text-align:center}
+.rod .part{visibility:hidden;font-family:var(--m);font-weight:600;color:var(--teal-dk);white-space:nowrap}
+.rod .step.grp-start .part{visibility:visible}
+.rod .step.grp-start::before{content:"";position:absolute;left:0;top:0;bottom:0;border-left:2px dashed var(--teal-line)}
+.rod .step:first-child::before{display:none}
+
+/* 화면 보기 · 자리표시 모드 */
+.slots [data-slot-label]{position:relative}
+.slots [data-slot-label]::after{content:"{{" attr(data-slot-label) "}}";position:absolute;left:8px;top:8px;background:var(--ink);color:#fff;font:600 13px var(--m);padding:3px 8px;border-radius:6px}
+
+/* 고정 크기 쪽(슬라이드·A4) */
+.slide{width:1280px;height:720px;overflow:hidden;position:relative;margin:24px auto;box-shadow:0 6px 24px rgba(16,34,31,.14);background:var(--mint)}
+.page{width:210mm;height:297mm;overflow:hidden;position:relative;margin:24px auto;box-shadow:0 6px 24px rgba(16,34,31,.14);background:#fff}
+@media print{
+  body{background:none}
+  .slide,.page{margin:0;box-shadow:none;break-after:page;page-break-after:always}
+  .slide:last-of-type,.page:last-of-type{break-after:auto;page-break-after:auto}
+  .noprint{display:none!important}
+}
+
+@page{size:A4;margin:0}
+/* ===== 이 틀 전용 ===== */
+.page{padding:0}
+.p-head{display:flex;justify-content:space-between;align-items:center;padding:30px 40px 0}
+.p-head .brand{font-size:21px}
+.p-head .status{font-size:15px}
+/* 1쪽 */
+.hero{margin:22px 40px 0;border-radius:26px;background:var(--teal);color:#fff;height:585px;position:relative;overflow:hidden;display:grid;grid-template-rows:auto 1fr}
+.hero .txt{padding:34px 38px 0}
+.hero .lbl{font:600 13px var(--m);letter-spacing:.1em;color:var(--yellow-lt)}
+.hero h1{font-size:54px;font-weight:900;letter-spacing:-.035em;line-height:1.1;margin-top:8px;text-wrap:balance}
+.hero .one{font-size:22px;color:var(--yellow);margin-top:10px;line-height:1.35}
+.hero-art{margin:18px 30px 0;border-radius:20px 20px 0 0;background:var(--mint);display:grid;place-items:center;overflow:hidden;position:relative}
+.hero-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero-art img+.art-svg{display:none}
+.hero-art .art-svg{height:94%;width:auto;margin-top:8px}
+.facts3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 40px 0}
+.facts3 .f{display:flex;gap:12px;align-items:center;padding:16px 16px;border-radius:16px;background:var(--mint);border:1.5px solid var(--line)}
+.facts3 .ic{width:46px;height:46px;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;font-size:24px;flex:none}
+.facts3 .k{font:600 11px var(--m);color:var(--teal);letter-spacing:.08em}
+.facts3 .v{font-size:15px;font-weight:800;line-height:1.3}
+.why-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:26px 40px 0}
+.why-row .w{text-align:center;padding:0 6px}
+.why-row .ic{width:76px;height:76px;margin:0 auto;border-radius:50%;background:var(--yellow);color:var(--ink);display:grid;place-items:center;font-size:38px}
+.why-row .w:nth-child(2) .ic{background:var(--coral);color:#fff}
+.why-row h3{font-size:19px;font-weight:900;margin-top:10px}
+.why-row p{font-size:13.5px;color:var(--ink-2);margin-top:4px;line-height:1.45}
+.foot1{position:absolute;left:0;right:0;bottom:0;height:78px;background:var(--ink);color:#fff;display:flex;align-items:center;gap:26px;padding:0 40px;font-size:16px;font-weight:700}
+.foot1 span{display:inline-flex;align-items:center;gap:8px}
+.foot1 svg{color:var(--yellow);font-size:20px}
+.foot1 .status{margin-left:auto;font-size:14px}
+/* 2쪽 */
+.p2-title{padding:22px 40px 0}
+.p2-title h2{font-size:30px;font-weight:900;letter-spacing:-.02em}
+.p2-title .one{font-size:16px;color:var(--teal-dk);font-weight:700;margin-top:2px}
+.p2{display:grid;grid-template-columns:1.1fr 1fr;gap:22px;margin:18px 40px 0}
+.sec-h{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:900;color:var(--teal-dk);margin-bottom:12px}
+.sec-h svg{font-size:20px}
+.vrod{position:relative;padding-left:0}
+.vrod::before{content:"";position:absolute;left:21px;top:10px;bottom:10px;width:4px;border-radius:4px;background:var(--teal);opacity:.3}
+.vrod .vs{display:grid;grid-template-columns:46px 1fr;gap:12px;align-items:center;position:relative;margin-bottom:9px}
+.vrod .bead{width:44px;height:44px;font-size:17px;border:3px solid #fff;box-sizing:content-box;margin-left:-2px}
+.vrod .bead.ai{background:var(--coral-dk)}
+.vrod .vt{background:var(--mint);border-radius:12px;padding:8px 12px;border:1.5px solid var(--line)}
+.vrod .is-ai .vt{background:var(--coral-lt);border-color:#f5b9a6}
+.vrod .vt b{font-size:15px;font-weight:800;display:block;line-height:1.3}
+.vrod .vt span{font:600 11.5px var(--m);color:var(--teal-dk)}
+.vrod .is-ai .vt span{color:var(--coral-dk)}
+.vrod .grp{display:none;font:600 12px var(--m);color:var(--teal-dk);margin:2px 0 6px 58px}
+.vrod .grp-start .grp{display:block}
+.learn .l{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;font-size:14.5px;font-weight:700;line-height:1.4}
+.learn .bead{width:28px;height:28px;font-size:13px;background:var(--yellow);color:var(--ink)}
+.prepb{margin-top:16px;background:var(--mint);border-radius:16px;padding:16px 18px;border:1.5px solid var(--line)}
+.prepb .l{display:flex;gap:8px;font-size:13.5px;line-height:1.4;margin-bottom:7px;font-weight:500}
+.prepb .l svg{color:var(--teal);font-size:18px;margin-top:1px}
+.aim{margin-top:14px;border:2px solid var(--coral);border-radius:14px;padding:12px 14px;display:flex;gap:10px;font-size:13px;line-height:1.45;font-weight:500}
+.aim svg{font-size:24px;color:var(--coral-dk)}
+.apply4{position:absolute;left:40px;right:40px;bottom:136px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.apply4 .a{position:relative}
+.apply4 .bead{width:40px;height:40px;font-size:16px}
+.apply4 .a:nth-child(4) .bead{background:var(--coral-dk)}
+.apply4 .a:not(:nth-child(4))::after{content:"";position:absolute;left:50px;right:-6px;top:19px;height:3px;background:var(--teal);opacity:.3;border-radius:3px}
+.apply4 h4{font-size:16px;font-weight:900;margin-top:8px}
+.apply4 p{font-size:12px;color:var(--ink-2);line-height:1.4;margin-top:2px}
+.contact2{position:absolute;left:40px;right:40px;bottom:30px;height:90px;border-radius:18px;background:var(--teal);color:#fff;display:grid;grid-template-columns:1fr 1fr 1fr 74px;align-items:center;gap:12px;padding:0 10px 0 24px}
+.contact2 .c{display:flex;gap:9px;align-items:center}
+.contact2 svg{font-size:24px;color:var(--yellow)}
+.contact2 .k{font:600 10.5px var(--m);color:var(--yellow-lt);letter-spacing:.06em}
+.contact2 .v{font-size:15px;font-weight:800}
+.contact2 .qr{width:70px;height:70px;font-size:12px;border:0}
+</style>
+
+<style>/* 다이어리 전용: 수업료 두 형태 나란히 */
+.pricebox{margin-top:10px;border:2px solid var(--teal);border-radius:16px;padding:9px 12px;background:#fff}
+.pricebox .sec-h{margin:0 0 6px;font-size:16px}
+.pr2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pr2 .p{background:var(--mint);border-radius:12px;padding:6px 10px;display:flex;flex-direction:column;gap:2px}
+.pr2 .t{font-size:12px;font-weight:800;color:var(--teal)}.pr2 b{font-size:22px;font-weight:900;line-height:1.15;color:var(--ink)}
+.pr2 .u{font-size:11.5px;color:var(--ink-2)}.pr2 .f{margin-top:3px;font-size:12px;font-weight:700;color:var(--ink);background:var(--yellow-lt);border-radius:6px;padding:2px 6px;align-self:flex-start}
+.pricebox .pn{margin:6px 0 0;font-size:10.5px;letter-spacing:-.02em;line-height:1.5;color:var(--ink-2)}
 </style>
 </head>
-<body>
-<article class="page">
-  <header class="top">
-    <div class="brand"><span class="seal">AI</span>김민성 AI교육</div>
-    <div class="top-r"><span>학교·기관용 프로그램 소개 · 2026-11-04</span><span class="chip warn">준비 중 · 실제 수업 전</span></div>
-  </header>
+<body class="kind-page">
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M16.2 14.1c2.7.4 4.8 2.7 4.8 5.9"/></symbol>
+<symbol id="i-tablet" viewBox="0 0 24 24"><rect x="5" y="2.5" width="14" height="19" rx="2.2"/><path d="M10 18.3h4"/></symbol>
+<symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5.5h16v10.5H10l-5 4v-4H4z"/><path d="M8.5 10.7h.01M12 10.7h.01M15.5 10.7h.01" stroke-width="2.6"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+<symbol id="i-checkc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.3l2.8 2.8L16.2 9.5"/></symbol>
+<symbol id="i-school" viewBox="0 0 24 24"><path d="M2.5 9.5L12 4.5l9.5 5-9.5 5z"/><path d="M6.5 12v4.8c0 1.6 2.5 3.2 5.5 3.2s5.5-1.6 5.5-3.2V12"/><path d="M21.5 9.5v5"/></symbol>
+<symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></symbol>
+<symbol id="i-phone" viewBox="0 0 24 24"><path d="M6 3.5h3.2l1.6 4.5-2.2 1.4a11 11 0 0 0 6 6l1.4-2.2 4.5 1.6V18a2.5 2.5 0 0 1-2.5 2.5A15.5 15.5 0 0 1 3.5 6 2.5 2.5 0 0 1 6 3.5z"/></symbol>
+<symbol id="i-pencil" viewBox="0 0 24 24"><path d="M4 20l1-4.2L16.3 4.5a2 2 0 0 1 2.9 0l.3.3a2 2 0 0 1 0 2.9L8.2 19z"/><path d="M14.5 6.3l3.2 3.2"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5l5 5"/></symbol>
+<symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.8 5.8l2.6 2.6M15.6 15.6l2.6 2.6M5.8 18.2l2.6-2.6M15.6 8.4l2.6-2.6"/></symbol>
+<symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4h12l-2.5 4.5L17 13H5"/></symbol>
+<symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2.5 9a14 14 0 0 1 19 0M5.5 12.6a9.5 9.5 0 0 1 13 0M8.6 16.1a5 5 0 0 1 6.8 0"/><path d="M12 19.6h.01" stroke-width="3"/></symbol>
+<symbol id="i-screen" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1.6"/><path d="M8 20h8M12 16v4"/></symbol>
+<symbol id="i-speaker" viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7.5 3v5.5c0 4.3-3.1 7.9-7.5 9.5-4.4-1.6-7.5-5.2-7.5-9.5V6z"/><path d="M8.8 12l2.3 2.3 4.3-4.3"/></symbol>
+<symbol id="i-person" viewBox="0 0 24 24"><circle cx="12" cy="7.5" r="3.5"/><path d="M5 21c0-4 3.1-7 7-7s7 3 7 7"/></symbol>
+<symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13.5 6l6 6-6 6"/></symbol>
+<symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8.5L19 7.5V21H6z"/><path d="M14 3v5h5M9 12.5h7M9 16.5h5"/></symbol>
+<symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 7l8.5 6.5L20.5 7"/></symbol>
+<symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9c-2.6-2.6-3.8-5.6-3.8-9S9.4 5.6 12 3z"/></symbol>
+<symbol id="i-hand" viewBox="0 0 24 24"><path d="M8 13V5.5a1.5 1.5 0 0 1 3 0V11M11 10.5V4a1.5 1.5 0 0 1 3 0v6.5M14 10.5V5.5a1.5 1.5 0 0 1 3 0V14c0 4-2.7 7-6.5 7-2.7 0-4.2-1.4-5.6-3.6L3.3 14.8a1.5 1.5 0 0 1 2.4-1.8L8 15"/></symbol>
+<symbol id="i-clipboard" viewBox="0 0 24 24"><rect x="5" y="4.5" width="14" height="16.5" rx="2"/><path d="M9 4.5V3h6v1.5M9 11l2 2 4-4M9 17h6"/></symbol>
+<symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 7.5h3.5L9 5h6l1.5 2.5H20V19H4z"/><circle cx="12" cy="13" r="3.5"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></symbol>
+<symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.8l-5.2 2.8 1-5.8-4.3-4.1 5.9-.8z"/></symbol>
+<symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></symbol>
+<symbol id="i-calc" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8.5 11.5h.01M12 11.5h.01M15.5 11.5h.01M8.5 15h.01M12 15h.01M15.5 15h.01M8.5 18h.01M12 18h.01" stroke-width="2.4"/></symbol>
+<symbol id="i-box" viewBox="0 0 24 24"><path d="M3.5 7.5L12 3.5l8.5 4v9L12 20.5l-8.5-4z"/><path d="M3.5 7.5L12 11.5l8.5-4M12 11.5v9"/></symbol>
+<symbol id="i-bead" viewBox="0 0 24 24"><path d="M2 12h20" opacity=".55"/><circle cx="6.5" cy="12" r="3.2"/><circle cx="12" cy="12" r="3.2"/><circle cx="17.5" cy="12" r="3.2"/></symbol>
+</svg>
+<!-- 1쪽 -->
+<section class="page">
+  <div class="p-head"><div class="brand"><img src="logo/semjejakso_mark.svg" alt=""><div><b>셈제작소</b><span>학교 AI 수업</span></div></div><span class="pill status"><i class="dot"></i><span data-k="status"></span></span></div>
+  <div class="hero">
+    <div class="txt"><p class="lbl">SCHOOL AI CLASS</p><h1 data-k="name"></h1><p class="one" data-k="oneLine"></p></div>
+    <div class="hero-art" data-slot-label="대표그림"><img data-if="image" data-k="image" data-attr="src" alt=""><svg class="art-svg" viewBox="0 0 480 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="태블릿으로 AI에게 묻고 확인하는 그림" preserveAspectRatio="xMidYMid meet">
+  <circle cx="390" cy="78" r="52" fill="#ffd166"/>
+  <circle cx="70" cy="300" r="34" fill="#ffffff" opacity=".7"/>
+  <rect x="96" y="54" width="280" height="236" rx="26" fill="#ffffff" stroke="#0b7a75" stroke-width="7"/>
+  <rect x="190" y="88" width="160" height="46" rx="16" fill="#0b7a75"/>
+  <path d="M322 134l18 16 0-16z" fill="#0b7a75"/>
+  <rect x="208" y="107" width="70" height="8" rx="4" fill="#ffffff" opacity=".9"/>
+  <rect x="284" y="107" width="44" height="8" rx="4" fill="#ffd166"/>
+  <rect x="122" y="160" width="184" height="80" rx="16" fill="#f3faf8" stroke="#a9d3cf" stroke-width="3"/>
+  <path d="M150 240l-6 18 22-18z" fill="#f3faf8" stroke="#a9d3cf" stroke-width="3" stroke-linejoin="round"/>
+  <rect x="140" y="178" width="120" height="8" rx="4" fill="#0b7a75" opacity=".55"/>
+  <rect x="140" y="196" width="146" height="8" rx="4" fill="#0b7a75" opacity=".35"/>
+  <rect x="140" y="214" width="96" height="8" rx="4" fill="#0b7a75" opacity=".35"/>
+  <circle cx="330" cy="236" r="32" fill="#e8562f"/>
+  <path d="M315 237l11 11 20-21" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <line x1="60" y1="334" x2="420" y2="334" stroke="#0b7a75" stroke-width="7" stroke-linecap="round" opacity=".45"/>
+  <circle cx="150" cy="334" r="21" fill="#0b7a75"/>
+  <circle cx="204" cy="334" r="21" fill="#0b7a75"/>
+  <circle cx="258" cy="334" r="21" fill="#e8562f"/>
+  <circle cx="340" cy="334" r="21" fill="#0b7a75" opacity=".35"/>
+  <line x1="120" y1="378" x2="360" y2="378" stroke="#ffd166" stroke-width="9" stroke-linecap="round"/>
+</svg></div>
+  </div>
+  <div class="facts3">
+    <div class="f"><span class="ic"><svg class="i"><use href="#i-school"/></svg></span><div><div class="k">대상</div><div class="v" data-k="grades"></div></div></div>
+    <div class="f"><span class="ic"><svg class="i"><use href="#i-clock"/></svg></span><div><div class="k">시간</div><div class="v" data-k="visit"></div></div></div>
+    <div class="f"><span class="ic"><svg class="i"><use href="#i-users"/></svg></span><div><div class="k">인원</div><div class="v" data-k="size"></div></div></div>
+  </div>
+  <div class="why-row"><template data-each="why" data-max="3"><div class="w"><span class="ic"><svg class="i"><use href="#i-spark" data-k="icon" data-attr="href" data-pre="#i-"/></svg></span><h3 data-k="title"></h3><p data-k="desc"></p></div></template></div>
+  <div class="foot1"><span><svg class="i"><use href="#i-phone"/></svg><span data-k="phone"></span></span><span><svg class="i"><use href="#i-globe"/></svg><span data-k="site"></span></span><span class="pill status"><i class="dot"></i><span data-k="status"></span></span></div>
+</section>
 
-  <section class="hero">
+<!-- 2쪽 -->
+<section class="page">
+  <div class="p-head"><div class="brand"><img src="logo/semjejakso_mark.svg" alt=""><div><b>셈제작소</b><span>학교 AI 수업</span></div></div><span class="label">02 / 02</span></div>
+  <div class="p2-title"><h2 data-k="name"></h2><p class="one" data-k="flowLine"></p></div>
+  <div class="p2">
     <div>
-      <p class="eyebrow">MY DREAM DIARY · 진로 · 자기이해</p>
-      <h1>내꿈다이어리</h1>
-      <p class="lead">관심에서 이번 주 한 걸음까지, 학생이 쓰고 고치는 여섯 쪽 책.<br><em>AI는 꿈을 정해 주지 않습니다.</em> 학생이 AI의 말을 골라 쓰고, 자기 말로 고칩니다.</p>
-      <p class="sub">직업을 진단하거나 미래를 예측하지 않습니다. 해 본 경험에서 서로 다른 가능성 두 가지를 찾고, 이번 주에 할 수 있는 10~15분 행동으로 바꾸는 탐색 수업입니다.</p>
+      <div class="sec-h"><svg class="i"><use href="#i-bead"/></svg>수업 흐름</div>
+      <div class="vrod"><template data-each="flow" data-max="8" data-group="part"><div><div class="grp" data-k="part"></div><div class="vs" data-cls="ai:is-ai"><span class="bead" data-cls="ai:ai" data-k="#"></span><div class="vt"><b data-k="title"></b><span><span data-k="min"></span>분 · <span data-k="who"></span></span></div></div></div></template></div>
     </div>
-    <figure class="cover" style="margin:0"><img src="img/book-cover.png" alt="예제 책 표지: 책 제목, 별칭, 나의 지도"><figcaption>예제 책 표지<br>가상 예시 학생</figcaption></figure>
-  </section>
-
-  <section class="facts" aria-label="수업 개요">
-    <div><small>대상</small><b>초등 5~6학년</b><span>초3~4·중학생은 조정안</span></div>
-    <div><small>형태</small><b>80분 체험형</b><span>또는 40분×4 제작형</span></div>
-    <div><small>인원</small><b>1학급</b><span>AI 담당 강사 1인 + 담임 협력</span></div>
-    <div><small>기기</small><b>태블릿 또는 종이</b><span>교탁 PC·큰 화면 1대</span></div>
-  </section>
-
-  <section class="row c2">
-    <div class="card"><h2>차시 구성 <i>TWO FORMATS</i></h2>
-      <div class="plan">
-        <div><h3>80분 체험형 · 1회 방문</h3><ol><li>관심·경험 쓰기</li><li>AI 질문 장면(교탁 화면) → 고르고 고치기</li><li>가능성 두 가지</li><li>이번 주 한 걸음 정하기</li><li>단정하는 문장 고치기 · 보관</li></ol></div>
-        <div><h3>40분×4 제작형 · 2회 방문</h3><ol><li>나의 경험 (1·2쪽)</li><li>두 가지 길과 AI (3·4쪽)</li><li class="gap">— 1주 동안 행동 하나 해 보기 —</li><li>목표와 이번 주 (5쪽)</li><li>돌아보기·고치기, 책 완성 (6쪽)</li></ol></div>
-      </div>
-    </div>
-    <div class="card"><h2>여섯 쪽 책 <i>6 PAGES</i></h2>
-      <ul class="pages">
-        <li><b>1</b>표지 · 나의 지도</li><li><b>2</b>관심 · 경험</li>
-        <li><b>3</b>가능성 두 가지</li><li><b>4</b>AI 질문 고쳐 쓰기</li>
-        <li><b>5</b>목표와 이번 주</li><li><b>6</b>돌아보기 · 고치기</li>
-      </ul>
-      <p class="note">태블릿 앱이나 인쇄 활동지(A4 6쪽) 어느 쪽으로도 같은 순서로 씁니다.</p>
-    </div>
-  </section>
-
-  <section class="row c3">
-    <div class="card who s"><h2>학생이 하는 일</h2><ul><li>해 본 일과 그때의 느낌을 씁니다</li><li>서로 다른 가능성 두 가지를 고릅니다</li><li>AI의 말을 ‘그대로 / 고쳐서 / 안 씀’으로 고르고 이유를 씁니다</li><li>이번 주 10~15분 행동과 쉬는 날을 정합니다</li><li>“반드시 ~된다”를 탐색하는 말로 고칩니다</li></ul></div>
-    <div class="card who a"><h2>AI가 하는 일</h2><ul><li>강사가 교탁 화면에서 학교가 허용한 AI에 학생 글(동의 후, 개인정보 없이)을 넣으면 질문과 작은 활동을 제안합니다</li><li>중학생은 학교 승인 계정(예: 부산 펜즈)이 있을 때만 직접 씁니다</li><li>AI의 단정하는 답은 고치기 재료가 됩니다</li></ul></div>
-    <div class="card who n"><h2>AI가 하지 않는 일</h2><ul><li>직업·적성 진단, 미래·성공 예측</li><li>학생 평가나 점수 매기기</li><li>만 13세 미만 학생의 직접 입력</li><li>학생 글 자동 전송(앱은 그 기기에만 저장)</li><li>앱 자체는 AI가 아님(점검·지도는 규칙형)</li></ul></div>
-  </section>
-
-  <section class="row c2e">
-    <div class="card"><h2>준비물</h2><ul><li><b>학교</b>: 학생 태블릿(1인 1대 권장) 또는 인쇄 활동지, <span style="white-space:nowrap">교실 Wi-Fi</span>, 교탁 화면 연결, 허용된 AI 서비스 확인</li><li><b>강사</b>: 노트북, 활동지 인쇄본, 예제 책</li></ul></div>
-    <div class="card"><h2>산출물</h2><ul><li>학생별 여섯 쪽 책(인쇄본 또는 PDF)과 이어 쓰는 저장 파일</li><li>강사 수업 기록(사용한 AI·시간·막힌 곳). 학생 글은 수집하지 않습니다</li></ul></div>
-  </section>
-
-  <section class="card price"><b>비용</b><p>홈페이지의 제안 견적 표를 따릅니다: 80분·1회·1학급 기본형 40~50만 원, 40분×4차시·2회 방문·1학급 제작형 80~100만 원. <b>확정 단가가 아니며</b> 학급 수·차시·기기 조건에 따라 협의합니다.</p></section>
-
-  <footer class="foot">
     <div>
-      <p class="status"><strong>지금 상태</strong> · 앱·교안·활동지 v0.2 내부 제작 완료(2026-11-04). 실제 수업은 아직 없고, 학교 태블릿 확인과 리허설 전입니다. 효과·만족도 수치는 없습니다.</p>
-      <p class="contact"><b>김민성</b> 대표 · AI 수업 담당 · 010-8584-1753 · kim30707@gmail.com · 부산·경남</p>
+      <div class="sec-h"><svg class="i"><use href="#i-star"/></svg>배우는 것</div>
+      <div class="learn"><template data-each="learn" data-max="4"><div class="l"><span class="bead" data-k="#"></span><span data-k="."></span></div></template></div>
+      <div class="prepb"><div class="sec-h"><svg class="i"><use href="#i-school"/></svg>학교 준비</div><template data-each="prep" data-max="4"><div class="l"><svg class="i"><use href="#i-checkc"/></svg><span data-k="."></span></div></template></div>
+      <div class="aim"><svg class="i"><use href="#i-tablet"/></svg><span data-k="aiMode"></span></div>
+      <div class="pricebox"><div class="sec-h"><svg class="i"><use href="#i-doc"/></svg>수업료</div>
+<div class="pr2">
+<div class="p"><span class="t">체험형</span><b>40만 원</b><span class="u">80분 · 1회 방문</span><span class="f">첫 운영 학교 36만 원</span></div>
+<div class="p"><span class="t">제작형</span><b>70만 원</b><span class="u">4차시 · 2회 방문</span><span class="f">첫 운영 학교 63만 원</span></div>
+</div><p class="pn">1학급 총액 · 첫 운영 학교는 수업 뒤 의견서 1장 · 경남 교통 실비 별도</p></div>
     </div>
-    <div class="qr"><div>시연판 바로 열기<br><code>kim30707.github.io/aiedu/diary/</code><br>로그인 없이 · 입력은 그 기기에만</div><img src="img/qr-diary.png" alt="내꿈다이어리 시연판 QR 코드"></div>
-  </footer>
-</article>
+  </div>
+  <div class="apply4"><template data-each="apply" data-max="4"><div class="a"><span class="bead" data-k="#"></span><h4 data-k="title"></h4><p data-k="desc"></p></div></template></div>
+  <div class="contact2">
+    <div class="c"><svg class="i"><use href="#i-phone"/></svg><div><div class="k">전화</div><div class="v" data-k="phone"></div></div></div>
+    <div class="c"><svg class="i"><use href="#i-globe"/></svg><div><div class="k">홈페이지</div><div class="v" data-k="site"></div></div></div>
+    <div class="c"><svg class="i"><use href="#i-doc"/></svg><div><div class="k">수업료</div><div class="v" data-k="price"></div></div></div>
+    <div class="qr"><img data-if="qr" data-k="qr" data-attr="src" alt="홈페이지 QR" style="width:100%;height:100%;object-fit:contain"><span data-ifnot="qr">[QR]</span></div>
+  </div>
+</section>
+<script id="program-data" type="application/json">
+{
+ "id": "diary",
+ "name": "내 꿈 다이어리",
+ "short": "꿈 다이어리",
+ "oneLine": "AI는 꿈을 정해 주지 않습니다. 고르고 고칩니다.",
+ "tagline": "초1~3은 좋아하는 것 그림책 4쪽, 초4~고3은 해 본 일에서 가능성을 찾고 AI의 말을 골라 고쳐 쓰는 여섯 쪽 책을 만듭니다.",
+ "subject": "진로 · 자기이해 (창체 진로활동)",
+ "grades": "초1~고3 · 학년군별 4과정",
+ "time": "80분 체험형 / 40분 × 4차시 제작형 (초1~3은 80분만)",
+ "visit": "80분 · 1회 방문 / 4차시 · 2회 방문",
+ "team": "강사 1인 · AI 시간 선생님 1분",
+ "size": "1학급 · 개인 활동 + 짝 나누기",
+ "devices": "학교 태블릿 (초1~3은 모둠당 1대) · 교탁 화면 · 활동지(강사 인쇄)",
+ "aiMode": "기본은 학생이 직접 씁니다. 계정이 없으면 강사 기기에 학생이 와서 직접 치고, 그것도 어려울 때만 강사가 입력합니다.",
+ "status": "11월 24일부터 희망일 접수",
+ "phone": "010-8584-1753",
+ "fax": "[팩스번호]",
+ "email": "kim30707@gmail.com",
+ "price": "체험형 40만 · 제작형 70만 원",
+ "site": "kim30707.github.io/aiedu",
+ "image": "img/diary_app.png",
+ "whyLine": "진로는 정답 맞히기가 아니라 해 보고 고치는 일입니다.",
+ "why": [
+  {
+   "icon": "pencil",
+   "title": "해 본 일에서 출발",
+   "desc": "직접 해 본 일과 그때의 느낌부터 씁니다."
+  },
+  {
+   "icon": "chat",
+   "title": "AI의 말은 골라 씀",
+   "desc": "AI의 말을 그대로·고쳐서·안 씀으로 고릅니다."
+  },
+  {
+   "icon": "calendar",
+   "title": "이번 주 한 걸음",
+   "desc": "1년 계획을 이번 주 10~15분 행동으로 나눕니다."
+  }
+ ],
+ "flowLine": "쓰고 → AI의 말을 고르고 → 이번 주 한 걸음",
+ "flow": [
+  {
+   "part": "1교시",
+   "min": "0–5",
+   "title": "오늘 만들 책 보기",
+   "who": "학생 · 강사",
+   "desc": "태블릿에서 예제 책 ‘새싹’을 봅니다."
+  },
+  {
+   "part": "1교시",
+   "min": "5–18",
+   "title": "관심·경험 쓰기",
+   "who": "학생",
+   "desc": "관심 하나와 직접 해 본 일, 그때의 느낌을 씁니다."
+  },
+  {
+   "part": "1교시",
+   "min": "18–33",
+   "title": "AI에 묻고 고르기",
+   "who": "학생 직접 (학교 계정)",
+   "desc": "학교가 열어 둔 계정으로 AI에 직접 묻고, 받은 말을 골라 고칩니다.",
+   "ai": true
+  },
+  {
+   "part": "1교시",
+   "min": "33–40",
+   "title": "가능성 하나 이름 짓기",
+   "who": "학생",
+   "desc": "직업 이름이 아니어도 됩니다. 해 보고 싶은 활동을 씁니다."
+  },
+  {
+   "part": "2교시",
+   "min": "0–14",
+   "title": "가능성 두 가지",
+   "who": "학생 · 짝",
+   "desc": "서로 다른 길 두 가지와 각각 10~15분 활동을 정합니다."
+  },
+  {
+   "part": "2교시",
+   "min": "14–28",
+   "title": "이번 주 한 걸음",
+   "who": "학생",
+   "desc": "이번 달 작은 실험과 할 요일 한 번, 쉬는 날을 정합니다."
+  },
+  {
+   "part": "2교시",
+   "min": "28–36",
+   "title": "고치고 점검하기",
+   "who": "학생",
+   "desc": "단정하는 문장을 탐색하는 말로 고치고 나의 지도를 채웁니다."
+  },
+  {
+   "part": "2교시",
+   "min": "36–40",
+   "title": "챙기기·정리",
+   "who": "학생 · 짝",
+   "desc": "고른 문장을 종이 책에 옮겨 챙기고, 학교 절차대로 화면을 정리합니다."
+  }
+ ],
+ "learn": [
+  "해 본 경험에서 나의 관심을 설명하기",
+  "AI의 말을 그대로 쓰지 않고 고르고 고쳐 쓰기",
+  "1년 계획을 이번 주 작은 행동으로 나누기",
+  "단정하는 말을 탐색하는 말로 바꾸기"
+ ],
+ "prepLine": "학생이 AI를 쓰는 시간에는 학교가 정한 선생님 한 분이 함께해 주세요(담임이 아니어도 됩니다).",
+ "prep": [
+  "학교 태블릿 (1인 1대 · 초1~3 모둠당 1대)",
+  "교실 Wi-Fi · 교탁 화면",
+  "학생 학교 계정(부산은 펜즈)·AI 화면 확인",
+  "기기 허용 · 선생님이 없으면 AI 없이 예시로"
+ ],
+ "kit": [
+  "학년군별 활동지 (학생 수 + 5부)",
+  "예제 책 · 접는 책 틀",
+  "노트북 · 화면 연결선",
+  "미리 받아 둔 AI 답 인쇄본"
+ ],
+ "apply": [
+  {
+   "title": "문의",
+   "desc": "학년·형태·희망 시기를 알려 주세요."
+  },
+  {
+   "title": "일정 협의",
+   "desc": "교시·인원·교탁 화면을 정합니다."
+  },
+  {
+   "title": "사전 확인",
+   "desc": "질문지로 교실과 학생 AI 계정을 확인합니다."
+  },
+  {
+   "title": "수업",
+   "desc": "활동지는 강사가 준비합니다."
+  }
+ ],
+ "lesson": {
+  "goal": "해 본 일로 책을 쓰고, AI의 말은 골라 고쳐요.",
+  "inputBy": "기본은 직접 · 안 되면 선생님 기기에 가서 직접",
+  "rules": [
+   "내 꿈은 AI가 아니라 내가 골라요.",
+   "카드 칸만 채우고 이름·학교는 넣지 않아요.",
+   "AI 답에는 질문·제안·사실이 섞여요. 이상하면 손 들기."
+  ],
+  "activities": [
+   {
+    "title": "관심·경험 쓰기",
+    "min": "13분",
+    "steps": [
+     "지금 관심 있는 것을 하나 씁니다.",
+     "직접 해 본 일과 그때 느낌을 씁니다.",
+     "‘나는 원래’ 대신 ‘그때 ~했다’로 씁니다."
+    ],
+    "tip": "잘하는 것 말고, 해 본 일을 써요."
+   },
+   {
+    "title": "가능성 두 가지",
+    "min": "14분",
+    "steps": [
+     "해 보고 싶은 활동 두 가지를 적습니다.",
+     "각각 10~15분 해 볼 활동을 정합니다.",
+     "짝과 서로 다른 길인지 확인합니다."
+    ],
+    "tip": "직업 이름이 아니어도 괜찮아요."
+   },
+   {
+    "title": "이번 주 한 걸음",
+    "min": "14분",
+    "steps": [
+     "이번 달 작은 실험 하나를 정합니다.",
+     "할 요일 한 번과 무엇을·얼마나를 씁니다.",
+     "쉬는 날도 직접 정합니다."
+    ],
+    "tip": "언제·무엇을·얼마나를 적으면 쉬워요."
+   }
+  ],
+  "promptFrame": [
+   {
+    "label": "관심",
+    "hint": "관심 하나 (예: 그림 그리는 일)"
+   },
+   {
+    "label": "해 본 일",
+    "hint": "해 본 일 한 줄 · 장소·친구 이름 없이"
+   },
+   {
+    "label": "궁금한 것",
+    "hint": "AI에게 묻고 싶은 질문 하나"
+   }
+  ],
+  "checks": [
+   "질문인가요, 정해 주는 말인가요?",
+   "이번 주에 정말 해 볼 수 있나요?",
+   "내 경험과 맞는 말인가요?"
+  ],
+  "present": {
+   "min": "원하는 사람 · 한 쪽씩",
+   "points": [
+    "내가 고른 가능성",
+    "AI의 말을 고친 문장",
+    "이번 주 한 걸음"
+   ]
+  },
+  "aiDid": [
+   "질문 몇 개와 작은 활동을 제안했습니다",
+   "진로를 정해 주지 말라는 부탁을 받았습니다"
+  ],
+  "weDid": [
+   "정해 주는 말이 있는지 읽고 확인했습니다",
+   "그대로·고쳐서·안 씀을 고르고 이유를 적었습니다",
+   "이번 주 행동을 내가 정했습니다"
+  ],
+  "wrap": [
+   "해 본 일 — 관심과 경험",
+   "고른 말 — 그대로·고쳐서·안 씀",
+   "한 걸음 — 이번 주 행동"
+  ]
+ },
+ "sessions": [
+  {
+   "no": "체험형 1",
+   "min": "40분",
+   "goal": "해 본 일을 쓰고 AI의 말을 고른다.",
+   "activity": "책 보기 → 관심·경험 → AI 장면 → 가능성 하나",
+   "ai": "학생 직접",
+   "check": "2·4쪽"
+  },
+  {
+   "no": "체험형 2",
+   "min": "40분",
+   "goal": "가능성 두 가지를 행동으로 나눈다.",
+   "activity": "가능성 두 가지 → 이번 주 → 고치기",
+   "ai": "없음",
+   "check": "3·5·6쪽"
+  },
+  {
+   "no": "제작형 1",
+   "min": "40분",
+   "goal": "관심과 경험을 나눠 쓴다.",
+   "activity": "예제 → 경험 떠올리기 → 짝 이야기",
+   "ai": "없음",
+   "check": "1·2쪽"
+  },
+  {
+   "no": "제작형 2",
+   "min": "40분",
+   "goal": "두 길을 열고 AI의 말을 고른다.",
+   "activity": "가능성 두 가지 → AI 장면 → 실천 하나 정하기",
+   "ai": "학생 직접",
+   "check": "3·4쪽 · 실천 하나"
+  },
+  {
+   "no": "제작형 3",
+   "min": "40분",
+   "goal": "1년 계획을 이번 주로 나눈다.",
+   "activity": "해 본 일(못 한 까닭) → 1년·이번 달 → 요일 행동",
+   "ai": "없음",
+   "check": "5쪽"
+  },
+  {
+   "no": "제작형 4",
+   "min": "40분",
+   "goal": "돌아보고 접는 책을 완성한다.",
+   "activity": "단정 문장 고치기 → 6쪽 → 접는 책",
+   "ai": "없음",
+   "check": "6쪽·접는 책"
+  }
+ ],
+ "standards": [
+  {
+   "code": "창체 진로활동",
+   "text": "진로 탐색 활동",
+   "link": "2·3쪽 관심·경험·가능성 두 가지"
+  },
+  {
+   "code": "창체 진로활동",
+   "text": "진로 설계 및 실천 활동",
+   "link": "5·6쪽 이번 주 행동·돌아보기"
+  },
+  {
+   "code": "실과 (초5~6)",
+   "text": "디지털 사회와 인공지능 영역 · 부분 연계 (성취기준 원문은 학교 교육과정에서 확인)",
+   "link": "4쪽 AI의 말 그대로·고쳐서·안 씀"
+  },
+  {
+   "code": "학교 진로교육",
+   "text": "학교 진로교육 계획과 연결 · 2026학년도 중3·고3은 2015 개정 교육과정",
+   "link": "사전 협의 때 담임과 확인"
+  }
+ ],
+ "observe": [
+  {
+   "item": "관심·경험",
+   "good": "경험의 구체적 장면과 느낌을 말한다",
+   "mid": "관심과 경험을 나눠 쓴다",
+   "help": "관심만 쓰고 경험 칸을 비워 둔다"
+  },
+  {
+   "item": "가능성 두 가지",
+   "good": "서로 다른 두 길과 고른 이유를 말한다",
+   "mid": "두 가지를 적는다",
+   "help": "두 번째 가능성 칸을 비워 둔다"
+  },
+  {
+   "item": "AI의 말 고르기",
+   "good": "고른 까닭을 자기 경험과 연결해 말한다",
+   "mid": "그대로·고쳐서·안 씀을 고른다",
+   "help": "고른 이유나 확인한 점을 아직 설명하지 못한다"
+  },
+  {
+   "item": "이번 주 행동",
+   "good": "언제·무엇을·얼마나를 적고 실행 가능성을 판단한다",
+   "mid": "요일 행동 하나를 적는다",
+   "help": "행동 칸을 비우거나 '열심히 하기'처럼 적는다"
+  },
+  {
+   "item": "고치기",
+   "good": "단정하는 문장을 탐색하는 말로 고친다",
+   "mid": "고칠 문장을 찾는다",
+   "help": "고칠 문장을 찾지 못한다"
+  }
+ ],
+ "task": {
+  "title": "AI의 말, 그대로·고쳐서·안 씀",
+  "intro": "AI가 한 말을 한 문장씩 읽고, 그대로 쓸지·고쳐서 쓸지·안 쓸지 내가 정해 봅시다.",
+  "steps": [
+   "태블릿에서 학교 계정으로 AI에 직접 묻기",
+   "받은 말 한 문장씩 읽기 · 이상하면 손 들기",
+   "그대로·고쳐서·안 씀 고르기",
+   "고친 문장과 이유 쓰기"
+  ],
+  "checks": [
+   "질문이 내 글에 대한 것인가요",
+   "내가 답할 수 있는 질문인가요",
+   "AI가 정해 준 말은 지웠나요 (없으면 ‘없음’)",
+   "고른 이유를 내 말로 썼다"
+  ]
+ },
+ "qr": "img/QR_home_diary.png"
+}
+</script>
+<script>
+
+</script>
+<script>
+/* 셈제작소 공통틀 채움 스크립트 — 고치지 말고 위의 program-data JSON만 바꾼다.
+   data-k="키"            : 글자를 채움 (점으로 깊이: lesson.goal, 목록 안에서는 항목 기준 키, "."=항목 자체, "#"=번호, "##"=두 자리 번호)
+   data-attr="src|href"   : 글자 대신 속성을 채움 (data-pre="앞붙임")
+   data-if / data-ifnot   : 값이 있을 때만 / 없을 때만 남김
+   data-opt               : 값이 없으면 그 칸을 지움
+   <template data-each="flow" data-max="8" data-group="part"> : 목록 반복
+   주소 끝에 #slots      : 예시 대신 {{자리표시}}를 보여 줌 */
+(function(){
+  var D = JSON.parse(document.getElementById('program-data').textContent);
+  var SLOT = {"name": "프로그램명", "short": "짧은이름", "oneLine": "핵심한줄", "tagline": "소개문장", "subject": "교과", "grades": "대상학년", "time": "수업시간", "visit": "방문형태", "team": "진행인력", "size": "학급규모", "devices": "준비기기", "aiMode": "AI입력방식", "status": "접수상태", "phone": "전화번호", "fax": "팩스번호", "email": "이메일", "price": "가격", "site": "홈페이지주소", "image": "대표그림", "whyLine": "왜_핵심한줄", "why": "왜", "flowLine": "흐름_핵심한줄", "flow": "흐름", "learn": "배우는것", "prepLine": "준비_핵심한줄", "prep": "학교준비물", "kit": "강사지참물", "apply": "접수단계", "lesson.goal": "오늘할일", "lesson.inputBy": "AI입력자", "lesson.rules": "약속", "lesson.activities": "활동", "lesson.promptFrame": "요청문틀", "lesson.checks": "확인질문", "lesson.present.min": "발표시간", "lesson.present.points": "발표내용", "lesson.aiDid": "AI가한일", "lesson.weDid": "우리가판단한일", "lesson.wrap": "마무리", "sessions": "차시표", "standards": "성취기준", "observe": "관찰항목", "task.title": "과제명", "task.intro": "과제설명", "task.steps": "과제단계", "task.checks": "확인칸", "lesson.activities.0.title": "활동1제목", "lesson.activities.0.min": "활동1시간", "lesson.activities.0.steps": "활동1단계", "lesson.activities.0.tip": "활동1도움말", "lesson.activities.1.title": "활동2제목", "lesson.activities.1.min": "활동2시간", "lesson.activities.1.steps": "활동2단계", "lesson.activities.1.tip": "활동2도움말", "lesson.activities.2.title": "활동3제목", "lesson.activities.2.min": "활동3시간", "lesson.activities.2.steps": "활동3단계", "lesson.activities.2.tip": "활동3도움말"};
+  var SUB = {"title": "제목", "desc": "설명", "min": "시간", "who": "누가", "part": "교시", "icon": "아이콘", "code": "코드", "text": "내용", "link": "이수업에서", "item": "항목", "good": "잘함", "mid": "보통", "help": "도움필요", "no": "차시", "goal": "배울것", "activity": "활동", "ai": "AI사용", "check": "확인방법", "label": "칸이름", "hint": "칸도움말", "steps": "단계", "tip": "도움말", ".": "항목"};
+  var showSlots = /slots/.test(location.hash + location.search);
+  if (showSlots) document.documentElement.classList.add('slots');
+  function get(o, p){ if (p === '.') return o; return p.split('.').reduce(function(a,k){ return a == null ? undefined : a[k]; }, o); }
+  function slotName(path){
+    if (SLOT[path]) return SLOT[path];
+    var m = path.split('[].'); if (m.length > 1){ var last = m[m.length-1]; return (SLOT[m.slice(0,-1).join('[].')] || m[0]) + '·' + (SUB[last] || last); }
+    return path;
+  }
+  function str(v){ if (v == null) return ''; if (Array.isArray(v)) return v.join(' · '); if (typeof v === 'object') return v.text || v.label || v.booking || ''; return String(v); }
+  function fill(scope, data, prefix, idx){
+    scope.querySelectorAll('[data-if],[data-ifnot]').forEach(function(el){
+      var k = el.getAttribute('data-if'), n = el.getAttribute('data-ifnot');
+      if (showSlots && (k === 'image' || n === 'image')) { if (k) el.remove(); return; }
+      if (k !== null && !get(data, k)) el.remove();
+      if (n !== null && get(data, n)) el.remove();
+    });
+    scope.querySelectorAll('[data-k]').forEach(function(el){
+      var p = el.getAttribute('data-k');
+      if (p === '#' || p === '##'){ var num = (idx||0) + 1; el.textContent = p === '##' && num < 10 ? '0' + num : num; return; }
+      var v = get(data, p), at = el.getAttribute('data-attr'), full = prefix ? prefix + '[].' + p : p;
+      if (p === '.') full = prefix;
+      if (at){ if (!showSlots && v) el.setAttribute(at, (el.getAttribute('data-pre') || '') + v); return; }
+      if (showSlots){ el.textContent = '{{' + slotName(full) + '}}'; return; }
+      if (v == null || v === '' || (Array.isArray(v) && !v.length)){ if (el.hasAttribute('data-opt')) { var box = el.closest('[data-opt-box]') || el; box.remove(); } else el.textContent = ''; return; }
+      el.textContent = str(v);
+    });
+    scope.querySelectorAll('[data-cls]').forEach(function(el){
+      el.getAttribute('data-cls').split(',').forEach(function(pair){ var kv = pair.split(':'); if (get(data, kv[0])) el.classList.add(kv[1]); });
+    });
+    scope.querySelectorAll('template[data-each]').forEach(function(t){
+      var key = t.getAttribute('data-each'), list = get(data, key) || [];
+      var max = +t.getAttribute('data-max') || list.length, grp = t.getAttribute('data-group');
+      var path = prefix ? prefix + '[].' + key : key;
+      if (!Array.isArray(list)) list = [];
+      if (showSlots) list = list.slice(0, Math.max(1, Math.min(2, list.length)));
+      var prev = {};
+      list.slice(0, max).forEach(function(item, i){
+        var frag = t.content.cloneNode(true);
+        var first = frag.firstElementChild;
+        if (grp && first && (i === 0 || get(item, grp) !== get(prev, grp))) first.classList.add('grp-start');
+        fill(frag, item, path, i);
+        t.parentNode.insertBefore(frag, t);
+        prev = item;
+      });
+      if (!list.length && t.hasAttribute('data-opt')){ var box = t.closest('[data-opt-box]'); if (box) box.remove(); }
+    });
+  }
+  fill(document, D, '', 0);
+  if (typeof window.afterFill === 'function') window.afterFill(D, showSlots);
+  document.documentElement.setAttribute('data-filled', '1');
+})();
+</script>
 </body>
 </html>

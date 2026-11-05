@@ -188,44 +188,110 @@
     </div></section>`;
   }
 
-  /* ───────── 화면: 수업 상세 ───────── */
+  /* ───────── 화면: 수업 상세 (v12 그림 위주) ───────── */
+  const IC = {
+    ear: '<path d="M7 10a5 5 0 0 1 10 0c0 3-3 4-3 7a3 3 0 0 1-6 0"/><path d="M10 10a2 2 0 0 1 4 0"/>',
+    music: '<path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/>',
+    hand: '<path d="M7 11V5a1.5 1.5 0 0 1 3 0v5M10 10V3.5a1.5 1.5 0 0 1 3 0V10M13 10V5a1.5 1.5 0 0 1 3 0v6M16 11V8a1.5 1.5 0 0 1 3 0v6a7 7 0 0 1-7 7h-1a6 6 0 0 1-5-3l-2.5-4.5a1.5 1.5 0 0 1 2.6-1.5L7 14"/>',
+    check: '<circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.8 2.8L16.5 9"/>',
+    book: '<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5M8 7h7"/>',
+    pen: '<path d="M4 20l4-1 11-11-3-3L5 16z"/><path d="M14 6l3 3"/>',
+    stage: '<path d="M3 4h18v3c-2 0-3 2-3 4H6c0-2-1-4-3-4z"/><path d="M5 20h14M8 11v9M16 11v9"/>',
+    people: '<circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6M15 14.5c3 0 6 2 6 5.5"/>',
+    star: '<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',
+    step: '<path d="M4 20h5v-5h5v-5h6"/><path d="M17 7l3 3-3 3"/>',
+    play: '<rect x="3" y="4" width="18" height="16" rx="3"/><path d="M10 9l5 3-5 3z"/>',
+    bug: '<rect x="8" y="7" width="8" height="12" rx="4"/><path d="M12 7V4M5 10h3M16 10h3M5 15h3M16 15h3M9 4l1.5 2M15 4l-1.5 2"/>',
+    math: '<path d="M5 12h14M12 5v14"/><path d="M5 5l3 3M8 5L5 8M16 17h4"/>',
+    wave: '<path d="M2 12c2-6 4-6 6 0s4 6 6 0 4-6 6 0"/>',
+    ruler: '<rect x="2" y="8" width="20" height="8" rx="1.5"/><path d="M6 8v3M10 8v4M14 8v3M18 8v4"/>',
+    search: '<circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/>',
+    tablet: '<rect x="5" y="2.5" width="14" height="19" rx="2.5"/><path d="M11 18h2"/>',
+    pc: '<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>',
+    screen: '<rect x="2.5" y="4" width="19" height="13" rx="1.5"/><path d="M12 17v3M8 20h8"/>',
+    speaker: '<rect x="6" y="2.5" width="12" height="19" rx="2.5"/><circle cx="12" cy="14.5" r="3"/><circle cx="12" cy="7" r="1.2"/>',
+    key: '<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M16 7l3 3M14 9l2 2"/>',
+    instrument: '<path d="M4 20L20 4"/><path d="M3 14l7 7M6 10l8 8M10 6l8 8"/><circle cx="18.5" cy="5.5" r="1.5"/>',
+    print: '<path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/>',
+    wifi: '<path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1"/>',
+    teacher: '<circle cx="8" cy="7" r="3"/><path d="M2 20c0-3.5 2.7-6 6-6 2 0 3.6.9 4.7 2.2"/><path d="M13 4h8v8h-8zM15 8h4"/>',
+    tune: '<path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/>',
+    score: '<rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M4 9h16M4 15h16M12 3v18"/>',
+    drum: '<ellipse cx="12" cy="7" rx="8" ry="3"/><path d="M4 7v9c0 1.7 3.6 3 8 3s8-1.3 8-3V7"/><path d="M5 3l5 5M19 3l-5 5"/>',
+    map: '<path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/>',
+    calendar: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+    clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    users: '<circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6"/><circle cx="17" cy="8" r="3"/><path d="M15 14c3.3 0 6 2.5 6 6"/>',
+    ai: '<rect x="4" y="6" width="16" height="13" rx="3"/><path d="M12 3v3M9 12h.01M15 12h.01M9 16h6"/>',
+    student: '<circle cx="12" cy="7" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/>',
+    won: '<path d="M3 7l3 10 3-10 3 10 3-10 3 10 3-10"/><path d="M2 11h20"/>',
+  };
+  const ico = (k, cls = "") => `<svg class="ic ${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[k] || IC.check}</svg>`;
+  function minBar(flow) {
+    const rows = []; const by = {};
+    flow.forEach((f, i) => { if (!by[f.part]) { by[f.part] = []; rows.push(f.part); } by[f.part].push({ ...f, n: i + 1 }); });
+    return `<div class="mbar" role="img" aria-label="수업 진행 순서와 시간">${rows.map((part) => {
+      const segs = by[part]; const span = (s) => { const m = String(s.min).split(/[–-]/).map(Number); return Math.max(1, (m[1] || 40) - (m[0] || 0)); };
+      const tot = segs.reduce((t, s) => t + span(s), 0);
+      return `<div class="mrow"><div class="mlab">${esc(part)}</div><div class="mtrack">${segs.map((s) => `<div class="mseg${s.ai ? " ai" : ""}" style="flex:${span(s)} 1 0" title="${esc(s.title)} ${esc(s.min)}분"><b class="num">${s.n}</b><span>${esc(s.title)}</span><i class="num">${span(s)}분</i>${s.ai ? '<em>AI</em>' : ""}</div>`).join("")}</div><div class="mtot num">${tot}분</div></div>`;
+    }).join("")}</div>`;
+  }
+  function priceCards(p) {
+    if (!p.price) return "";
+    const rows = p.price.rows.map((r) => { const big = r.amount ? won(r.amount) : esc(r.price || "협의"); const first = (r.cond || "").match(/첫 운영 학교 ([0-9]+만 원)/);
+      return `<div class="pcard"><div class="pk">${esc(r.type)}</div><div class="pv num">${big}</div>${first ? `<div class="pf">첫 운영 학교 <b class="num">${esc(first[1])}</b></div>` : `<div class="pf">${esc(r.cond || "")}</div>`}<div class="pu">${esc(r.unit || "")}</div></div>`; }).join("");
+    return `<div class="sec"><div class="subhead"><h3>${ico("won")}수업료 <span class="tiny">1학급 총액</span></h3></div><div class="pcards">${rows}</div>
+      <ul class="pnotes"><li>${ico("print")}강사·활동지 인쇄·수업용 앱·부산 시내 이동 포함</li><li>${ico("users")}같은 학교·같은 날 2학급째는 수업료의 4분의 3 (첫 운영 학교 금액과 겹치지 않음)</li><li>${ico("map")}경남은 교통 실비 별도</li></ul>
+      <p class="tiny">첫 운영 학교: 프로그램마다 1곳, 수업 뒤 학교 의견서 1장을 주시는 조건입니다.</p></div>`;
+  }
+  function gugakMenu(p) {
+    if (!p.menu) return "";
+    return `<div class="sec"><div class="subhead"><h3>${ico("music")}국악 수업 고르기 <span class="tiny">${p.menu.groups.reduce((t, g) => t + g.items.length, 0)}가지</span></h3></div><p class="muted small" style="margin:-4px 0 14px">${esc(p.menu.note)}</p>
+      ${p.menu.groups.map((g) => `<div class="mgroup"><div class="mghead"><b>${esc(g.title)}</b><span>${esc(g.price)}</span></div><div class="mtiles">${g.items.map((it) => `<div class="mtile${it.now ? " now" : ""}">${ico(it.icon)}<div><div class="mcode num">${esc(it.code)}${it.now ? '<span class="nowtag">바로 신청</span>' : ""}</div><b>${esc(it.name)}</b><span>${esc(it.line)}</span></div></div>`).join("")}</div></div>`).join("")}</div>`;
+  }
   function viewProgram(p) {
     const opens = nextOpenDates(p.id, 6);
-    const flow = p.flow.map((f) => `<div class="part"><div class="pt">${esc(f.part)}</div><div class="mn num">${esc(f.min)}분</div><div><h4>${esc(f.title)}<span class="who${f.ai ? " ai" : ""}">${esc(f.who)}${f.ai ? " · AI 사용" : ""}</span></h4><p>${esc(f.desc)}</p></div></div>`).join("");
-    const gugakExtra = p.id === "gugak" ? `
-      <div class="subhead"><h3>국악 웹악기 화면</h3></div>
-      <div class="two">
-        <figure class="rv" style="margin:0"><img src="img/app-demo.jpg" alt="웹악기 본보기 연주 화면. 가야금 4현 위에 칠 곳을 알리는 검은 점과 다음 칠 곳을 알리는 빈 동그라미가 보이고." style="border-radius:var(--r-m);border:1px solid var(--line)"><figcaption class="tiny" style="margin-top:8px">1교시 ‘본보기 보기’ · 칠 곳 ● 다음 칠 곳 ○</figcaption></figure>
-        <figure class="rv" style="margin:0"><img src="img/app-error.jpg" alt="웹악기 오류 찾기 화면 '소리 탐정 연구실'. 정상 듣기, 문제 탐색, 증거·추측, 직접 수정, 다시 검증 다섯 단계가 보인다." style="border-radius:var(--r-m);border:1px solid var(--line)"><figcaption class="tiny" style="margin-top:8px">2교시 ‘소리 탐정 연구실’ · 듣기 → 찾기 → 고치기 → 다시 확인</figcaption></figure>
-      </div>
-` : "";
-    const priceBox = p.price ? `<div class="subhead"><h3>수업료</h3><span class="tiny">${esc(p.price.note)}</span></div><div class="tablewrap"><table><thead><tr><th>형태</th><th>단위</th><th>수업료</th><th>조건</th></tr></thead><tbody>${p.price.rows.map((r) => `<tr><td><b>${esc(r.type)}</b></td><td>${esc(r.unit)}</td><td class="price num">${r.amount ? won(r.amount) : esc(r.price || "접수 시 견적")}</td><td class="muted small">${esc(r.cond)}</td></tr>`).join("")}</tbody></table></div><p class="tiny" style="margin-top:10px">${esc(p.price.extra)}</p>` : "";
+    const g = p.glance || { grades: p.grades, time: p.time, team: p.team, devices: p.devices };
+    const firstAmt = p.price && p.price.rows.find((r) => r.amount);
+    const glance = `<div class="glance">
+      <div>${ico("student")}<span class="k">대상</span><b>${esc(g.grades)}</b></div>
+      <div>${ico("clock")}<span class="k">시간</span><b>${esc(g.time)}</b></div>
+      <div>${ico("users")}<span class="k">강사</span><b>${esc(g.team)}</b></div>
+      <div>${ico("tablet")}<span class="k">학교 기기</span><b>${esc(g.devices)}</b></div>
+      <div class="gp">${ico("won")}<span class="k">수업료</span><b class="num">${firstAmt ? won(firstAmt.amount) + "부터" : "협의"}</b></div>
+    </div>`;
+    const loop = p.loop ? `<div class="sec"><div class="subhead"><h3>${ico("ai")}AI와 함께하는 순서</h3><span class="tiny">AI는 제안하고, 판단은 학생이 합니다</span></div>
+      <ol class="loop">${p.loop.map((t, i) => `<li class="${i === 1 ? "ai" : "st"}"><span class="who">${i === 1 ? ico("ai") + "AI" : ico("student") + "학생"}</span><b>${esc(t)}</b></li>`).join("")}</ol>
+      <p class="tiny" style="margin-top:10px">학생이 학교 태블릿에서 학교 계정으로 직접 씁니다. 안 되면 강사 기기에서 학생이 직접 칩니다.</p></div>` : "";
+    const gugakShots = p.id === "gugak" ? `<div class="two shots" style="margin-top:16px">
+        <figure class="rv"><img src="img/app-demo.jpg" alt="웹악기 본보기 연주 화면. 가야금 줄 위에 칠 곳 점과 다음 칠 곳 동그라미가 보인다." loading="lazy"><figcaption>1교시 본보기 보기 · 칠 곳 ● 다음 ○</figcaption></figure>
+        <figure class="rv"><img src="img/app-error.jpg" alt="웹악기 소리 탐정 연구실 화면. 듣기, 찾기, 추측, 고치기, 다시 확인 다섯 단계." loading="lazy"><figcaption>2교시 소리 탐정 · 듣기 → 찾기 → 고치기</figcaption></figure></div>` : "";
+    const steps = `<details class="more"><summary>단계별 설명 보기</summary><ol class="steps">${p.flow.map((f, i) => `<li><span class="sn num">${i + 1}</span><div><b>${esc(f.title)}</b> <span class="tiny num">${esc(f.part)} ${esc(f.min)}분</span>${f.ai ? ' <span class="aitag2">AI</span>' : ""}<p>${esc(f.desc)}</p></div></li>`).join("")}</ol></details>`;
+    const learn = (p.learnS || p.learn.map((t) => ({ icon: "check", t }))).map((x) => `<div class="lcard">${ico(x.icon)}<b>${esc(x.t)}</b></div>`).join("");
+    const prep = (p.prepS || p.prep.map((t) => ({ icon: "check", t }))).map((x) => `<li>${ico(x.icon)}<span>${esc(x.t)}</span></li>`).join("");
+    const incl = `<ul class="incl">${p.readiness.map((r) => `<li>${ico("check")}<span>${esc(r.item)}</span></li>`).join("")}</ul>`;
     const nav = S.P.programs.map((o) => `<a href="#${o.id}"${o.id === p.id ? ' class="on" aria-current="page"' : ""}>${esc(o.short)}</a>`).join("");
-    return `<section class="section view" style="padding-top:28px"><div class="wrap">
+    return `<section class="section view detail" style="padding-top:28px"><div class="wrap">
       <div class="crumb"><a href="#home">홈</a><span>›</span><a href="#programs">수업</a><span>›</span><span>${esc(p.name)}</span></div>
-      <div class="phero"><img src="${esc(p.image)}" alt="" onerror="this.remove()"><div class="in">${pill(p)}${p.track ? `<span class="mono" style="font-size:.78rem;letter-spacing:.06em;color:rgba(255,255,255,.82)">${esc(p.track)}</span>` : ""}<h1>${esc(p.name)}</h1><p>${esc(p.tagline)}</p>
+      <div class="phero"><img src="${esc(p.image)}" alt="" onerror="this.remove()"${p.heroSoft ? ' style="filter:blur(3px) saturate(.8);transform:scale(1.04)"' : ""}><div class="in">${pill(p)}${p.track ? `<span class="mono" style="font-size:.78rem;letter-spacing:.06em;color:rgba(255,255,255,.82)">${esc(p.track)}</span>` : ""}<h1>${esc(p.name)}</h1><p>${esc(p.tagline)}</p>
         <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:6px"><a class="btn primary" href="#apply" data-pick="${esc(p.id)}">이 수업 접수하기</a><a class="btn" style="color:#fff;border-color:rgba(255,255,255,.45)" href="#ask" data-ask="${esc(p.id)}">이 수업 질문하기</a></div></div></div>
-      ${p.imageCaption ? `<p class="tiny" style="margin-top:8px">${esc(p.imageCaption)}</p>` : ""}
-      <div class="meta-grid">
-        <div><div class="k">교과</div><div class="v">${esc(p.subject)}</div></div>
-        <div><div class="k">대상</div><div class="v">${esc(p.grades)}</div></div>
-        <div><div class="k">시간</div><div class="v">${esc(p.time)}</div></div>
-        <div><div class="k">진행</div><div class="v">${esc(p.team)}</div></div>
-        <div><div class="k">학교 준비</div><div class="v">${esc(p.devices)}</div></div>
+      ${glance}
+      <div class="sec"><div class="subhead"><h3>${ico("star")}이런 것을 배워요</h3></div><div class="lcards wide">${learn}</div></div>
+      ${gugakMenu(p)}
+      <div class="sec"><div class="subhead"><h3>${ico("clock")}수업 흐름</h3><span class="tiny">${esc(p.time)}</span></div>${minBar(p.flow)}${gugakShots}${steps}</div>
+      ${loop}
+      <div class="two sec">
+        <div><div class="subhead"><h3>${ico("tablet")}학교에서 준비할 것</h3></div><ul class="prep">${prep}</ul><details class="more"><summary>자세한 준비 조건</summary><ul class="list">${p.prep.map((t) => `<li>${esc(t)}</li>`).join("")}</ul></details></div>
+        <div><div class="subhead"><h3>${ico("book")}수업에 포함된 것</h3></div>${incl}<details class="more"><summary>포함 자료 자세히</summary>${checklist(p.readiness)}</details></div>
       </div>
-      <div class="subhead"><h3>수업 진행</h3><span class="tiny">${esc(p.time)}</span></div>
-      <div class="flow">${flow}</div>
-      <div class="two" style="margin-top:8px">
-        <div><div class="subhead"><h3>배우는 것</h3></div><ul class="list">${p.learn.map((t) => `<li>${esc(t)}</li>`).join("")}</ul></div>
-        <div><div class="subhead"><h3>학교에서 준비할 것</h3></div><ul class="list">${p.prep.map((t) => `<li>${esc(t)}</li>`).join("")}</ul></div>
-      </div>
-      ${gugakExtra}${priceBox}
-      <div class="two" style="margin-top:8px">
-        <div><div class="subhead"><h3>수업에 포함된 것</h3></div>${checklist(p.readiness)}</div>
-        <div><div class="subhead"><h3>일정 · 접수</h3><span class="tiny">${esc(p.status.booking)}</span></div>
-          ${opens.length ? `<p class="muted small" style="margin-bottom:12px">희망일을 고르면 접수 화면으로 이어집니다. 접수 후 담당자가 연락해 확정합니다.</p><div class="chips">${opens.map((d) => `<button type="button" class="chip" data-date="${ymd(d)}" data-pick="${esc(p.id)}">${fmtDay(d)}</button>`).join("")}</div><p style="margin-top:14px"><a class="btn sm" href="#schedule">전체 달력 보기</a></p>` : `<p class="muted">아직 희망일을 받을 수 있는 날이 없습니다. 관심 학교로 먼저 접수해 주시면 준비되는 대로 연락드립니다.</p><p style="margin-top:14px"><a class="btn sm primary" href="#apply" data-pick="${esc(p.id)}">관심 학교로 접수</a></p>`}
+      ${priceCards(p)}
+      <div class="sec">
+        <div><div class="subhead"><h3>${ico("calendar")}일정 · 접수</h3><span class="tiny">${esc(p.status.booking)}</span></div>
+          ${opens.length ? `<div class="chips">${opens.map((d) => `<button type="button" class="chip" data-date="${ymd(d)}" data-pick="${esc(p.id)}">${fmtDay(d)}</button>`).join("")}</div><p class="tiny" style="margin-top:10px">날짜를 누르면 접수 화면으로 이어집니다.</p><p style="margin-top:14px"><a class="btn sm" href="#schedule">전체 달력 보기</a></p>` : `<p style="margin-top:4px"><a class="btn sm primary" href="#apply" data-pick="${esc(p.id)}">관심 학교로 접수</a></p>`}
         </div>
       </div>
+      <div class="ctaend"><p>${ico("check")}<span>학교 선생님이 접수합니다 · 1학급 단위 · 학생 이름·학교 이름은 AI에 넣지 않습니다</span></p><div class="btns"><a class="btn primary" href="#apply" data-pick="${esc(p.id)}">이 수업 접수하기</a><a class="btn" href="#ask" data-ask="${esc(p.id)}">이 수업 질문하기</a></div></div>
+      ${p.imageCaption ? `<p class="tiny" style="margin-top:18px">${esc(p.imageCaption)}</p>` : ""}
       <div class="subhead"><h3>다른 수업</h3></div><div class="others">${nav}</div>
     </div></section>`;
   }

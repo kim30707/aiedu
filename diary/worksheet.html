@@ -4,15 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex">
-<title>내꿈다이어리 · 인쇄용 활동지</title>
+<link rel="icon" href="logo/semjejakso_mark_small.svg">
+<title>내 꿈 다이어리 · 인쇄용 활동지</title>
 <style>
-html,body{background:#e9eefb;margin:0}
-body{font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;color:#111a2e;padding:0 12px 30px}
-.bar{max-width:210mm;margin:0 auto;padding:16px 0;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
-.bar p{margin:0;font-size:14px;color:#46526e;max-width:38em;line-height:1.6}
-.bar a,.bar button{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:999px;border:1px solid #b8c3dc;background:#fff;font:inherit;font-weight:700;font-size:15px;color:#111a2e;text-decoration:none;cursor:pointer}
-.bar button{background:#2b5bff;border-color:#2b5bff;color:#fff}
+html,body{background:#e3f1ed;margin:0}
+body{font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;color:#10221f;padding:0 12px 30px}
+.bar{max-width:210mm;margin:0 auto;padding:16px 0;display:grid;gap:10px}
+.bar p{margin:0;font-size:14px;color:#3d5651;line-height:1.6}
+.bar a,.bar button{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid #b0cdc5;background:#fff;font:inherit;font-weight:700;font-size:15px;color:#10221f;text-decoration:none;cursor:pointer}
+.bar button{background:#0b7a75;border-color:#0b7a75;color:#fff}
 .bar .group{display:flex;gap:8px;flex-wrap:wrap}
+.bar .bands a[aria-current]{border-color:#0b7a75;background:#eef7f4;box-shadow:0 0 0 2px rgba(11,122,117,.2)}
+.bar .bands small{font-weight:500;color:#0b7a75;margin-right:6px}
 @page{size:A4;margin:14mm}
 @media print{html,body{background:#fff;padding:0}.bar{display:none}}
 </style>
@@ -20,18 +23,24 @@ body{font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,
 </head>
 <body>
 <div class="bar">
-  <p id="what">빈 활동지 여섯 쪽입니다. 앱 없이 종이로만 수업해도 같은 순서로 씁니다. 인쇄할 때 배율 100%, A4 세로로 맞춰 주세요.</p>
+  <div class="group bands" id="bands" aria-label="과정 고르기"></div>
+  <p id="what"></p>
   <div class="group"><a href="./">앱으로 돌아가기</a><a id="swap" href="#example">예제 책 보기</a><button type="button" onclick="print()">인쇄 · PDF 저장</button></div>
 </div>
 <main id="book"></main>
 <script>
+/* 주소 뒤 #band=low&example 처럼 과정과 예제를 고른다. #example 만 쓰면 초4~6(v0.3과 같음). */
 addEventListener('DOMContentLoaded',()=>{
   const s=window.DreamDiary,book=document.getElementById('book');
-  function show(){const ex=location.hash==='#example';
-    book.innerHTML=s.worksheet(ex?s.demo():s.defaults());
-    document.getElementById('what').textContent=ex?'예제 책입니다. 학생 ‘새싹’과 AI가 한 말은 모두 미리 쓴 가상 예시이고 실제 학생·실제 AI 답이 아닙니다.':'빈 활동지 여섯 쪽입니다. 앱 없이 종이로만 수업해도 같은 순서로 씁니다. 인쇄할 때 배율 100%, A4 세로로 맞춰 주세요.';
-    const a=document.getElementById('swap');a.href=ex?'#':'#example';a.textContent=ex?'빈 활동지 보기':'예제 책 보기';
-    document.title=ex?'내꿈다이어리 · 예제 책(가상 예시)':'내꿈다이어리 · 인쇄용 활동지';}
+  const read=()=>{const q=new URLSearchParams(location.hash.slice(1));const band=s.bandOrder.includes(q.get('band'))?q.get('band'):'upper';return {band,ex:q.has('example')};};
+  const link=(band,ex)=>'#'+(band!=='upper'?'band='+band+(ex?'&':''):'')+(ex?'example':'');
+  function show(){const {band,ex}=read(),B=s.bands[band],n=s.pagesOf(band).length;
+    book.innerHTML=s.worksheet(ex?s.demo(band):s.defaults(band));
+    document.getElementById('bands').innerHTML=s.bandOrder.map(k=>`<a href="${link(k,ex)}"${k===band?' aria-current="true"':''}><small>${s.bands[k].grades}</small>${s.bands[k].name}</a>`).join('');
+    const extra=band==='mid'?' + 확인 카드':band==='high'?' + 과목·활동 계획표':'';
+    document.getElementById('what').textContent=ex?`${B.name}(${B.grades}) 예제 책입니다. 예시 학생과 ‘AI가 한 말’은 모두 미리 써 둔 예시입니다. 실제 학생의 글이나 실제 AI 답이 아닙니다.`:`${B.name}(${B.grades}) 빈 활동지 ${band==='low'?'네 쪽':'여섯 쪽'}${extra} · A4 ${n}장입니다. 앱 없이 종이로만 수업해도 같은 순서로 씁니다. 인쇄할 때 배율 100%, A4 세로로 맞춰 주세요.`;
+    const a=document.getElementById('swap');a.href=link(band,!ex);a.textContent=ex?'빈 활동지 보기':'예제 책 보기';
+    document.title=`${B.name} · ${ex?'예제 책':'인쇄용 활동지'}`;}
   addEventListener('hashchange',show);show();
 });
 </script>

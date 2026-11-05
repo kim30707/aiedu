@@ -1,7 +1,7 @@
 {
- "version": "0.2",
+ "version": "0.4",
  "url": "https://kim30707.github.io/aiedu/diary/",
- "built": "build_v02.py",
+ "built": "build_v04.py",
  "files": [
   {
    "path": "boot.js",
@@ -10,28 +10,43 @@
   },
   {
    "path": "core.js",
-   "bytes": 9177,
-   "sha256": "b5e8c119e46e1502a7d52592f21123390c113ad2a444e6e44e57047b51c242f5"
+   "bytes": 10706,
+   "sha256": "3f5c8318dd5a161cd0f2d88b3ebddb0f76b1f2c74173e64ac54b3763af08fc15"
   },
   {
    "path": "dream.js",
-   "bytes": 34222,
-   "sha256": "fdb7eb1afd07fab99edb4dff822408eae054ba6c7ce82b3ba17ad640b3262abe"
+   "bytes": 80211,
+   "sha256": "72757f76b163742b359e5531fecce1e59524fe217396add6cc00e7e6231e8dce"
   },
   {
    "path": "guide.html",
-   "bytes": 12566,
-   "sha256": "116907e7ce0ef9685598270e955d0ddb9822f6dc4c09c1b1bffb4c28aff31ed5"
+   "bytes": 26987,
+   "sha256": "23028c27fdf8fce0257dbee8de549919c140c0c248a2b9c900c09f42794cdb5a"
   },
   {
-   "path": "img/book-ai.png",
-   "bytes": 81967,
-   "sha256": "1c0822f8aebeb645969df2bc289c76956aea160ba069fa18b0e73225c7111cfd"
+   "path": "guide_upper.html",
+   "bytes": 21791,
+   "sha256": "098e051900e8b18159b04bce82dd832bf59def0992d5cb5750eec364c4b922c7"
+  },
+  {
+   "path": "img/QR_app.png",
+   "bytes": 4897,
+   "sha256": "09240b8741cf10d817334e278fa5ef18d7e804fbaabfc89cd1e80693d0d8ad9d"
+  },
+  {
+   "path": "img/QR_home_diary.png",
+   "bytes": 4931,
+   "sha256": "02b153fa4f3921ee424c920307992b07b265171257db0e0689118e0051a0984c"
   },
   {
    "path": "img/book-cover.png",
    "bytes": 73477,
    "sha256": "e1cff71a6ec12ad6b2aa6ba61505fad36a2b744196f24bd77b57fa5fa24a8ae5"
+  },
+  {
+   "path": "img/diary_app.png",
+   "bytes": 166920,
+   "sha256": "8991780e024203c8c0cd57dceabf3e1aa58d785f0575e8c59c7196499a5f4937"
   },
   {
    "path": "img/qr-diary.png",
@@ -40,23 +55,43 @@
   },
   {
    "path": "index.html",
-   "bytes": 6271,
-   "sha256": "3bee860d6278299d8925062c031e74bdc791925ea3b71bffbe90d25fb03b0153"
+   "bytes": 6890,
+   "sha256": "a6941eeee75897bba3d47d6d8b31ae25da900eae0a94dc9a72f7518d85be49ae"
   },
   {
    "path": "intro.html",
-   "bytes": 12182,
-   "sha256": "80b8e7d675837e51cde3b2be9cb0838ffbbe364ae040c57b08d128735a97eab5"
+   "bytes": 41135,
+   "sha256": "816571a8182fa71edd4a02b52f9334af11c17ded6856a40ad4c111451e497e8e"
+  },
+  {
+   "path": "logo/semjejakso_mark.svg",
+   "bytes": 519,
+   "sha256": "19fd1131ac344c1a1b5a91aa2af22f4098ba33495b2b1c98a3ba815e77395288"
+  },
+  {
+   "path": "logo/semjejakso_mark_mono.svg",
+   "bytes": 519,
+   "sha256": "a275a35d0a552daebe34e4d03d530cb6b20e96cf2fbece372c1f2353cb63363f"
+  },
+  {
+   "path": "logo/semjejakso_mark_small.svg",
+   "bytes": 423,
+   "sha256": "3757acacbd3d85e5c7edca85400af201031100f8f660e9891f611ec825f5a609"
+  },
+  {
+   "path": "logo/semjejakso_mark_white.svg",
+   "bytes": 519,
+   "sha256": "4732a8eb653e32b18e63f8eb61abd623338c7fcc3180888e6f6cc770b5579774"
   },
   {
    "path": "style.css",
-   "bytes": 13576,
-   "sha256": "c1aeb1be9c45958420ce6074c00885b201ad7b9bffbdc6452eb645a7daa14b40"
+   "bytes": 19990,
+   "sha256": "15a36032a48803e2d7588a6a22effbb4187fcf736302af62617f89579224b74a"
   },
   {
    "path": "worksheet.html",
-   "bytes": 2456,
-   "sha256": "e66aeb90199e5cb210242d223587d8a3cb21faf21f6d2e3c6f2ff2a9f96e2756"
+   "bytes": 3309,
+   "sha256": "b7a6b8bb7006926ea70f96b2ab94ef36f8c4c812b1092a5217805ff39ce5ffaf"
   }
  ]
 }

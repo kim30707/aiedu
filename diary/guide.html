@@ -1,60 +1,63 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex">
-<title>내꿈다이어리 수업 안내 · 교안 v0.2</title>
+<title>내 꿈 다이어리 학년군별 4과정 · 셈제작소</title>
+<link rel="icon" href="logo/semjejakso_mark_small.svg">
 <style>
-:root{--paper:#f4f7ff;--ink:#111a2e;--ink-2:#46526e;--line:#d3dbee;--brand:#2b5bff;--brand-deep:#1f45e6;--mint:#04876f;--font:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif}
-*{box-sizing:border-box}html,body{background:var(--paper);margin:0}
-body{font-family:var(--font);color:var(--ink);font-size:16px;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}
-.wrap{max-width:920px;margin:0 auto;padding:20px 16px 48px}
-nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
-nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid #b8c3dc;background:#fff;color:var(--ink);font-weight:700;text-decoration:none;font-size:15px}
-nav a:first-child{background:var(--brand);border-color:var(--brand);color:#fff}
-.sheet{background:#fff;border:1px solid var(--line);border-radius:22px;padding:28px}
-h1{font-size:28px;line-height:1.3;letter-spacing:-.03em;margin:0 0 6px}
-h2{font-size:21px;letter-spacing:-.02em;margin:30px 0 10px;padding-top:14px;border-top:2px solid var(--brand)}
-h1+p{color:var(--ink-2);font-size:14px}
-strong{color:var(--brand-deep)}
-.table-wrap{overflow-x:auto;margin:10px 0 14px}
-table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:560px}
-th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
-thead th{background:#e9eefb;color:var(--brand-deep)}
-td:first-child{white-space:nowrap}
-ul,ol{padding-left:1.3em}li{margin:4px 0}
-code{font-size:.85em;background:#eef2fb;padding:1px 5px;border-radius:5px}
-@media (max-width:560px){.sheet{padding:18px 14px}h1{font-size:23px}h2{font-size:19px}}
-@page{size:A4;margin:14mm}
-@media print{html,body{background:#fff}.wrap{padding:0;max-width:none}nav{display:none}.sheet{border:0;padding:0}table{min-width:0;font-size:10pt}body{font-size:10.5pt}h2{break-after:avoid}tr{break-inside:avoid}}
-</style></head><body><div class="wrap">
-<nav aria-label="바로 가기"><a href="./">앱 열기</a><a href="worksheet.html">빈 활동지</a><a href="worksheet.html#example">예제 책</a><a href="intro.html">프로그램 소개 1쪽</a></nav>
+:root{--paper:#f3faf8;--ink:#10221f;--ink-2:#3d5651;--line:#cfe3dd;--brand:#0b7a75;--brand-deep:#075e5a;--coral:#e8562f;--font:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif}
+*{box-sizing:border-box}html,body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);line-height:1.65;font-size:16px}
+nav{max-width:980px;margin:0 auto;padding:14px 16px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+nav .b{display:flex;align-items:center;gap:8px;font-weight:800;margin-right:auto}nav .b img{width:30px;height:30px}nav .b small{font-weight:500;color:var(--ink-2)}
+nav a.l{min-height:44px;display:inline-flex;align-items:center;padding:0 16px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--ink);text-decoration:none;font-weight:700;font-size:14px}
+.sheet{max-width:980px;margin:0 auto 40px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:28px 24px}
+h1{font-size:26px;line-height:1.3;margin:0 0 6px;letter-spacing:-.02em}h2{font-size:19px;color:var(--brand-deep);margin:28px 0 8px;border-bottom:2px solid var(--brand);padding-bottom:4px}
+p strong{background:linear-gradient(transparent 60%,#ffe39a 0)}
+.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:620px;font-size:14.5px}th,td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}th{background:#e3f1ed}
+td strong{color:#b8401d}code{font-size:.92em}ul,ol{padding-left:22px}li{margin:3px 0}
+@media (max-width:600px){.sheet{padding:18px 14px;border-radius:12px}h1{font-size:22px}}
+@media print{html,body{background:#fff}nav{display:none}.sheet{border:0;padding:0}table{min-width:0;font-size:10pt}body{font-size:10.5pt}h2{break-after:avoid}tr{break-inside:avoid}}
+</style></head><body>
+<nav><span class="b"><img src="logo/semjejakso_mark.svg" alt="">셈제작소 <small>학교 AI 수업</small></span><a class="l" href="./">앱으로 돌아가기</a><a class="l" href="guide_upper.html">고학년 교안</a><a class="l" href="worksheet.html">빈 활동지</a><a class="l" href="intro.html">프로그램 소개</a></nav>
 <article class="sheet">
-<h1>내꿈다이어리 v0.2 교안 — 80분 체험형 · 40분×4 제작형</h1>
-<p>작성 2026-11-04 Claude · 출처: GPT/Codex v0.1 교안(<code>2026-11-03_183541_내꿈다이어리_v01_6쪽제작/02_교안/교안.md</code>, 원본 보존) · 상태: 검토필요 · <strong>실제 수업 0회</strong></p>
-<h2>한눈에</h2>
-<div class="table-wrap"><table><thead><tr><th>항목</th><th>내용</th></tr></thead><tbody><tr><td>대상</td><td>초등 5~6학년 1학급 기준 (초3~4·중학생은 아래 ‘학년 조정’)</td></tr><tr><td>형태</td><td>A. 80분 체험형(1회 방문, 2교시) · B. 40분×4 제작형(2회 방문, 방문 사이 1주)</td></tr><tr><td>진행</td><td>AI 담당 강사 1인 + 담임 협력</td></tr><tr><td>기기</td><td>학생 태블릿(브라우저) 또는 종이 활동지 · 교탁 PC와 큰 화면(AI 장면)</td></tr><tr><td>결과물</td><td>학생이 쓰고 고친 여섯 쪽 책(인쇄본, PDF, 다시 열 수 있는 파일)</td></tr><tr><td>여섯 쪽</td><td>1 표지·나의 지도 / 2 관심·경험 / 3 가능성 두 가지 / 4 AI 질문 고쳐 쓰기 / 5 목표와 이번 주 / 6 돌아보기·고치기</td></tr></tbody></table></div>
-<h2>지킬 것</h2>
-<ul><li><strong>AI는 꿈을 정해 주지 않는다.</strong> 이 수업은 진로 진단·적성검사·직업 예측이 아니다. 학생이 고르고 고치는 탐색 기록이다.</li><li><strong>만 13세 미만 학생은 AI에 직접 입력하지 않는다.</strong> 강사가 교탁 화면에서 학교가 허용한 AI에 입력하고 반이 함께 본다. 중학생은 학교가 승인한 학생 계정(예: 부산 펜즈)이 있을 때만 직접 쓴다.</li><li>앱의 ‘내 책 점검하기’, ‘나의 지도’, 쪽 채움 표시는 <strong>규칙으로 움직이는 기능(AI 아님)</strong>이다. 학생에게도 그렇게 말한다.</li><li>실명·학교·연락처·가족·건강·성적은 쓰지 않는다. 별칭만 쓴다. 말하고 싶지 않은 경험은 쓰지 않아도 된다.</li><li>‘해 봄’은 실제로 해 본 뒤에만 표시한다. 체크 수를 평가·성실성 점수로 쓰지 않는다.</li><li>상담 수업이 아니다. 걱정되는 이야기가 나오면 기록하지 않고 담임께 조용히 연결한다.</li></ul>
-<h2>A. 80분 체험형 (2교시)</h2>
-<div class="table-wrap"><table><thead><tr><th>교시</th><th>시간</th><th>활동</th><th>학생</th><th>강사 · AI</th><th>쪽</th></tr></thead><tbody><tr><td>1</td><td>0–5</td><td>오늘 만들 책 보기</td><td>예제 책 ‘새싹’을 본다</td><td>“새싹은 미리 쓴 가상 예시예요.”</td><td>—</td></tr><tr><td>1</td><td>5–18</td><td>관심·경험 쓰기</td><td>관심 하나, 직접 해 본 일과 그때 느낌</td><td>순회. “잘하는 것 말고, 해 본 일을 써요.”</td><td>2</td></tr><tr><td>1</td><td>18–33</td><td><strong>AI 질문 장면</strong></td><td>AI의 말을 함께 읽고 ‘그대로 / 고쳐서 / 안 씀’을 고른다. 1~2개를 4쪽에 옮겨 적고 이유를 쓴다</td><td>교탁 화면에서 요청문 실행(아래 ‘AI 장면’)</td><td>4</td></tr><tr><td>1</td><td>33–40</td><td>가능성 하나 이름 짓기</td><td>“해 보고 싶은 활동이나 삶의 모습” 한 줄</td><td>직업 이름이 아니어도 된다고 안내</td><td>3</td></tr><tr><td>2</td><td>0–14</td><td>가능성 두 가지</td><td>두 번째 가능성 + 각각 10~15분 활동</td><td>서로 다른 길인지 짝과 확인</td><td>3</td></tr><tr><td>2</td><td>14–28</td><td>이번 주 한 걸음</td><td>이번 달 작은 실험 1개, 요일 행동 1~2개, 쉬는 날 정하기</td><td>“시간을 적으면 실행하기 쉬워요.”</td><td>5</td></tr><tr><td>2</td><td>28–36</td><td>고치고 점검하기</td><td>단정하는 문장 1개 고치기, ‘내 책 점검하기’ 1회, 나의 지도 확인</td><td>점검은 규칙형이라고 다시 말한다</td><td>6·1</td></tr><tr><td>2</td><td>36–40</td><td>보관</td><td>파일 저장 또는 종이 책 챙기기. 원하면 짝에게 한 쪽 소개</td><td>공용 기기는 ‘새로 쓰기’로 지우기</td><td>—</td></tr></tbody></table></div>
-<p>남은 칸(1년 목표, 6쪽 회고)은 담임 시간이나 집에서 이어 쓴다. 강제 과제로 내지 않는다.</p>
-<h2>B. 40분×4 제작형 (2회 방문, 방문 사이 1주)</h2>
-<div class="table-wrap"><table><thead><tr><th>차시</th><th>40분 흐름</th><th>결과</th></tr></thead><tbody><tr><td>1 나의 경험</td><td>도입·예제 5 + 경험 떠올리기 10 + 짝과 선택적 이야기 8 + 표지·관심·경험 쓰기 12 + 개인정보 확인 5</td><td>1·2쪽</td></tr><tr><td>2 두 가지 길과 AI</td><td>지난 시간 확인 5 + 가능성 두 가지 12 + <strong>AI 질문 장면</strong> 15 + 고르고 고치기 8</td><td>3·4쪽</td></tr><tr><td>—</td><td>(1주) 학생이 고른 행동 하나를 실제로 해 본다. 못 해도 괜찮다</td><td>—</td></tr><tr><td>3 목표와 이번 주</td><td>목표 다시 읽기 5 + 1년·이번 달 10 + 요일 행동 15 + 짝과 실행 가능성 확인 7 + 저장 3</td><td>5쪽</td></tr><tr><td>4 돌아보기·고치기</td><td>해 본 일 나누기 5 + 단정 문장 고치기 10 + 6쪽 쓰기 10 + 책 점검·미리보기 10 + 보관 5</td><td>6쪽, 완성 책</td></tr></tbody></table></div>
-<p>방문 사이 1주가 있으면 6쪽 ‘실제로 해 보고 알게 된 점’을 진짜 경험으로 쓸 수 있다. 같은 날 4차시를 연달아 하면 “계획을 세우며 알게 된 점”으로 범위를 바꿔 쓴다.</p>
-<h2>AI 장면 (교탁 화면, 15분)</h2>
-<ol><li><strong>준비(수업 전)</strong>: 학교가 허용한 AI 서비스와 강사 계정, 화면 연결을 확인하고 요청문으로 한 번 시험해 둔다. 접속이 막혀 있으면 아래 대안으로 간다.</li><li><strong>글 고르기</strong>: 자원한 학생 2~3명의 글을 쓴다. 학생에게 먼저 묻고, 별칭도 넣지 않는다. 앱 ‘선생님 메뉴 → 선생님용 AI 요청문’이 그 학생의 관심·경험·가능성으로 요청문을 만든다(자동 전송 없음). 강사가 내용을 다시 읽고 복사해 붙여 넣는다.</li><li><strong>함께 읽기</strong>: AI 답을 화면에 띄우고 한 문장씩 읽는다. “이 말은 질문인가요, 정해 주는 말인가요?”</li><li><strong>고르기</strong>: 반 전체가 문장마다 ‘그대로 / 고쳐서 / 안 씀’을 손으로 표시한다. AI가 “꼭 ~가 될 거예요”처럼 단정하면 좋은 고치기 소재로 쓴다.</li><li><strong>옮겨 적기</strong>: 각자 4쪽에 1~2개를 옮겨 적고 내 말로 고친 문장과 이유를 쓴다. 자기 글로 AI 답을 받지 않은 학생도 같은 활동을 한다.</li><li><strong>기록(강사)</strong>: 실제로 쓴 AI 서비스, 날짜, 넣은 글(개인정보 없음), 문제점을 수업 기록에 남긴다.</li></ol>
-<p>중학생(학교 승인 계정이 있을 때): 학생이 요청문의 ‘붙여 넣기’ 부분만 직접 넣는다. 강사는 같은 1~5 순서로 돌아보며 고르기·고치기를 확인한다.</p>
-<p><strong>AI를 쓸 수 없을 때</strong>: 4쪽에서 ‘AI 없이’를 고르고 짝·선생님이 질문 3개를 해 준다. 예제 책의 ‘AI가 한 말’ 3개(가상 예시)로 고르기 연습을 해도 된다. 이때 실제 AI 답이 아니라고 말한다.</p>
-<h2>준비물</h2>
-<ul><li>강사: 노트북(교탁 화면 연결), 앱 주소(공개 시연판 또는 교실 서버), 인쇄 활동지(학생 수 + 여유), 예제 책 1부</li><li>학교: 학생 태블릿 브라우저(1인 1대 권장, 2인 1대 가능), 교실 Wi-Fi(공개 주소 이용 시), 필기도구·색연필</li><li>인쇄: A4 6쪽 한 벌(양면이면 3장). 인쇄 배율 100%, A4 세로</li></ul>
-<h2>산출물</h2>
-<ul><li>학생: 여섯 쪽 책(인쇄본 또는 PDF·HTML), 이어 쓰기용 파일(.json)</li><li>강사: 수업 기록(실제 시간 배분, 사용한 AI, 막힌 곳). 학생 글을 수집하거나 사진으로 찍지 않는다(학교 동의가 따로 있을 때만)</li></ul>
-<h2>관찰 기준 (점수 아님)</h2>
-<p>0 아직 없음 · 1 도움 받아 설명 · 2 스스로 설명</p>
-<ul><li>관심과 경험을 구분하고, 경험의 구체적 장면을 말한다.</li><li>서로 다른 가능성 두 가지를 열어 두고 고른 이유를 말한다.</li><li>AI의 말 하나를 그대로 쓸지·고칠지·안 쓸지 정하고 이유를 말한다.</li><li>이번 주 행동 하나가 시간·방법 면에서 할 수 있는지 판단한다.</li><li>단정하는 문장 하나를 탐색하는 말로 고친다.</li></ul>
-<p>진로 순위나 성공 가능성 점수를 주지 않는다.</p>
-<h2>학년 조정</h2>
-<ul><li><strong>초3~4</strong>: 2쪽은 그림 + 낱말, 3쪽 가능성은 활동 그림 두 개, 5쪽은 하루 행동 하나. 4쪽 AI 장면은 강사가 읽어 주고 손들기로 고른 뒤 한 줄만 옮겨 적는다. 80분 체험형을 권한다.</li><li><strong>초5~6</strong>: 이 교안 그대로.</li><li><strong>중1~3</strong>: 3쪽 ‘알아볼 정보’에 공식 기관 자료 한 개씩 출처·확인일을 적는다. 학교 승인 계정이 있으면 학생이 직접 AI에 넣고, 없으면 초등과 같이 교탁 화면. 상담이나 직업 판정으로 넓히지 않는다.</li></ul>
-<h2>기기·인터넷 문제</h2>
-<ul><li>앱은 AI·인터넷 없이 돌아간다(교실 서버 또는 한 번 연 화면). 종이 활동지만으로도 같은 여섯 쪽을 쓴다.</li><li>태블릿 입력이 느리면 말로 하고 그림·낱말로 쓴다. 강사가 대신 쓸 때는 학생 허락을 받는다. 녹음하지 않는다.</li><li>공용 태블릿: 수업 끝에 ‘파일 저장’ 뒤 ‘새로 쓰기’로 지운다. 기기끼리 자동으로 공유되지 않는다.</li></ul>
-<h2>아직 확인하지 않은 것</h2>
-<p>실제 학생 시간 배분, 태블릿 기종별 입력, 학교 AI 계정·접속 허용, 학교 프린터 인쇄 상태, 담임 협력 방식. 80분·160분 리허설 뒤 이 교안을 고친다.</p>
-</article></div></body></html>
+<h1>내 꿈 다이어리 — 학년군별 4과정 교안</h1>
+<p>초등 고학년 과정의 자세한 흐름(80분 체험형 · 40분 × 4차시 제작형)은 <a href="guide_upper.html">초등 고학년 교안</a>에 있습니다.</p>
+<h2>네 과정 한눈에</h2>
+<div class="table-wrap"><table><thead><tr><th></th><th>초등 저학년 (초1~3)</th><th>초등 고학년 (초4~6)</th><th>중학교 (중1~3)</th><th>고등학교 (고1~3)</th></tr></thead><tbody><tr><td>과정 이름</td><td>좋아하는 것 그림책</td><td>내 꿈 다이어리</td><td>진로 탐색 다이어리</td><td>진로 설계 다이어리</td></tr><tr><td>핵심 한 줄</td><td>내가 좋아하는 것은 내가 고른다</td><td>AI는 내 꿈을 정해 주지 않는다. 나는 골라 쓰고 고친다</td><td>AI의 말도 확인하고 쓴다</td><td>내 길은 내가 설계하고, AI의 말은 검토한다</td></tr><tr><td>결과물</td><td>네 쪽 그림책</td><td>여섯 쪽 책</td><td>여섯 쪽 책 + 확인 카드</td><td>여섯 쪽 책 + 과목·활동 계획표</td></tr><tr><td>형태</td><td>80분 (2교시)</td><td>80분 / 40분 × 4차시</td><td>80분 / 40분 × 4차시</td><td>80분 / 40분 × 4차시</td></tr><tr><td>기기</td><td>학교 공용 기기 모둠당 1대를 돌려 쓴다(확인된 2022년 일괄 보급 범위는 초4~고3 · 초1~3은 학교별 공용 기기 대수를 사전 확인)</td><td>학교 태블릿 1인 1대 (안 되면 2인 1대)</td><td>학교 태블릿 1인 1대</td><td>학교 태블릿 1인 1대</td></tr><tr><td>AI에 넣는 것</td><td>그림 낱말 카드 세 장 (골라 누르기)</td><td>세 줄: 관심 · 해 본 일 · 궁금한 것</td><td>세 줄 + 가능성 두 가지</td><td>관심·경험 요약 + 가능성 두 가지</td></tr><tr><td>AI에게 받는 것</td><td>질문 1개</td><td>질문 3개 + 작은 활동 2개</td><td>가능성마다 확인할 질문 3개</td><td>필요한 역량·확인할 질문 + 고정관념 검토</td></tr><tr><td>학생이 하는 판단</td><td>좋아요 / 바꿔요 / 안 써요</td><td>그대로 / 고쳐서 / 안 씀 + 이유</td><td>그대로 / 고쳐서 / 안 씀 + 공식 자료 한 개로 확인</td><td>그대로 / 고쳐서 / 안 씀 + 단정·편견 찾아 고치기</td></tr><tr><td>진행</td><td>강사 · AI 시간 감독 교사 · 담임 함께 권장</td><td>강사 · AI 시간 감독 교사 · 담임 함께 권장</td><td>강사 · AI 시간 감독 교사 · 담임 함께 권장</td><td>강사 · AI 시간 감독 교사 · 담임 함께 권장</td></tr></tbody></table></div>
+<p><strong>네 과정 공통</strong></p>
+<ul><li>기본은 학생이 직접 쓴다. 학생이 학교가 열어 둔 계정으로 AI에 직접 묻고 고른다. 계정이 없으면 강사 기기에 학생이 와서 직접 치고, 그것도 어려울 때만 학생이 요청 내용을 정하고 강사가 입력한다(당일 전환 5단계는 고학년 교안 ‘AI 장면’).</li><li>사전확인 질문지 7·7-1·8·9·10번으로 수업 전에 확인한다: 학교 계정(부산은 펜즈) 가입 학생 수, 보호자 동의, AI 화면 열림, 수업 중 기기 사용 허용, AI 시간 감독 선생님(11번), 대화 기록 처리. 담임 선생님 동반은 권장한다(필수 아님). 감독 교사는 아래 기준대로 필수다. 학생 학교 계정의 AI 사용에는 보호자 동의가 필요할 수 있다. 모르거나 받지 않은 학생은 짝·모둠 기기에서 읽기·확인 역할을 맡는다.</li><li>안전 띠 4개: 이름·학교·친구 이름 넣지 않기 · 카드 칸만 채워 보내기 · AI 답에는 질문·제안·사실이 섞임, 사실은 출처로 확인 · 이상한 답은 손 들기.</li><li>AI에 넣지 않는 것: 이름·별칭, 학교·반·연락처, 동네·학원 이름, 알아볼 수 있는 가족·건강·형편·장소 이야기, 성적(중·고). 얼굴 사진과 목소리는 넣지 않는다.</li><li>앱 여는 법: 교탁 화면에 앱 QR과 짧은 주소(kim30707.github.io/aiedu/diary/)를 띄운다. 학생은 태블릿 카메라로 QR을 찍거나 브라우저에 주소를 친다. 로그인은 없고 입력은 그 기기에만 저장된다. 처음 화면에서 자기 학년군을 확인한다(바꾸려면 메뉴 ‘학년군 바꾸기’). 초1~3은 강사·담임이 수업 전에 모둠 기기마다 열어 3쪽까지 펴 둔다. 학교망에서 주소가 열리는지 사전확인 때 한 번 시험한다. 막히면 강사 기기 화면으로 같이 보고 종이 활동지로 진행한다.</li><li><strong>AI 시간 감독</strong>: ① 학생이 AI를 쓰는 시간에는 학교가 정한 교사 한 분이 교실에 함께 있다(담임이 아니어도 됨). 강사는 감독 교사를 대신하지 않는다. ② 감독 교사가 없으면 그날은 AI를 쓰지 않고, 미리 준비한 예시(인쇄 대본·예시 카드)로 같은 활동을 한다. 활동지 ‘AI를 쓴 곳’은 ‘사용하지 않음’에 표시한다. ③ 전환 ②단계 학급 계정 확인과 ③단계 강사 기기 로그인은 감독 교사의 안내로, 감독 교사의 학교 계정으로 한다. 강사 개인 계정은 쓰지 않고, 어떤 계정도 학생 태블릿에 대신 로그인해 주지 않는다. ④ 수업이 끝나면 학교 절차대로 로그아웃한다(학생·교탁 기기 모두). ‘대화 기록 지우기’는 쓰지 않는다. ⑤ 담임 선생님 동반은 권장 그대로.</li><li>학교 안내 문구: “학생이 AI를 쓰는 시간에는 학교가 정한 선생님 한 분이 함께해 주세요(담임이 아니어도 됩니다). 함께할 선생님이 없으면 그날은 AI 없이 준비한 예시로 진행합니다.”</li><li>수업 뒤 기록 정리: 학교 계정의 대화 보존·삭제는 학교 관리자 설정을 따른다. 수업 전에 학교와 보존 기간·정리 절차를 확인하고, 끝나면 학교 절차대로 로그아웃한다(학생이 대화를 지울 수 있다고 전제하지 않고, ‘대화 기록 지우기’는 쓰지 않는다).</li><li>진로 진단·적성검사·직업 예측이 아니다. 진로 순위나 성공 가능성 점수를 주지 않는다.</li><li>4쪽(또는 해당 쪽) ‘AI를 쓴 곳’ 선택지: □ 우리 태블릿에서 직접 □ 선생님 기기에 가서 직접 □ 선생님이 대신 입력 □ 미리 준비한 예시 □ 사용하지 않음</li></ul>
+<p>---</p>
+<h2>1. 초등 저학년 (초1~3) — 좋아하는 것 그림책 · 80분</h2>
+<p><strong>할 일</strong>: 좋아하는 것과 해 본 것을 그림으로 그리고, AI가 해 준 질문에 내 말로 답한다. 이번 주 해 볼 일 하나를 고른다.</p>
+<p><strong>네 쪽 그림책</strong>: 1 표지(별칭·그림) / 2 좋아하는 것 · 해 본 것 그림 / 3 AI가 해 준 질문과 내 답(그림 또는 한 줄) / 4 이번 주 해 볼 한 가지 + 스티커 칸</p>
+<div class="table-wrap"><table><thead><tr><th>교시</th><th>시간</th><th>활동</th><th>학생</th><th>강사 · 감독 교사</th></tr></thead><tbody><tr><td>1</td><td>0–8</td><td>그림책 보기</td><td>예제 그림책을 함께 넘긴다</td><td>“이 책은 미리 만든 예시예요.”</td></tr><tr><td>1</td><td>8–25</td><td>좋아하는 것 · 해 본 것</td><td>2쪽에 그림 두 개 + 낱말 하나씩</td><td>순회. “잘하는 것 말고 좋아하는 것.” 낱말 받아 적기를 도와준다</td></tr><tr><td>1</td><td>25–40</td><td><strong>AI에게 질문 받기</strong> (아래 ‘15분 순환 절차’)</td><td>모둠 기기를 차례로 한 사람 3분: 차례인 학생이 카드 세 장(좋아하는 것 · 해 본 것 · 궁금한 것)을 골라 눌러 보내고 질문 1개를 받는다. 읽기 친구가 소리 내어 읽어 주고, <strong>쓸지 말지는 차례인 학생이 혼자 고른다</strong>(좋아요 / 바꿔요 / 안 써요)</td><td>강사가 첫 요청을 교탁 화면에서 한 번 보여 준다. 교탁 화면에 3분 시계. 모둠을 돌며 막힌 기기를 돕는다</td></tr><tr><td>2</td><td>0–15</td><td>질문에 답하기</td><td>1교시에 3쪽에 적어 둔 질문 낱말을 보고 질문을 마저 쓰고, 답을 그림이나 한 줄로</td><td>글이 어려운 학생은 그림으로 답한다. 필요하면 강사·담임이 학생이 고른 낱말 하나만 받아 적는다(학생 허락)</td></tr><tr><td>2</td><td>15–30</td><td>이번 주 한 가지</td><td>4쪽 활동 그림 카드 중 하나를 고르거나 직접 그린다. “언제?” 요일 하나에 동그라미</td><td>돈이 들지 않고 안전한 일인지 확인</td></tr><tr><td>2</td><td>30–40</td><td>보여 주기 · 정리</td><td>원하면 짝에게 한 쪽 보여 주기. 그림책 챙기기</td><td>공용 기기 대화 새로 열기·학교 절차대로 로그아웃 (감독 교사와)</td></tr></tbody></table></div>
+<ul><li><strong>요청 카드</strong>(공용 기기 화면 옆에 놓는 인쇄 카드): 좋아하는 것(그리기 · 만들기 · 운동 · 노래 · 동물 · 책 · 요리 · 놀이) / 해 본 것(같은 그림) / 궁금한 것(“어떻게 하면 더 잘해요?” · “어떤 사람들이 이 일을 해요?” · “집에서 해 볼 수 있는 건?”). 끝 문장은 카드에 인쇄해 둔다: “초등학교 저학년이 알아듣는 쉬운 말로 두 문장 안에 답하고, 나에게 질문 하나를 해 줘. 직업을 정해 주지 마.”</li><li><strong>역할 돌리기</strong>(모둠 4명 · 기기 1대): ① 차례(카드 누르기·보내기·내 마음 고르기) ② 읽기(받은 질문을 소리 내어 두 번) ③ 시간(3분 시계 보기·다음 차례 알리기) ④ 정리(앱 카드 칸 비우고 다음 사람에게 넘기기). 한 차례가 끝나면 시계 방향으로 한 칸씩 바꾼다. 모둠은 읽기와 이해만 돕고, <strong>질문을 쓸지 바꿀지 안 쓸지는 차례인 학생이 정한다</strong>(다수결이 아니다).</li><li><strong>동의 예외</strong>: 사전확인 7-1에서 보호자 동의가 ‘받지 않음·모름’인 학생은 <strong>누르기·보내기를 하지 않는다</strong>(짝이 대신 누르지도 않는다). 그 학생은 읽기·시간·정리 역할을 맡고, 자기 차례에는 고른 궁금한 것 카드를 짝이나 선생님이 질문으로 읽어 준다. 그림책 3쪽 ‘AI를 쓴 곳’은 ‘사용하지 않음’에 표시한다. 수업에서 빠지지 않는다. 강사는 수업 전 해당 자리 번호만 받아 둔다(이름 받지 않음).</li></ul>
+<p><strong>AI 장면 15분 순환 절차 (1교시 25–40, 모둠 4명 · 기기 1대 기준)</strong></p>
+<div class="table-wrap"><table><thead><tr><th>시간</th><th>할 일</th></tr></thead><tbody><tr><td>25:00–27:00 준비</td><td>강사가 교탁 화면에서 예제 카드로 첫 요청을 한 번 보여 준다. 모둠 기기는 앱 ‘그림책’ 3쪽과 AI 창이 열린 상태(로그인 계정은 위 공통 줄대로). 차례 순서는 자리 번호 1 → 4.</td></tr><tr><td>한 사람 3분 × 4 (27:00–39:00)</td><td>0:00–0:45 차례인 학생이 카드 세 장을 골라 누르고 ‘요청문 복사’ → AI 창에 붙여 넣기 → 보내기. / 0:45–1:45 읽기 친구가 질문을 소리 내어 두 번 읽는다. 차례인 학생이 그림책 3쪽 ‘내 마음’에 동그라미. / 1:45–2:30 차례인 학생이 3쪽에 질문 낱말 두세 개를 적는다(초1은 궁금한 것 그림에 동그라미, 질문 낱말 하나는 강사·담임이 대신 적어 줌 · 학생 허락). 질문은 이 종이에만 남긴다. / 2:30–3:00 정리 친구가 AI 대화를 새로 열고, 앱 ‘다음 친구 차례(칸 비우기)’를 누른 뒤 기기를 넘긴다. 역할 한 칸씩.</td></tr><tr><td>39:00–40:00</td><td>마지막 학생 뒤에도 새 대화로 바꾸고 기기를 모둠 바구니에 둔다. 2교시는 종이 3쪽의 질문 낱말로만 이어 간다(지난 대화를 다시 찾지 않음). 2교시가 끝나면 학교 절차대로 로그아웃.</td></tr></tbody></table></div>
+<ul><li>기기 한 대에는 4명까지. 5명 이상이면 공용 기기를 한 대 더 요청해 3명·2명으로 나눈다(시간을 줄이지 않는다). 기기가 늦게 켜지거나 막히면 그 모둠은 전환 5단계로 넘어가고, 시간이 모자라면 남은 학생은 2교시 0–5분에 이어서 한다.</li><li>앱은 기기마다 책 하나만 저장한다. 그래서 저학년은 <strong>종이 그림책이 기록의 원본</strong>이고, 앱은 카드 고르기와 요청문 만들기에만 쓴다.</li><li><strong>관찰</strong>: 좋아하는 것과 해 본 것을 구분해 말한다 / 받은 질문에 자기 말로 답한다 / 이번 주 한 가지를 고른다. 스스로 함 · 도움 뒤 함 · 아직.</li><li><strong>초1</strong>: 글 대신 그림과 스티커. 3쪽은 그림으로 답하고, 필요하면 담임이 학생이 고른 낱말 하나만 받아 적는다. <strong>초3</strong>: 3쪽에 한 줄 쓰기, 4쪽에 요일 쓰기.</li><li>저학년은 80분 한 번으로 끝낸다. 이어 하고 싶은 학교는 담임 시간에 4쪽을 실제로 해 보고 그림을 덧붙인다.</li></ul>
+<p>---</p>
+<h2>2. 초등 고학년 (초4~6) — 내 꿈 다이어리</h2>
+<p><a href="guide_upper.html">초등 고학년 교안</a>를 그대로 쓴다(80분 체험형 · 40분 × 4차시 제작형, 여섯 쪽 책, AI 장면 15분, 당일 전환 5단계, 관찰 기준). 고학년 교안의 ‘학년 조정’ 중 초3 줄은 이 문서 1번 과정으로 옮긴다. 초4는 고학년 교안의 초4 줄(낱말 입력·카드 고르기)을 쓴다.</p>
+<p>---</p>
+<h2>3. 중학교 (중1~3) — 진로 탐색 다이어리</h2>
+<p><strong>할 일</strong>: 해 본 경험에서 관심을 찾고, 가능성 두 가지를 연다. AI에게 “확인할 질문”을 받고, 그중 <strong>공식 자료에서 답을 찾을 수 있는 사실 질문 하나</strong>를 골라 직접 찾아본다. 이번 주 행동 하나를 정한다.</p>
+<p><strong>여섯 쪽 책 + 확인 카드</strong>: 1 표지·나의 지도 / 2 관심·경험 / 3 가능성 두 가지 / 4 AI 질문 고쳐 쓰기 / 5 1년 계획과 이번 주 / 6 돌아보기 · <strong>확인 카드</strong>(고른 사실 질문 · 출처 이름 · 확인한 날 · 찾은 답 한 줄 · 판정: 찾았어요 / 일부만 찾았어요 / 못 찾았어요 · 못 찾았으면 다음에 누구에게(진로 선생님·담임) 물을지)</p>
+<ul><li><strong>사실 질문 고르기</strong>: AI가 준 질문 가운데 ‘어떤 일을 하나요?’ ‘어떤 공부·자격이 필요한가요?’ ‘어디에서 일하나요?’처럼 공식 자료에 답이 있는 질문을 고른다. ‘나는 왜 좋아할까?’처럼 나에 대한 질문은 공식 자료에 답이 없으므로 4쪽에서 내가 답하고, 확인 카드에는 쓰지 않는다. 고를 사실 질문이 없으면 ‘이 일을 하는 사람은 무엇을 하나요?’로 바꿔 쓴다.</li><li><strong>진입 경로</strong>: 강사가 수업 전에 학교망에서 열리는 공식 진로 정보 사이트(예: 커리어넷 직업 정보 검색)의 첫 화면 주소와 검색 순서를 교탁 화면에 띄워 둔다. 블로그·광고·카페 글은 출처로 쓰지 않는다.</li><li><strong>판정</strong>: AI의 질문을 ‘같다/다르다’로 판정하지 않는다. 내가 찾은 답이 있는지(찾았어요 / 일부만 / 못 찾았어요)를 표시한다. 못 찾은 것도 결과이며 감점하지 않는다.</li></ul>
+<h3>A. 80분 체험형</h3>
+<div class="table-wrap"><table><thead><tr><th>교시</th><th>시간</th><th>활동</th><th>학생</th><th>강사 · AI</th></tr></thead><tbody><tr><td>1</td><td>0–5</td><td>책 보기</td><td>앱을 열고 예제 책을 본다</td><td>“예제는 미리 써 둔 것.”</td></tr><tr><td>1</td><td>5–15</td><td>관심·경험</td><td>2쪽: 관심 하나, 해 본 일과 그때 느낌</td><td>“잘하는 것보다 해 본 것.”</td></tr><tr><td>1</td><td>15–25</td><td>가능성 두 가지</td><td>3쪽: 서로 다른 가능성 두 가지와 각각 해 볼 활동</td><td>직업 이름이 아니어도 된다</td></tr><tr><td>1</td><td>25–40</td><td><strong>AI 장면</strong></td><td>세 줄 + 가능성 두 가지를 넣고 끝 문장 “내 진로를 정해 주지 말고, 가능성마다 내가 확인해 볼 질문 3개를 알려 줘.” 받은 질문을 ‘그대로 / 고쳐서 / 안 씀’으로 고르고 이유를 쓴다</td><td>첫 요청을 한 번 보여 준다. 순회하며 입력 틀(카드)을 본다</td></tr><tr><td>2</td><td>0–15</td><td><strong>공식 자료로 확인</strong></td><td>AI 질문 중 사실 질문 하나를 골라(없으면 바꿔 써서) 공식 진로 정보 사이트에서 찾는다. 확인 카드에 질문·출처·확인한 날·찾은 답 한 줄, 판정(찾았어요 / 일부만 / 못 찾았어요)과 못 찾았을 때 물을 사람</td><td>교탁 화면에 사이트 첫 화면 주소와 검색 순서를 띄운다. 블로그·광고 글은 쓰지 않는다</td></tr><tr><td>2</td><td>15–28</td><td>1년 계획과 이번 주</td><td>5쪽: 이번 달 작은 실험 하나, 할 요일 한 번과 무엇을·얼마나</td><td>돈 들지 않고 안전한 일</td></tr><tr><td>2</td><td>28–36</td><td>단정 문장 고치기</td><td>AI 말이나 내 글에서 “꼭 ~해야 해” 같은 문장 하나를 탐색하는 말로 고친다</td><td>고정관념(성별 등)이 섞인 문장도 고칠 거리</td></tr><tr><td>2</td><td>36–40</td><td>정리</td><td>종이 활동지 챙기기 · 학교 절차대로 로그아웃 (짝 소개는 28–36 고치기 때 원하면)</td><td>공용 기기 ‘새로 쓰기’</td></tr></tbody></table></div>
+<h3>B. 40분 × 4차시 제작형 (2회 방문, 방문 사이 1주)</h3>
+<div class="table-wrap"><table><thead><tr><th>차시</th><th>흐름</th><th>결과</th></tr></thead><tbody><tr><td>1 나의 경험</td><td>예제 5 + 경험 떠올리기 10 + 짝 이야기 8 + 표지·관심·경험 12 + 개인정보 확인 5</td><td>1·2쪽</td></tr><tr><td>2 두 가지 길과 AI</td><td>가능성 두 가지 12 + AI 장면 15 + 공식 자료로 하나 확인 13</td><td>3·4쪽, 확인 카드 1장</td></tr><tr><td>—</td><td>(1주) 확인 카드 한 장 더 쓰기 또는 이번 주 행동 하나 해 보기</td><td>—</td></tr><tr><td>3 1년 계획과 이번 주</td><td>지난주 해 본 일 5 + 1년·이번 달 10 + 요일 행동 15 + 짝과 실행 가능성 확인 10</td><td>5쪽</td></tr><tr><td>4 돌아보기</td><td>단정 문장 고치기 10 + 6쪽 쓰기 15 + 확인 카드 두 장 비교 10 + 정리 5</td><td>6쪽</td></tr></tbody></table></div>
+<ul><li><strong>관찰</strong>: 관심과 경험을 구분한다 / 가능성 두 가지를 열어 둔다 / AI 질문 하나를 공식 자료로 확인하고 출처를 적는다 / 단정 문장을 고친다.</li><li><strong>연계</strong>: 창체 진로활동(진로 탐색), 자유학기 진로 탐색 활동, 정보 교과의 인공지능 이해(성취기준 번호는 학교 교육과정에서 확인).</li></ul>
+<p>---</p>
+<h2>4. 고등학교 (고1~3) — 진로 설계 다이어리</h2>
+<p><strong>할 일</strong>: 관심·경험을 바탕으로 가능성 두 가지를 열고, 각각에 필요한 역량과 확인할 질문을 AI에게 받는다. AI 답의 단정·고정관념을 찾아 고치고, 학교에 개설된 과목·활동으로 1년 계획을 세운다.</p>
+<p><strong>여섯 쪽 책 + 과목·활동 계획표</strong>: 1 표지·나의 지도 / 2 관심·경험 / 3 가능성 두 가지 / 4 AI 답 검토(그대로·고쳐서·안 씀 + 단정·편견 표시) / 5 1년 계획(과목·활동·이번 주) / 6 돌아보기 · <strong>과목·활동 계획표</strong>(학교 개설 과목 목록에서 고른 과목 · 학교 안 활동 · 확인할 것)</p>
+<h3>A. 80분 체험형</h3>
+<div class="table-wrap"><table><thead><tr><th>교시</th><th>시간</th><th>활동</th><th>학생</th><th>강사 · AI</th></tr></thead><tbody><tr><td>1</td><td>0–5</td><td>책 보기</td><td>앱 열기, 예제 확인</td><td>—</td></tr><tr><td>1</td><td>5–15</td><td>관심·경험 요약</td><td>2쪽: 관심 둘, 해 본 경험과 배운 점</td><td>성적·학교 이름은 쓰지 않는다</td></tr><tr><td>1</td><td>15–25</td><td>가능성 두 가지</td><td>3쪽: 서로 다른 길 두 가지와 이유</td><td>“하나는 지금 생각해 보지 않던 길도 좋다.”</td></tr><tr><td>1</td><td>25–40</td><td><strong>AI 장면</strong></td><td>관심·경험 요약 + 가능성 두 가지를 넣고 끝 문장 “내 진로를 정해 주지 말고, 가능성마다 필요한 역량 3개와 내가 확인할 질문 2개를 알려 줘. 확실하지 않은 정보는 확실하지 않다고 표시해 줘.”</td><td>첫 요청을 한 번 보여 준다. 순회하며 입력 틀을 본다</td></tr><tr><td>2</td><td>0–12</td><td><strong>AI 답 검토</strong></td><td>4쪽: 문장마다 ‘그대로 / 고쳐서 / 안 씀’. 단정(“반드시”), 고정관념(성별·학벌 등), 확인 안 된 사실(연봉·전망 숫자)에 표시하고 하나를 고쳐 쓴다</td><td>숫자 정보는 공식 자료로 확인하기 전까지 ‘확인 필요’</td></tr><tr><td>2</td><td>12–28</td><td>과목·활동 계획</td><td>내 학년·입학연도에 맞는 학교 과목 목록에서 가능성마다 과목 1~2개, 학교 안 활동 1개를 고른다. 확인할 것(선수 과목, 개설 학년)을 적는다</td><td>과목 선택 상담이 아니다. 실제 신청은 학교 절차를 따른다</td></tr></tbody></table></div>
+<ul><li><strong>과목 목록</strong>: 대상 학년·입학연도에 맞는 학교 교육과정 편성표(과목 목록)를 학생마다 볼 수 있게 받는다(학생 수만큼 인쇄하거나 학교 누리집 공개본을 화면에 띄움). 목록을 받지 못하면 과목 칸은 ‘확인할 것: ○○ 과목이 개설되는지’로 쓰고, 활동 계획만 완성한다.</li><li><strong>고3(특히 2학기)</strong>: 과목 선택 시기가 지났으므로 과목 칸 대신 ‘졸업 뒤 1년 동안 해 볼 활동과 확인할 정보’로 바꿔 쓴다.</li></ul>
+<div class="table-wrap"><table><thead><tr><th>2</th><th>28–36</th><th>이번 주 한 걸음</th><th>5쪽: 이번 주 행동 하나(정보 찾기·사람에게 묻기·작은 해 보기)</th><th>—</th></tr></thead><tbody><tr><td>2</td><td>36–40</td><td>정리</td><td>저장·학교 절차대로 로그아웃, 원하면 짝에게 한 쪽 소개</td><td>—</td></tr></tbody></table></div>
+<h3>B. 40분 × 4차시 제작형 (2회 방문, 방문 사이 1주)</h3>
+<div class="table-wrap"><table><thead><tr><th>차시</th><th>흐름</th><th>결과</th></tr></thead><tbody><tr><td>1 나의 경험</td><td>경험 떠올리기 10 + 짝 인터뷰 10 + 관심·경험 요약 15 + 개인정보 확인 5</td><td>1·2쪽</td></tr><tr><td>2 두 가지 길과 AI</td><td>가능성 두 가지 10 + AI 장면 15 + AI 답 검토 15</td><td>3·4쪽</td></tr><tr><td>—</td><td>(1주) 가능성 하나에 대해 공식 자료 한 개 확인 또는 학교 안 사람 한 명에게 묻기</td><td>—</td></tr><tr><td>3 과목·활동 계획</td><td>지난주 확인한 것 5 + 과목·활동 계획표 20 + 1년 계획 15</td><td>5쪽, 계획표</td></tr><tr><td>4 돌아보기</td><td>단정·고정관념 문장 고치기 10 + 6쪽 15 + 짝과 계획 실행 가능성 확인 10 + 정리 5</td><td>6쪽</td></tr></tbody></table></div>
+<ul><li><strong>관찰</strong>: 가능성 두 가지를 근거와 함께 연다 / AI 답에서 단정·고정관념·확인 안 된 사실을 찾는다 / 학교 과목·활동과 연결한 계획을 세운다.</li><li><strong>연계</strong>: 창체 진로활동(진로 설계), 고교학점제 과목 선택 준비, 정보 교과의 인공지능 윤리(성취기준 번호는 학교 교육과정에서 확인).</li><li>대입·학과 추천을 하지 않는다. 성적·내신·학교 이름은 AI에 넣지 않는다.</li></ul>
+<p>---</p>
+<h2>수업료·운영</h2>
+<ul><li>네 과정 모두 같은 수업료 체계를 쓴다(1학급 총액, 체험형 80분 · 제작형 4차시). 저학년은 80분 체험형만 운영한다.</li><li>고등학교 과정의 과목 목록, 중학교 과정의 공식 사이트 접속은 사전확인 때 담임에게 요청한다.</li></ul>
+</article></body></html>

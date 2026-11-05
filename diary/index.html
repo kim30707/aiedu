@@ -4,15 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex">
-<meta name="theme-color" content="#f4f7ff">
-<title>내꿈다이어리 · 김민성 AI교육</title>
-<meta name="description" content="관심에서 이번 주 한 걸음까지, 학생이 쓰고 고치는 여섯 쪽 책. AI는 꿈을 정해 주지 않고, 학생이 AI의 말을 골라 쓰고 고칩니다. 시연판 v0.2 · 실제 수업 전.">
+<meta name="theme-color" content="#f3faf8">
+<title>내 꿈 다이어리 · 셈제작소</title>
+<meta name="description" content="초1~고3 학년군별 4과정. 관심에서 이번 주 한 걸음까지, 학생이 쓰고 고치는 진로 책. AI는 꿈을 정해 주지 않고, 학생이 AI의 말을 골라 쓰고 고칩니다. 셈제작소 · 학교 AI 수업.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="내꿈다이어리 · 시연판 v0.2">
-<meta property="og:description" content="학생이 쓰고 고치는 여섯 쪽 책. AI는 꿈을 정해 주지 않아요. 로그인 없이 열리고, 입력은 그 기기에만 저장됩니다.">
+<meta property="og:title" content="내 꿈 다이어리 · 셈제작소">
+<meta property="og:description" content="초1~고3 학년군별 4과정. 학생이 쓰고 고치는 진로 책. AI는 꿈을 정해 주지 않아요. 로그인 없이 열리고, 입력은 그 기기에만 저장됩니다.">
 <meta property="og:url" content="https://kim30707.github.io/aiedu/diary/">
 <meta property="og:image" content="https://kim30707.github.io/aiedu/diary/img/book-cover.png">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%232b5bff'/%3E%3Ctext x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'%3EAI%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="logo/semjejakso_mark_small.svg">
 <link rel="stylesheet" href="style.css">
 <script src="core.js" defer></script>
 <script src="dream.js" defer></script>
@@ -21,13 +21,14 @@
 <body>
 <a class="skip" href="#main">본문으로 건너뛰기</a>
 <header class="top"><div class="wrap">
-  <a class="brand" href="./" aria-label="내꿈다이어리 처음 화면"><span class="seal" aria-hidden="true">AI</span><span class="wordmark">내꿈다이어리<small>김민성 AI교육 · v0.2 시연판</small></span></a>
+  <a class="brand" href="./" aria-label="내 꿈 다이어리 처음 화면"><img class="seal-img" src="logo/semjejakso_mark.svg" alt="" width="36" height="36"><span class="wordmark">내 꿈 다이어리<small>셈제작소 · 학교 AI 수업</small></span></a>
   <details class="teacher-menu"><summary>선생님 메뉴</summary>
     <div class="menu-panel">
-      <a href="guide.html">수업 안내 · 교안<small>80분 체험형 / 40분×4 제작형</small></a>
-      <a href="worksheet.html">빈 활동지 인쇄<small>종이로만 해도 같은 여섯 쪽</small></a>
-      <a href="worksheet.html#example">예제 책 인쇄<small>가상 예시 학생 ‘새싹’</small></a>
-      <a href="intro.html">프로그램 소개 1쪽<small>학교·기관에 보여 줄 한 장</small></a>
+      <a href="guide.html">수업 안내 · 교안<small>학년군별 4과정 · 80분 / 40분×4</small></a>
+      <a href="worksheet.html">빈 활동지 인쇄<small>과정을 골라 종이로 인쇄</small></a>
+      <a href="worksheet.html#example">예제 책 인쇄<small>과정마다 미리 써 둔 예시</small></a>
+      <a href="intro.html">프로그램 소개<small>학교에 보여 줄 A4 2쪽</small></a>
+      <div class="menu-bands" role="group" aria-labelledby="menu-bands-title"><p id="menu-bands-title">학년군 바꾸기 <small>쓴 내용은 그대로</small></p><button type="button" data-band-set="low">초등 저학년<small>1~3학년</small></button><button type="button" data-band-set="upper">초등 고학년<small>4~6학년</small></button><button type="button" data-band-set="mid">중학교<small>중1~3</small></button><button type="button" data-band-set="high">고등학교<small>고1~3</small></button></div>
       <button id="prompt-open" type="button">선생님용 AI 요청문<small>학생 글로 만들고, 자동으로 보내지 않음</small></button>
       <button id="recovery-export" type="button">읽지 못한 저장 기록 내보내기<small>문제가 생겼을 때만</small></button>
     </div>
@@ -35,10 +36,10 @@
 </div></header>
 <main id="main" class="wrap" tabindex="-1">
   <section class="intro">
-    <p class="eyebrow">MY DREAM DIARY · 6 PAGES</p>
-    <h1>내가 쓰고 고치는 여섯 쪽 책</h1>
-    <p class="lead">관심에서 이번 주 한 걸음까지. <b>AI는 내 꿈을 정해 주지 않아요.</b> AI가 한 말은 골라 쓰고, 내 말로 고쳐요.</p>
-    <div class="pills"><span class="pill">초등 5~6학년 기준</span><span class="pill">80분 체험형 · 40분×4 제작형</span><span class="pill">태블릿 또는 종이</span><span class="pill mint">이 앱은 AI가 아니에요</span></div>
+    <p class="eyebrow">MY DREAM DIARY · 4 COURSES</p>
+    <h1>내가 쓰고 고치는 진로 책</h1>
+    <p class="lead">학년에 맞는 과정을 골라요. 관심에서 이번 주 한 걸음까지. <b>AI는 내 꿈을 정해 주지 않아요.</b> AI가 한 말은 골라 쓰고, 내 말로 고쳐요.</p>
+    <div class="pills"><span class="pill">초1~고3 · 학년군별 4과정</span><span class="pill">80분 체험형 · 40분×4 제작형</span><span class="pill">태블릿 또는 종이</span><span class="pill mint">입력은 이 기기에만 저장</span></div>
   </section>
   <div class="toolbar" aria-label="책 관리">
     <div class="tool-group"><button id="example" type="button">예제 보기</button><button id="new-work" type="button" class="quiet">새로 쓰기</button></div>
@@ -46,13 +47,13 @@
     <input id="import-work" type="file" accept="application/json,.json" hidden>
   </div>
   <div id="module-root"></div>
-  <p class="privacy">입력한 글은 <b>이 기기 브라우저에만</b> 저장되고 어디에도 보내지지 않아요. 다른 기기로 옮길 때는 ‘파일 저장’과 ‘불러오기’를 써요. 여럿이 함께 쓰는 기기라면 끝난 뒤 ‘새로 쓰기’로 지워 주세요. 이름·학교·연락처는 쓰지 않고 별칭만 써요.</p>
+  <p class="privacy">입력한 글은 <b>이 기기 브라우저에만</b> 저장되고 어디에도 보내지지 않아요. 다른 기기로 옮길 때는 ‘파일 저장’과 ‘불러오기’를 써요. 여럿이 함께 쓰는 기기라면 끝난 뒤 ‘새로 쓰기’로 지워 주세요(이 기기의 복구 기록도 함께 지워져요). 내려받은 파일은 기기의 다운로드 폴더에서 따로 지워요. 이름·학교·연락처는 쓰지 않고 별칭만 써요.</p>
 </main>
-<footer><div class="wrap">김민성 AI교육 · 내꿈다이어리 v0.2 시연판 (2026-11-04) · 실제 수업 전 시제품 · AI 자동 연결 없음 · 예제는 모두 미리 쓴 가상 예시</div></footer>
+<footer><div class="wrap">셈제작소 · 학교 AI 수업 · 내 꿈 다이어리 · 입력한 글은 이 기기에만 저장되고 AI에 자동으로 보내지지 않습니다 · 과정별 예제 책(콩콩·새싹·바람·징검다리)은 미리 써 둔 예시입니다</div></footer>
 
 <dialog id="preview-dialog" class="wide" aria-labelledby="preview-title"><div class="dialog-head"><h2 id="preview-title">내 책 미리보기</h2><button data-close class="icon-btn" type="button" aria-label="미리보기 닫기">×</button></div><div id="preview-content" class="paper-preview"></div><div class="dialog-actions"><button id="print-work" class="button primary" type="button">인쇄 · PDF 저장</button><button id="html-work" class="button" type="button">책 HTML 저장</button><button data-close class="button" type="button">편집으로 돌아가기</button></div></dialog>
 <dialog id="text-dialog" aria-labelledby="text-title"><div class="dialog-head"><h2 id="text-title">AI 요청문</h2><button data-close class="icon-btn" type="button" aria-label="요청문 닫기">×</button></div><p id="text-help" class="small"></p><textarea id="copy-text" rows="12" aria-label="복사할 내용" readonly></textarea><div class="dialog-actions"><button id="copy-button" class="button primary" type="button">내용 복사</button><button data-close class="button" type="button">닫기</button></div></dialog>
-<dialog id="replace-dialog" aria-labelledby="replace-title"><h2 id="replace-title">바꿀까요?</h2><p style="margin-top:8px">지금 쓰고 있는 내용이 새 내용으로 바뀌어요. 필요하면 먼저 파일로 저장하세요.</p><div class="dialog-actions"><button id="replace-export" class="button" type="button">지금 책 파일 저장</button><button id="replace-confirm" class="button primary" type="button">바꾸기</button><button data-close class="button" type="button">취소</button></div></dialog>
+<dialog id="replace-dialog" aria-labelledby="replace-title"><h2 id="replace-title">바꿀까요?</h2><p id="replace-body" style="margin-top:8px">지금 쓰고 있는 내용이 새 내용으로 바뀌어요. 필요하면 먼저 파일로 저장하세요.</p><div class="dialog-actions"><button id="replace-export" class="button" type="button">지금 책 파일 저장</button><button id="replace-confirm" class="button primary" type="button">바꾸기</button><button data-close class="button" type="button">취소</button></div></dialog>
 <div id="toast" role="status" aria-live="polite" hidden></div>
 <div id="print-area" aria-hidden="true"></div>
 </body>
