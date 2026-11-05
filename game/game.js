@@ -56,13 +56,14 @@ const AI_BY = [['self', '우리 태블릿에서 직접'], ['station', '선생님
 const VERDICT = [['win', '규칙 1 · 성공'], ['lose', '규칙 2 · 실패'], ['score', '규칙 3 · 점수'], ['wall', '벽 · 판 밖에서 멈춤'], ['again', '먹은 별 다시 들어가기']];
 const AI_RULES = [['1', '규칙 1 · 성공'], ['2', '규칙 2 · 실패'], ['3', '규칙 3 · 점수'], ['wall', '벽 · 판 밖'], ['again', '먹은 별']];
 const MAX_CODE = 40000;
-function aiDefaults() { return { by: '', card: '1', slot: 1, code1: '', code2: '', verdict: { win: '', lose: '', score: '', wall: '', again: '' }, route: '', rule: '', expect: '', actual: '', said: '', after: '' }; }
+function aiDefaults() { return { by: '', card: '1', slot: 1, code1: '', code2: '', src1: '', src2: '', verdict: { win: '', lose: '', score: '', wall: '', again: '' }, route: '', rule: '', expect: '', actual: '', said: '', after: '' }; }
 function normalizeAi(raw) {
   const a = aiDefaults(), r = raw && typeof raw === 'object' && !Array.isArray(raw) ? raw : {};
   if (AI_BY.some(([k]) => k === r.by)) a.by = r.by;
   if (['1', '2', '2b', '3'].includes(r.card)) a.card = r.card;
   a.slot = r.slot === 2 ? 2 : 1;
   a.code1 = str(r.code1, MAX_CODE); a.code2 = str(r.code2, MAX_CODE);
+  ['src1', 'src2'].forEach((k) => { if (['', 'ai', 'sample'].includes(r[k])) a[k] = r[k]; });
   if (r.verdict && typeof r.verdict === 'object') VERDICT.forEach(([k]) => { if (['', 'ok', 'diff', 'na'].includes(r.verdict[k])) a.verdict[k] = r.verdict[k]; });
   a.route = routeOk(r.route).slice(0, 60);
   if (AI_RULES.some(([k]) => k === r.rule)) a.rule = r.rule;
@@ -553,7 +554,7 @@ function mount(root, ctx) {
     if (el.dataset.ck) { d.checks[el.dataset.ck] = el.value; save(); return; }
     if (el.dataset.v) { d.ai.verdict[el.dataset.v] = el.value; save(); return; }
     if (el.dataset.ai) { const k = el.dataset.ai, a = d.ai; if (k === 'slot') { a.slot = Number(el.value) === 2 ? 2 : 1; q('#g-code-in').value = a['code' + a.slot]; closeSandbox(); q('#g-scan').innerHTML = ''; } else a[k] = el.value; save(); if (k === 'card' || k === 'rule' || k === 'expect' || k === 'actual') drawCard(); return; }
-    if (el.id === 'g-code-in') { d.ai['code' + d.ai.slot] = el.value.slice(0, MAX_CODE); save(); return; }
+    if (el.id === 'g-code-in') { d.ai['code' + d.ai.slot] = el.value.slice(0, MAX_CODE); d.ai['src' + d.ai.slot] = el.value ? 'ai' : ''; if (el.value && d.ai.by === 'sample') { d.ai.by = ''; setRadio('ai-by', ''); ctx.status('AI에게 받은 코드를 넣었어요. ‘AI에 누가 입력했나요?’를 다시 골라요.'); } save(); return; }
     if (el.dataset.ckn) { d.checkNotes[el.dataset.ckn] = el.value; save(); return; }
     if (el.dataset.r) {
       const r = d.bug.repro, was = unlocked();
@@ -577,7 +578,7 @@ function mount(root, ctx) {
     else if (b.id === 'g-card-copy') ctx.copy(cards(d)[d.ai.card]);
     else if (b.id === 'g-run') runCode();
     else if (b.id === 'g-stop') { closeSandbox(); ctx.status('시험대를 닫았어요.'); }
-    else if (b.id === 'g-sample') { const S = window.GAME_SAMPLE; if (!S) return; d.ai.slot = 1; setRadio('ai-slot', 1); q('#g-code-in').value = S.code; if (!d.ai.by) { d.ai.by = 'sample'; setRadio('ai-by', 'sample'); } runCode(); ctx.status('예제 규칙 ‘' + S.title + '’로 미리 받아 둔 코드예요. 판과 규칙이 우리 것과 다를 수 있어요.'); }
+    else if (b.id === 'g-sample') { const S = window.GAME_SAMPLE; if (!S) return; d.ai.slot = 1; setRadio('ai-slot', 1); q('#g-code-in').value = S.code; d.ai.code1 = S.code; d.ai.src1 = 'sample'; if (d.ai.by !== 'none') { d.ai.by = 'sample'; setRadio('ai-by', 'sample'); } save(); runCode(); ctx.status('예제 규칙 ‘' + S.title + '’로 미리 받아 둔 코드예요. 입력 방식을 ‘미리 준비한 예시’로 바꿨어요. 감독 선생님이 안 계셔서 AI를 쓰지 않은 날이면 ‘사용하지 않음’을 골라요.'); }
     else if (b.dataset.addroute) addRoute(b.dataset.addroute);
     else if (b.id === 'g-to-card2') { d.ai.card = '2'; setRadio('ai-card', '2'); drawCard(); save(); q('#g-card').scrollIntoView({ block: 'center' }); ctx.status('카드 2를 만들었어요. 같은 대화에 붙여 넣어요.'); }
   }
@@ -689,8 +690,9 @@ function aiSheet(d) {
   const a = d.ai, by = (AI_BY.find(([k]) => k === a.by) || ['', '표시 안 함'])[1];
   const vl = { ok: '맞음', diff: '다름', na: '못 해 봄', '': '—' }, al = { same: '같았다', diff: '달랐다', na: '아직 못 해 봄', '': '—' };
   const rule = (AI_RULES.find(([k]) => k === a.rule) || ['', '—'])[1];
+  const sl = { ai: 'AI에게 받은 코드', sample: '미리 받아 둔 예시 코드', '': '—' }, src = a.code2 ? `첫 코드: ${sl[a.src1]} · 고친 코드: ${sl[a.src2]}` : sl[a.src1];
   return `<section><h2>2. AI 게임 시험</h2>
-    <table class="ptable"><tr><th>AI에 입력한 방법</th><td>${esc(by)}</td></tr>${VERDICT.map(([k, l]) => `<tr><th>${l}</th><td>${vl[a.verdict[k]]}</td></tr>`).join('')}
+    <table class="ptable"><tr><th>AI에 입력한 방법</th><td>${esc(by)}</td></tr><tr><th>시험한 코드</th><td>${src}</td></tr>${VERDICT.map(([k, l]) => `<tr><th>${l}</th><td>${vl[a.verdict[k]]}</td></tr>`).join('')}
     <tr><th>다르게 움직인 길</th><td>${esc(a.route ? arrows(a.route) : '—')} · ${esc(rule)}</td></tr><tr><th>기대 / 실제</th><td>${esc(a.expect) || '—'} / ${esc(a.actual) || '—'}</td></tr>
     <tr><th>AI가 고쳤다고 한 것</th><td>${esc(a.said) || '—'}</td></tr><tr><th>같은 길로 다시 해 보니</th><td>${al[a.after]}</td></tr></table></section>`;
 }
