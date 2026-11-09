@@ -1,6 +1,6 @@
 /* GugakSongs v0.7. 아리랑·도라지타령 시범 연주와 따라 하기.
  * 시범 연주는 미리 넣은 악보를 앱이 순서대로 연주하는 규칙형 기능이다. AI·네트워크·저장 없음.
- * 가락: 위키백과 Arirang(en)·도라지타령(ko) 악보(LilyPond, 바장조 9/8)를 앱 가야금 조율 4~10현(G3 A3 C4 D4 E4 G4 A4)으로 옮김.
+ * 가락: 전래 민요 아리랑·도라지타령을 앱 가야금 조율 4~10현(G3 A3 C4 D4 E4 G4 A4)에 맞춰 수업용으로 새로 적음(2026-11-09, 꾸밈음을 줄임). 0.12까지는 위키백과 Arirang(en)·도라지타령(ko) 악보를 옮겨 썼다.
  * 장구: 세마치장단 기본형 덩 · · 덩 · 덕 쿵 덕 · (8분음표 9칸). 가락·장단 출처는 곡 따라 하기 안내(song-guide.html).
  * 입력 판정: app.js가 실물 악기 화면의 연주를 'gugak:gesture' 이벤트로 알린다(현 번호·장구 면).
  * v0.9.1: 재생 중 설정 변경은 안내 후 정지, 학년 빠르기 동기화, 같이 하기 덩 양손 입력도 300ms 이내로 판정.
@@ -15,20 +15,20 @@ const SEMACHI=[[0,'덩'],[3,'덩'],[5,'덕'],[6,'쿵'],[7,'덕']],BAR=9,DUO_MS=3
 const NAMES={gayageum:'가야금 가락',janggu:'장구 장단'},GRADE_TEMPO={low:40,high:50,middle:60};
 // 한 마디 = '가사:음길이,…|…' (음길이는 8분음표 수, r = 쉼)
 const SONGS={
- arirang:{name:'아리랑',source:'위키백과 Arirang 악보',original:'느리게',bars:[
-  '아:sol5|리:la1|랑:sol2,la1','아:do5|리:re1|랑:do2,re1','아:mi3|라:re1,mi1,re1|리:do2,la1','요:sol5,la1,sol1,la1|r1',
-  '아:do5|리:re1|랑:do2,re1','고:mi2,re1|개:do2,la1|로:sol2,la1','넘:do5|어:re1|간:do3','다:do6|r3',
-  '나:Sol6|를:Sol3','버:Sol3|리:mi3|고:re3','가:mi3|시:re2|는:mi1|님:do2,la1','은:sol5,la1,sol1,la1|r1',
-  '십:do5|리:re1|도:do2,re1','못:mi2,re1|가:do2,la1|서:sol2,la1','발:do5|병:re1|난:do3','다:do6|r3'],
+ arirang:{name:'아리랑',source:'전래 민요 · 셈제작소 수업용 악보',original:'느리게',bars:[
+  '아:sol5|리:la1|랑:sol2,la1','아:do5|리:re1|랑:do3','아:mi3|라:re3|리:do2,la1','요:sol6|r3',
+  '아:do5|리:re1|랑:do3','고:mi3|개:do2,la1|로:sol3','넘:do5|어:re1|간:do3','다:do6|r3',
+  '나:Sol6|를:Sol3','버:Sol3|리:mi3|고:re3','가:mi3|시:re2|는:mi1|님:do3','은:sol6|r3',
+  '십:do5|리:re1|도:do3','못:mi3|가:do2,la1|서:sol3','발:do5|병:re1|난:do3','다:do6|r3'],
   phrases:['아리랑 아리랑 아라리요','아리랑 고개로 넘어간다','나를 버리고 가시는 님은','십리도 못 가서 발병 난다']},
- doraji:{name:'도라지타령',source:'위키백과 도라지타령 악보',original:'♩. = 110',bars:[
+ doraji:{name:'도라지타령',source:'전래 민요 · 셈제작소 수업용 악보',original:'조금 빠르게',bars:[
   '도:mi3|라:mi3|지:mi3','도:mi5|라:re1|지:do3','백:Sol6|도:La2,Sol1','라:mi5,re1|지:do3',
-  '심:re2,mi1|심:mi6','산:re2,mi1|천:re2,do1|에:la1,sol2','백:la3|도:do5|라:la1','지:sol6|r3',
+  '심:re3|심:mi6','산:re3|천:re2,do1|에:la1,sol2','백:la3|도:do5|라:la1','지:sol6|r3',
   '한:mi3|두:mi6','뿌:mi5|리:re1|만:do3','캐:Sol6|어:La2,Sol1','도:mi5,re1,do3',
-  '대:re2|바:mi1|구:mi3|니:mi3','철:re2,mi1|철:re2,do1|철:la1,sol2','다:la3|넘:do5|는:la1','다:sol6|r3',
-  '에:la3|헤:la2,do1|요:sol3','에:la3|헤:la2,do1|요:sol3','에:do3|헤:do5,re1','요:do6,re3',
+  '대:re2|바:mi1|구:mi3|니:mi3','철:re3|철:re2,do1|철:la1,sol2','다:la3|넘:do5|는:la1','다:sol6|r3',
+  '에:la3|헤:la3|요:sol3','에:la3|헤:la3|요:sol3','에:do3|헤:do6','요:do6,re3',
   '에:mi3|야:mi3|라:mi3','난:mi5,re1|다:do3','지:Sol2|화:Sol1|자:Sol3,La2,Sol1','좋:mi5,re1|다:do3',
-  '얼:re2,mi1|씨:mi3|구:mi3','좋:re2,mi1|구:re2,do1|나:la1,sol2','내:la3|사:do3|랑:la3','아:sol6|r3'],
+  '얼:re3|씨:mi3|구:mi3','좋:re3|구:re2,do1|나:la1,sol2','내:la3|사:do3|랑:la3','아:sol6|r3'],
   phrases:['도라지 도라지 백도라지','심심산천에 백도라지','한두 뿌리만 캐어도','대바구니 철철철 다 넘는다','에헤요 에헤요 에헤요','에야라 난다 지화자 좋다','얼씨구 좋구나 내 사랑아']}};
 function parse(song){const notes=[];song.bars.forEach((bar,b)=>{let t=b*BAR;for(const group of bar.split('|')){const [syl,seq]=group.includes(':')?group.split(':'):['',group];seq.split(',').forEach((tok,k)=>{const m=/^([a-zA-Z]+)(\d+)$/.exec(tok),len=Number(m[2]);if(m[1]!=='r'){if(!(m[1] in DEG))throw new Error(song.name+' 음 '+tok);notes.push({t,len,string:DEG[m[1]],syl:k?'':syl,bar:b});}t+=len;});}if(t!==(b+1)*BAR)throw new Error(song.name+' '+(b+1)+'마디 길이 '+(t-b*BAR));});return notes;}
 function janggu(song,melody){const out=[];song.bars.forEach((_,b)=>SEMACHI.forEach(([pos,stroke],k)=>{const t=b*BAR+pos,next=SEMACHI[k+1]?.[0]??BAR;out.push({t,len:next-pos,stroke,syl:melody.find(n=>n.t===t)?.syl||'',bar:b});}));return out;}
@@ -61,7 +61,7 @@ function renderStrip(){const strip=$('song-strip');if(!strip)return;strip.replac
 function renderControls(){if(!built)return;const s=SONGS[S.song],p=part();document.querySelectorAll('[data-song]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.song===S.song)));document.querySelectorAll('[data-song-part]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.songPart===p)));
  const sel=$('song-phrase');sel.replaceChildren(new Option('전체 ('+s.bars.length+'마디)','-1'),...s.phrases.map((t,i)=>new Option((i+1)+'구절 · '+t,String(i))));sel.value=String(S.phrase);
  $('song-tempo').value=String(S.tempo);$('song-tempo-value').textContent='♩. = '+S.tempo;$('song-together').checked=S.together;$('song-together-label').textContent=(p?NAMES[other(p)]:'다른 악기')+' 함께 듣기';
- for(const id of['song-demo','song-step','song-along'])$(id).disabled=!p;$('song-hint').hidden=run?.mode!=='step';$('song-source').textContent='가락: '+s.source+'을 앱 가야금 4~10현으로 옮김 · 장단: 세마치 기본형 · 원래 빠르기 '+s.original;renderStrip();}
+ for(const id of['song-demo','song-step','song-along'])$(id).disabled=!p;$('song-hint').hidden=run?.mode!=='step';$('song-source').textContent='가락: '+s.source+' · 앱 가야금 4~10현 · 장단: 세마치 기본형 · 원래 빠르기 '+s.original;renderStrip();}
 function stop(reason){if(!run)return false;const r=run;run=null;clearInterval(r.timer);clearTimeout(r.duoTimer);clearMarks();$('song-strip')?.querySelectorAll('.now').forEach(c=>c.classList.remove('now'));if($('song-hint'))$('song-hint').hidden=true;document.body.classList.remove('song-running');if(reason!=='done'&&reason!=='restart')say('멈췄어요');return true;}
 function begin(mode){const p=part();if(!p)return false;stop('restart');app()?.stopAll?.();renderStrip();const own=events(p);if(!own.length)return false;document.body.classList.add('song-running');
  if(mode==='step'){run={mode,part:p,own,k:0,good:0,wrong:0,sides:{}};$('song-hint').hidden=false;stepShow();return true;}
