@@ -266,6 +266,16 @@
     const gugakShots = p.id === "gugak" ? `<div class="two shots" style="margin-top:16px">
         <figure class="rv"><img src="img/app-demo.jpg" alt="웹악기 본보기 연주 화면. 가야금 줄 위에 칠 곳 점과 다음 칠 곳 동그라미가 보인다." loading="lazy"><figcaption>1교시 본보기 보기 · 칠 곳 ● 다음 ○</figcaption></figure>
         <figure class="rv"><img src="img/app-error.jpg" alt="웹악기 소리 탐정 연구실 화면. 듣기, 찾기, 추측, 고치기, 다시 확인 다섯 단계." loading="lazy"><figcaption>2교시 소리 탐정 · 듣기 → 찾기 → 고치기</figcaption></figure></div>` : "";
+    const gugakStage = p.id === "gugak" ? (() => {
+      const box = 'border-radius:var(--r-m);border:1px solid var(--line);width:100%;display:block;object-fit:cover';
+      const kids = [["gayageum", "가야금"], ["haegeum", "해금"], ["janggu", "장구"]].map(([k, n]) => `<img src="img/stage-child-${k}.jpg" alt="${n}을 연주하는 어린이 가상 연주자. 실제 학생이 아니다." loading="lazy" style="${box};aspect-ratio:16/27">`).join("");
+      return `<div class="sec"><div class="subhead"><h3>${ico("stage")}공연실</h3><span class="tiny">태블릿 3대로 연주하면 무대가 실시간으로 반응하고, 학생이 고른 캐릭터가 직접 공연해요</span></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px;align-items:start">
+        <figure class="rv" style="margin:0"><img src="img/stage-3d.jpg" alt="3D 무대에서 가야금, 해금, 장구를 연주하는 얼굴 없는 인형 세 명." loading="lazy" style="${box};aspect-ratio:16/9"><figcaption class="tiny" style="margin-top:6px">① 3D 무대</figcaption></figure>
+        <figure class="rv" style="margin:0"><div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px">${kids}</div><figcaption class="tiny" style="margin-top:6px">② 제미나이로 만든 어린이 가상 연주자 · 실제 학생이 아니에요</figcaption></figure>
+        <figure class="rv" style="margin:0"><img src="img/stage-characters.jpg" alt="장구, 꽹과리, 가야금, 대금을 연주하는 캐릭터 네 명을 그린 그림." loading="lazy" style="${box};aspect-ratio:16/9"><figcaption class="tiny" style="margin-top:6px">③ 캐릭터 연주자 · 학생이 골라요</figcaption></figure>
+        </div></div>`;
+    })() : "";
     const steps = `<details class="more"><summary>단계별 설명 보기</summary><ol class="steps">${p.flow.map((f, i) => `<li><span class="sn num">${i + 1}</span><div><b>${esc(f.title)}</b> <span class="tiny num">${esc(f.part)} ${esc(f.min)}분</span>${f.ai ? ' <span class="aitag2">AI</span>' : ""}<p>${esc(f.desc)}</p></div></li>`).join("")}</ol></details>`;
     const learn = (p.learnS || p.learn.map((t) => ({ icon: "check", t }))).map((x) => `<div class="lcard">${ico(x.icon)}<b>${esc(x.t)}</b></div>`).join("");
     const prep = (p.prepS || p.prep.map((t) => ({ icon: "check", t }))).map((x) => `<li>${ico(x.icon)}<span>${esc(x.t)}</span></li>`).join("");
@@ -280,6 +290,7 @@
       ${gugakMenu(p)}
       <div class="sec"><div class="subhead"><h3>${ico("clock")}수업 흐름</h3><span class="tiny">${esc(p.time)}</span></div>${minBar(p.flow)}${gugakShots}${steps}</div>
       ${loop}
+      ${gugakStage}
       <div class="two sec">
         <div><div class="subhead"><h3>${ico("tablet")}학교에서 준비할 것</h3></div><ul class="prep">${prep}</ul><details class="more"><summary>자세한 준비 조건</summary><ul class="list">${p.prep.map((t) => `<li>${esc(t)}</li>`).join("")}</ul></details></div>
         <div><div class="subhead"><h3>${ico("book")}수업에 포함된 것</h3></div>${incl}<details class="more"><summary>포함 자료 자세히</summary>${checklist(p.readiness)}</details></div>
