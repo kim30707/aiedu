@@ -139,6 +139,8 @@
       ${cards(S.P.programs)}
     </div></section>
 
+    ${homeMedia()}
+
     <section class="section band"><div class="wrap method">
       <div>
         <div class="head rv"><span class="eyebrow">수업 방식</span><h2>요청하고, 확인하고, 직접 고칩니다</h2><p>모든 수업이 같은 세 단계를 거칩니다. AI는 도구이고, 판단은 학생이 합니다.</p></div>
@@ -224,6 +226,8 @@
     users: '<circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6"/><circle cx="17" cy="8" r="3"/><path d="M15 14c3.3 0 6 2.5 6 6"/>',
     ai: '<rect x="4" y="6" width="16" height="13" rx="3"/><path d="M12 3v3M9 12h.01M15 12h.01M9 16h6"/>',
     student: '<circle cx="12" cy="7" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/>',
+    play: '<circle cx="12" cy="12" r="9"/><path d="M10 8.3l6 3.7-6 3.7z"/>',
+    download: '<path d="M12 4v11"/><path d="M7.5 10.5L12 15l4.5-4.5"/><path d="M5 20h14"/>',
     won: '<path d="M3 7l3 10 3-10 3 10 3-10 3 10 3-10"/><path d="M2 11h20"/>',
   };
   const ico = (k, cls = "") => `<svg class="ic ${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[k] || IC.check}</svg>`;
@@ -248,6 +252,36 @@
     if (!p.menu) return "";
     return `<div class="sec"><div class="subhead"><h3>${ico("music")}국악 수업 고르기 <span class="tiny">${p.menu.groups.reduce((t, g) => t + g.items.length, 0)}가지</span></h3></div><p class="muted small" style="margin:-4px 0 14px">${esc(p.menu.note)}</p>
       ${p.menu.groups.map((g) => `<div class="mgroup"><div class="mghead"><b>${esc(g.title)}</b><span>${esc(g.price)}</span></div><div class="mtiles">${g.items.map((it) => `<div class="mtile${it.now ? " now" : ""}">${ico(it.icon)}<div><div class="mcode num">${esc(it.code)}${it.now ? '<span class="nowtag">바로 신청</span>' : ""}</div><b>${esc(it.name)}</b><span>${esc(it.line)}</span></div></div>`).join("")}</div></div>`).join("")}</div>`;
+  }
+  /* 2026-11-11 국악 영상·자료 */
+  const GV = [
+    { f: "gugak-video-all", t: "한눈에 보기", d: "58초", n: "국악 AI 합주 교실을 한 편으로" },
+    { f: "gugak-video-1", t: "① 우리 소리 첫 만남", d: "6분 18초", n: "가야금을 만나고 아리랑으로 합주해요" },
+    { f: "gugak-video-2", t: "② 나만의 디지털 가야금", d: "3분 6초", n: "AI와 함께 내 악기를 만들어요" },
+    { f: "gugak-video-3", t: "③ 세종대왕을 찾아라", d: "3분 6초", n: "틀린 줄을 귀로 찾아 되돌려요" },
+  ];
+  const GD = [
+    { f: "files/gugak-ai-ensemble-intro.pdf", save: "국악AI합주교실_프로그램소개서.pdf", t: "프로그램 소개서" },
+    { f: "files/gugak-ai-ensemble-proposal.pdf", save: "국악AI합주교실_수업제안서.pdf", t: "수업 제안서" },
+  ];
+  const gvVideo = (v) => `<video controls preload="none" playsinline poster="video/${v.f}.jpg" aria-label="국악 AI 합주 교실 영상 ${esc(v.t)} ${esc(v.d)}" onplay="document.querySelectorAll('video').forEach((o)=>{if(o!==this)o.pause()})" style="width:100%;aspect-ratio:16/9;display:block;background:#0b2b29;border-radius:var(--r-m);border:1px solid var(--line)"><source src="video/${v.f}.mp4" type="video/mp4">영상을 재생할 수 없는 브라우저입니다. <a href="video/${v.f}.mp4">영상 파일 열기</a></video>`;
+  const gdLinks = (first) => GD.map((d, i) => `<a class="btn${i === 0 && first ? " primary" : ""}" href="${d.f}" download="${d.save}">${ico("download")}${esc(d.t)} PDF</a>`).join("");
+  function gugakMedia() {
+    return `<div class="sec"><div class="subhead"><h3>${ico("play")}수업 영상</h3><span class="tiny">가상의 인물로 보여 드리는 수업 흐름이에요 · 자막 포함</span></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:20px 16px;align-items:start">
+      ${GV.map((v) => `<figure class="rv" style="margin:0">${gvVideo(v)}<figcaption style="margin-top:8px;line-height:1.5"><b>${esc(v.t)}</b> <span class="tiny num">${esc(v.d)}</span><br><span class="tiny">${esc(v.n)}</span></figcaption></figure>`).join("")}
+      </div></div>
+      <div class="sec"><div class="subhead"><h3>${ico("download")}자료 내려받기</h3><span class="tiny">PDF · 각 A4 6쪽</span></div>
+      <div style="display:flex;flex-wrap:wrap;gap:12px">${gdLinks(true)}</div>
+      <p class="tiny" style="margin-top:10px">소개서에는 수업 내용이, 제안서에는 준비물·접수 순서·수업료가 들어 있습니다.</p></div>`;
+  }
+  function homeMedia() {
+    return `<section class="section" style="padding-top:0"><div class="wrap two" style="align-items:center">
+      <div class="rv">${gvVideo(GV[0])}</div>
+      <div class="rv"><span class="eyebrow">국악 AI 합주 교실</span><h2 style="font-size:clamp(1.5rem,2.6vw,2rem);margin:12px 0 14px">영상으로 먼저 보세요</h2><p class="muted">58초 영상으로 수업을 한눈에 볼 수 있습니다. 수업별 영상 3편도 보고, 소개서와 제안서도 바로 받을 수 있습니다.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:18px"><a class="btn primary" href="#gugak">${ico("play")}수업 영상 3편 더 보기</a>${gdLinks(false)}</div>
+        <p class="tiny" style="margin-top:12px">영상은 가상의 인물로 보여 드리는 수업 흐름입니다 · PDF는 각 A4 6쪽</p></div>
+    </div></section>`;
   }
   function viewProgram(p) {
     const opens = nextOpenDates(p.id, 6);
@@ -286,6 +320,7 @@
       <div class="phero"><img src="${esc(p.image)}" alt="" onerror="this.remove()"${p.heroSoft ? ' style="filter:blur(3px) saturate(.8);transform:scale(1.04)"' : ""}><div class="in">${pill(p)}${p.track ? `<span class="mono" style="font-size:.78rem;letter-spacing:.06em;color:rgba(255,255,255,.82)">${esc(p.track)}</span>` : ""}<h1>${esc(p.name)}</h1><p>${esc(p.tagline)}</p>
         <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:6px"><a class="btn primary" href="#apply" data-pick="${esc(p.id)}">이 수업 접수하기</a><a class="btn" style="color:#fff;border-color:rgba(255,255,255,.45)" href="#ask" data-ask="${esc(p.id)}">이 수업 질문하기</a></div></div></div>
       ${glance}
+      ${p.id === "gugak" ? gugakMedia() : ""}
       <div class="sec"><div class="subhead"><h3>${ico("star")}이런 것을 배워요</h3></div><div class="lcards wide">${learn}</div></div>
       ${gugakMenu(p)}
       <div class="sec"><div class="subhead"><h3>${ico("clock")}수업 흐름</h3><span class="tiny">${esc(p.time)}</span></div>${minBar(p.flow)}${gugakShots}${steps}</div>
