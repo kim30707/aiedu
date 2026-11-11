@@ -266,6 +266,14 @@
   ];
   const gvVideo = (v) => `<video controls preload="none" playsinline poster="video/${v.f}.jpg" aria-label="국악 AI 합주 교실 영상 ${esc(v.t)} ${esc(v.d)}" onplay="document.querySelectorAll('video').forEach((o)=>{if(o!==this)o.pause()})" style="width:100%;aspect-ratio:16/9;display:block;background:#0b2b29;border-radius:var(--r-m);border:1px solid var(--line)"><source src="video/${v.f}.mp4" type="video/mp4">영상을 재생할 수 없는 브라우저입니다. <a href="video/${v.f}.mp4">영상 파일 열기</a></video>`;
   const gdLinks = (first) => GD.map((d, i) => `<a class="btn${i === 0 && first ? " primary" : ""}" href="${d.f}" download="${d.save}">${ico("download")}${esc(d.t)} PDF</a>`).join("");
+  /* 2026-11-11 국악 앱 링크 */
+  const GL = [
+    { href: "gugak/", icon: "instrument", t: "국악 악기 연주해 보기", n: "가야금·해금·아쟁·장구" },
+  ];
+  function gugakLinks() {
+    return `<div class="sec"><div class="subhead"><h3>${ico("tablet")}직접 해 보기</h3><span class="tiny">수업에서 쓰는 앱이 새 창으로 열려요</span></div>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">${GL.map((l, i) => `<a class="btn${i === 0 ? " primary" : ""}" href="${l.href}" target="_blank" rel="noopener">${ico(l.icon)}${esc(l.t)}</a>`).join("")}<span class="tiny">${GL.map((l) => esc(l.n)).join(" · ")} · 소리가 나요</span></div></div>`;
+  }
   function gugakMedia() {
     return `<div class="sec"><div class="subhead"><h3>${ico("play")}수업 영상</h3><span class="tiny">가상의 인물로 보여 드리는 수업 흐름이에요 · 자막 포함</span></div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:20px 16px;align-items:start">
@@ -320,7 +328,7 @@
       <div class="phero"><img src="${esc(p.image)}" alt="" onerror="this.remove()"${p.heroSoft ? ' style="filter:blur(3px) saturate(.8);transform:scale(1.04)"' : ""}><div class="in">${pill(p)}${p.track ? `<span class="mono" style="font-size:.78rem;letter-spacing:.06em;color:rgba(255,255,255,.82)">${esc(p.track)}</span>` : ""}<h1>${esc(p.name)}</h1><p>${esc(p.tagline)}</p>
         <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:6px"><a class="btn primary" href="#apply" data-pick="${esc(p.id)}">이 수업 접수하기</a><a class="btn" style="color:#fff;border-color:rgba(255,255,255,.45)" href="#ask" data-ask="${esc(p.id)}">이 수업 질문하기</a></div></div></div>
       ${glance}
-      ${p.id === "gugak" ? gugakMedia() : ""}
+      ${p.id === "gugak" ? gugakLinks() + gugakMedia() : ""}
       <div class="sec"><div class="subhead"><h3>${ico("star")}이런 것을 배워요</h3></div><div class="lcards wide">${learn}</div></div>
       ${gugakMenu(p)}
       <div class="sec"><div class="subhead"><h3>${ico("clock")}수업 흐름</h3><span class="tiny">${esc(p.time)}</span></div>${minBar(p.flow)}${gugakShots}${steps}</div>
