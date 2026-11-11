@@ -44,7 +44,7 @@
 .song-cell.now small,.song-cell.now b,.song-cell.now i{color:#fff}
 .song-empty{margin:4px 0;font-size:13px;color:var(--muted)}
 .song-source{margin:0;font-size:10px;color:var(--muted)}
-.song-running .song-controls,.song-running .song-source{display:none}
+.song-running .song-controls,.song-running .song-source{opacity:.45;pointer-events:none}
 .play-view:has(#song-panel[open]) .performance-hint{display:none}
 #scene .string-touch.song-soon{stroke:#f2c46c;stroke-opacity:.28}
 #scene [data-visible-string].song-soon{stroke:#f0b04a}

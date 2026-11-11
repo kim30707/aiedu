@@ -1,0 +1,22 @@
+/* ‘어떻게 쳐요?’ 안내 + 따라 하기 시작 때 악기 그림이 움직이지 않게 (셈제작소, 2026-11-11) */
+.howto-open{min-height:38px;padding:6px 14px;border-radius:999px;border:2px solid #e8562f;background:#fff;color:#b8401f;font-weight:700;font-size:14px;cursor:pointer;white-space:nowrap}
+.howto-open[aria-expanded="true"]{background:#e8562f;color:#fff}
+.howto-layer{position:fixed;inset:0;pointer-events:none;z-index:60}
+.howto-mark{position:fixed;width:24px;height:24px;border-radius:50%;background:#e8562f;color:#fff;font:700 14px/24px system-ui,sans-serif;text-align:center;box-shadow:0 0 0 3px #fff,0 2px 6px rgba(0,0,0,.25);animation:howto-pulse 1.4s ease-in-out 3}
+.howto-under{position:fixed;height:3px;border-radius:2px;background:#e8562f;opacity:.85}
+.howto-card{position:fixed;z-index:61;box-sizing:border-box;padding:12px 14px 10px;border-radius:16px;background:rgba(255,253,247,.97);border:2px solid #0b7a75;box-shadow:0 8px 24px rgba(0,0,0,.18);color:#173f36;font-size:14px;line-height:1.5}
+.howto-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:6px}
+.howto-head strong{font-size:16px;color:#0b7a75}
+.howto-sub{font-size:12px;color:#5d6b63}
+.howto-steps{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.howto-steps li{display:grid;grid-template-columns:24px 1fr;gap:8px;align-items:start}
+.howto-num{display:inline-block;width:22px;height:22px;border-radius:50%;background:#e8562f;color:#fff;font-size:13px;line-height:22px;text-align:center}
+.howto-song{margin:8px 0 0;padding:7px 9px;border-radius:10px;background:#e3f3ee;font-size:13px}
+.howto-song b{color:#0b7a75}
+.howto-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:8px;font-size:12px;color:#5d6b63}
+.howto-ok{min-height:36px;padding:4px 16px;border-radius:999px;border:0;background:#0b7a75;color:#fff;font-weight:700;font-size:14px;cursor:pointer}
+.howto-card.howto-narrow{font-size:13px}
+@keyframes howto-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
+@media (prefers-reduced-motion:reduce){.howto-mark{animation:none}}
+/* 따라 하기 중 ‘이 음 들어 보기’ 자리를 늘 남겨 두어 줄이 바뀌지 않게 */
+#song-hint[hidden]{display:inline-block!important;visibility:hidden}
