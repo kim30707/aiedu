@@ -306,8 +306,8 @@
       <ol class="loop">${p.loop.map((t, i) => `<li class="${i === 1 ? "ai" : "st"}"><span class="who">${i === 1 ? ico("ai") + "AI" : ico("student") + "학생"}</span><b>${esc(t)}</b></li>`).join("")}</ol>
       <p class="tiny" style="margin-top:10px">학생이 학교 태블릿에서 학교 계정으로 직접 씁니다. 안 되면 강사 기기에서 학생이 직접 칩니다.</p></div>` : "";
     const gugakShots = p.id === "gugak" ? `<div class="two shots" style="margin-top:16px">
-        <figure class="rv"><img src="img/app-demo.jpg" alt="웹악기 본보기 연주 화면. 가야금 줄 위에 칠 곳 점과 다음 칠 곳 동그라미가 보인다." loading="lazy"><figcaption>1교시 본보기 보기 · 칠 곳 ● 다음 ○</figcaption></figure>
-        <figure class="rv"><img src="img/app-error.jpg" alt="웹악기 소리 탐정 연구실 화면. 듣기, 찾기, 추측, 고치기, 다시 확인 다섯 단계." loading="lazy"><figcaption>2교시 소리 탐정 · 듣기 → 찾기 → 고치기</figcaption></figure></div>` : "";
+        <figure class="rv"><img src="img/app-follow.jpg" alt="국악 악기 앱의 가야금 곡 따라 하기 화면. 아리랑 악보 칸과 가야금 줄 위에 칠 곳 검은 점, 다음 칠 곳 동그라미가 보인다." loading="lazy"><figcaption>1교시 곡 따라 하기 · 칠 곳 ● 다음 ○</figcaption></figure>
+        <figure class="rv"><img src="img/app-haegeum.jpg" alt="국악 악기 앱의 해금 화면. 쉬운 연주로 현을 누르고 있으면 소리가 나고 위아래로 움직이면 음이 바뀐다." loading="lazy"><figcaption>2교시 다른 악기로 바꿔 보기 · 해금</figcaption></figure></div>` : "";
     const gugakStage = p.id === "gugak" ? (() => {
       const box = 'border-radius:var(--r-m);border:1px solid var(--line);width:100%;display:block;object-fit:cover';
       const kids = [["gayageum", "가야금"], ["haegeum", "해금"], ["janggu", "장구"]].map(([k, n]) => `<img src="img/stage-child-${k}.jpg" alt="${n}을 연주하는 어린이 가상 연주자. 실제 학생이 아니다." loading="lazy" style="${box};aspect-ratio:16/27">`).join("");
