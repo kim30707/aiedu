@@ -245,7 +245,7 @@
     const rows = p.price.rows.map((r) => { const big = r.amount ? won(r.amount) : esc(r.price || "협의"); const first = (r.cond || "").match(/첫 운영 학교 ([0-9]+만 원)/);
       return `<div class="pcard"><div class="pk">${esc(r.type)}</div><div class="pv num">${big}</div>${first ? `<div class="pf">첫 운영 학교 <b class="num">${esc(first[1])}</b></div>` : `<div class="pf">${esc(r.cond || "")}</div>`}<div class="pu">${esc(r.unit || "")}</div></div>`; }).join("");
     return `<div class="sec"><div class="subhead"><h3>${ico("won")}수업료 <span class="tiny">1학급 총액</span></h3></div><div class="pcards">${rows}</div>
-      <ul class="pnotes"><li>${ico("print")}강사·활동지 인쇄·수업용 앱·부산 시내 이동 포함</li><li>${ico("users")}같은 학교·같은 날 2학급째는 수업료의 4분의 3 (첫 운영 학교 금액과 겹치지 않음)</li><li>${ico("map")}경남은 교통 실비 별도</li></ul>
+      <ul class="pnotes"><li>${ico("print")}강사·활동지 인쇄·${p.id === "theater-basic" ? "" : "수업용 앱·"}부산 시내 이동 포함</li><li>${ico("users")}같은 학교·같은 날 2학급째는 수업료의 4분의 3 (첫 운영 학교 금액과 겹치지 않음)</li><li>${ico("map")}경남은 교통 실비 별도</li></ul>
       <p class="tiny">첫 운영 학교: 프로그램마다 1곳, 수업 뒤 학교 의견서 1장을 주시는 조건입니다.</p></div>`;
   }
   function gugakMenu(p) {
