@@ -20,13 +20,13 @@
   },
   {
    "path": "guide.html",
-   "bytes": 26987,
-   "sha256": "23028c27fdf8fce0257dbee8de549919c140c0c248a2b9c900c09f42794cdb5a"
+   "bytes": 27022,
+   "sha256": "fea8a16d1ca0b18928952dd57e7c381a2fc69ff442e0f4b644bfe5b77e1557bb"
   },
   {
    "path": "guide_upper.html",
-   "bytes": 21791,
-   "sha256": "098e051900e8b18159b04bce82dd832bf59def0992d5cb5750eec364c4b922c7"
+   "bytes": 21879,
+   "sha256": "7552becfe1690dd4c659ef51060f770d8c883cfdca92fc3c36860092919feeab"
   },
   {
    "path": "img/QR_app.png",
@@ -60,8 +60,8 @@
   },
   {
    "path": "intro.html",
-   "bytes": 41135,
-   "sha256": "816571a8182fa71edd4a02b52f9334af11c17ded6856a40ad4c111451e497e8e"
+   "bytes": 41332,
+   "sha256": "337064d0a41531f38b70e2845769f651bbf71097458e8c2d66626fc905d87191"
   },
   {
    "path": "logo/semjejakso_mark.svg",
