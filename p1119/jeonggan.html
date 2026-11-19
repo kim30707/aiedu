@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="ko">
+<head><meta name="robots" content="noindex,nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>정간보 놀이 — 국악 놀이터</title>
+<link rel="stylesheet" href="play.css">
+<style>
+body{background:#f6efe2}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.tabs button{padding:10px 16px;border-radius:999px;background:#fff;box-shadow:inset 0 0 0 2px var(--line);font-weight:800;font-size:16px}
+.tabs button[aria-selected=true]{background:var(--teal);color:#fff;box-shadow:none}
+.bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
+.note{font-size:13px;color:var(--muted)}
+.lab{font-weight:700}
+.pane{display:grid;gap:12px}
+.pane h2{margin:0 0 6px;font-size:18px}
+/* 정간보: 장단(마디)은 오른쪽부터, 칸은 위에서 아래로 */
+.jg{display:flex;flex-direction:column;gap:14px}
+.jg-row{display:flex;flex-direction:row-reverse;gap:12px;justify-content:flex-start}
+.jg-bar{display:flex;flex-direction:column;align-items:stretch;min-width:0}
+.jg-h{font-size:12px;color:var(--muted);text-align:center;margin-bottom:2px}
+.jg-grid{display:grid;grid-auto-rows:54px;grid-template-columns:minmax(64px,92px) 34px;border:3px solid #2c3e50;background:#fff}
+.jg.nojg .jg-grid{grid-template-columns:minmax(64px,92px)}
+.jg-c{position:relative;min-height:0;overflow:hidden;border-bottom:1px solid #8796a3;border-right:1px solid #8796a3;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.05;padding:2px;background:#fff}
+.jg-c:nth-last-child(-n+2){border-bottom:0}
+.jg-c .big{font-size:21px;font-weight:900;color:#1d2b36}
+.jg-c .small{font-size:10px;color:#5d6f69}
+.jg-c .syl{font-size:12px;font-weight:800;color:var(--teal)}
+.jg-c .tie{font-size:18px;color:#9aa7b1}
+.jg-c .rest{font-size:16px;color:#7a8791}
+.jg-c .bad{font-size:20px;font-weight:900;color:#a3301a}
+.jg-j{min-height:0;display:grid;place-items:center;border-bottom:1px solid #8796a3;font-size:14px;font-weight:800;color:#b35a00;background:#fffbea}
+.jg-j.empty{background:#f8fafb;color:#c0c8ce}
+.jg-c.on{background:#ffe9a8}
+.jg-c.sel{box-shadow:inset 0 0 0 4px var(--teal)}
+.jg-c.mark{box-shadow:inset 0 0 0 4px var(--coral);background:#fff3ee}
+.jg-c.diff::after{content:'';position:absolute;inset:3px;border:2px dashed #7b4bb7;border-radius:4px;pointer-events:none}
+.jg-c.extra::after{border-color:#c86a00}
+.src-tag{margin:6px 0 0;font-size:14px;font-weight:800;color:#5b3e8a}.src-tag:empty{display:none}
+.jg-c.wrong{background:#fde8e2}
+.jg-c.right{background:#dff3ee}
+.jg-c.blank{background:#fbf8f1}
+.staff{width:100%;height:auto;background:#fff;border-radius:12px;display:block}
+.staff .on .head,.staff .on .stem{fill:var(--coral);stroke:var(--coral)}
+.palette{display:flex;gap:6px;flex-wrap:wrap}
+.palette button{min-width:62px;min-height:52px;padding:6px 10px;border-radius:12px;background:#fff;box-shadow:inset 0 0 0 2px var(--line);font-weight:900;font-size:18px;line-height:1.1}
+.palette button small{display:block;font-size:11px;font-weight:700;color:var(--muted)}
+.palette button.on{box-shadow:inset 0 0 0 3px var(--teal);background:#f2fbf8}
+textarea{width:100%;min-height:120px;font:15px/1.5 ui-monospace,Menlo,monospace;border-radius:12px;border:2px solid var(--line);padding:10px;box-sizing:border-box;-webkit-user-select:text;user-select:text}
+#quiz-box{background:#0b7a75;color:#fff;border-radius:16px;padding:12px 14px}
+#quiz-box .btn.ghost{background:#fff}
+.say{font-weight:800;min-height:24px}
+.say.ok{color:var(--teal)}.say.no{color:#a3301a}
+.problems li{color:#a3301a;font-weight:700}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.legend span b{color:var(--ink)}
+.warn{color:#a3301a;font-weight:700}
+.state{font-weight:800;color:var(--teal)}
+@media (max-width:700px){.jg-c .big{font-size:19px}.jg-grid{grid-template-columns:minmax(56px,80px) 28px}}
+</style>
+</head>
+<body>
+<header class="topbar"><h1>정간보 놀이</h1><a href="index.html">놀이터</a></header>
+<main class="wrap">
+ <div class="tabs" role="tablist">
+  <button role="tab" data-tab="see" aria-selected="true">① 악보 보고 치기</button>
+  <button role="tab" data-tab="make" aria-selected="false">② 우리 가락 짓기</button>
+  <button role="tab" data-tab="check" aria-selected="false">③ AI 악보 검사</button>
+  <button role="tab" data-tab="g4" aria-selected="false">④ 줄 번호로 치기</button>
+ </div>
+ <div class="bar card" style="padding:10px 12px">
+  <label class="lab">빠르기 <select id="tempo" aria-label="빠르기"><option value="35">♩.=35</option><option value="40">♩.=40</option><option value="45" selected>♩.=45</option><option value="50">♩.=50</option><option value="55">♩.=55</option></select></label>
+  <label class="lab">칸 글자 <select id="yul" aria-label="칸 글자"><option value="A">율명 안 A(도=黃)</option><option value="B">율명 안 B(솔=黃)</option><option value="N">계이름만</option></select></label>
+  <label class="lab"><input type="checkbox" id="janggu" checked> 장구 칸·소리</label>
+  <label class="lab">오선보 <select id="octave" aria-label="오선보 음높이"><option value="0">가야금 음높이</option><option value="1">리코더용(한 옥타브 위로 적기)</option></select></label>
+  <span class="note" id="yul-note">율명 조는 국악 강사 확인 전이에요.</span>
+ </div>
+
+ <!-- ① 악보 보고 치기 (G5·G8 1교시) -->
+ <section class="pane" id="tab-see">
+  <div class="card">
+   <div class="bar"><label class="lab">곡 <select id="song" aria-label="곡"></select></label>
+    <button class="btn" id="see-play">처음부터 듣기</button><button class="btn ghost small" id="see-stop">멈춤</button>
+    <span class="note">칸을 누르면 그 음이 나요.</span></div>
+   <div class="legend"><span>정간보는 <b>오른쪽 장단부터, 위에서 아래로</b> 읽어요</span><span>이 놀이터 악보에서는 <b>작은 한 칸</b>을 8분음표 길이로 나타내요</span><span><b>아홉 칸</b> = 세마치 한 장단</span><span><b>│</b> 앞 음을 이어서</span><span><b>△</b> 쉼</span></div>
+  </div>
+  <div class="card"><h2>정간보 <span class="note">(가야금)</span></h2><div class="jg" id="see-jg"></div></div>
+  <div class="card"><h2>오선보 <span class="note" id="see-staff-note">(같은 가락)</span></h2><svg class="staff" id="see-staff" role="img" aria-label="같은 가락의 오선보"></svg></div>
+ </section>
+
+ <!-- ② 우리 가락 짓기 (H2 3~4차시 · L1 3~4차시) -->
+ <section class="pane" id="tab-make" hidden>
+  <div class="card">
+   <div class="bar"><label class="lab">장단 수 <select id="make-bars" aria-label="장단 수"><option>1</option><option>2</option><option>3</option><option>4</option></select></label>
+    <button class="btn" id="make-play">들어 보기</button><button class="btn ghost small" id="make-stop">멈춤</button>
+    <button class="btn ghost small" id="make-load">예시(아리랑 첫 장단) 불러오기</button><button class="btn ghost small" id="make-clear">모두 지우기</button><button class="btn ghost small" id="make-undo" disabled>되돌리기</button></div>
+   <p class="note">칸을 고르고 아래에서 음을 눌러요. 쓸 수 있는 음은 아리랑과 같은 <b>솔·라·도·레·미</b>(높은 솔·라)예요. 다음 칸으로 저절로 넘어가요.</p>
+   <div class="palette" id="palette"></div>
+   <p class="say" id="make-say" aria-live="polite"></p>
+  </div>
+  <div class="card"><h2>우리 정간보</h2><div class="jg" id="make-jg"></div></div>
+  <div class="card" id="quiz-card">
+   <h2>틀린 음 문제 <span class="note">(한 칸만 몰래 바꿔 들려주고 맞히기)</span></h2>
+   <div class="bar"><button class="btn coral" id="quiz-new">한 칸 바꿔 문제 내기</button><span class="note">다른 모둠은 위 정간보를 보면서 들어요. 화면 악보는 바뀌지 않아요.</span></div>
+   <div id="quiz-box" hidden>
+    <p style="margin:0 0 8px;font-weight:800">문제: 한 칸이 바뀌었어요. 듣고 <b>바뀐 칸</b>을 눌러요.</p>
+    <div class="bar"><button class="btn ghost small" id="quiz-play">문제 소리 듣기</button><button class="btn ghost small" id="quiz-orig">원래 소리 듣기</button><button class="btn ghost small" id="quiz-show">정답 보기</button><button class="btn ghost small" id="quiz-end">문제 끝</button></div>
+    <p class="say" id="quiz-say" aria-live="polite" style="color:#fff"></p>
+   </div>
+  </div>
+  <div class="card"><h2>오선보로 보기</h2><svg class="staff" id="make-staff" role="img" aria-label="우리 가락의 오선보"></svg></div>
+  <div class="card"><h2>정간보 코드 <span class="note">(이름 없이 이 글만 AI나 다른 기기로 옮겨요)</span></h2>
+   <textarea id="make-code" readonly aria-label="우리 정간보 코드"></textarea>
+   <div class="bar"><button class="btn ghost small" id="make-copy">코드 복사</button><button class="btn ghost small" id="make-import">코드 붙여 넣어 불러오기</button><span class="state" id="make-state"></span></div>
+  </div>
+ </section>
+
+ <!-- ③ AI 악보 검사 (G8 · L1 5차시) -->
+ <section class="pane" id="tab-check" hidden>
+  <div class="card">
+   <h2>1. 부탁 카드</h2>
+   <div class="bar"><label class="lab">부탁 <select id="ask" aria-label="부탁 고르기">
+    <option value="doraji">도라지타령 첫 구절 정간보 만들기</option>
+    <option value="arirang2">아리랑 둘째 구절 정간보 만들기</option>
+    <option value="teacher">강사가 정한 곡 정간보 만들기</option>
+    <option value="ours">우리 가락 칸 수만 확인 받기(L1)</option></select></label>
+    <input id="ask-song" maxlength="30" placeholder="곡 이름(강사가 정한 전래 민요)" hidden style="padding:8px;border-radius:10px;border:2px solid var(--line);min-width:220px"></div>
+   <p class="warn" id="ask-pii" hidden></p>
+   <details open><summary class="lab">AI에게 줄 카드 글 보기</summary><textarea id="card" readonly aria-label="AI에게 줄 부탁 카드"></textarea></details>
+   <div class="bar"><button class="btn coral" id="card-copy">카드 복사</button><span class="state" id="card-state"></span></div>
+   <p class="note">복사한 카드를 <b>학교 계정 AI 화면</b>(감독 선생님이 정한 기기)에 붙여 넣어요. 이 앱은 AI에 연결되어 있지 않고 카드를 보내지도 않아요. 학교 AI를 쓸 수 없으면 아래 ‘미리 받아 둔 답’으로 해요.</p>
+  </div>
+  <div class="card">
+   <h2>2. AI 답 붙여 넣고 검사</h2>
+   <p class="note">붙여 넣기 전에 <b>감독 선생님</b>과 답에 이름·학교·반·번호 같은 말이 없는지 먼저 봐요.</p>
+   <textarea id="answer" placeholder="AI가 준 정간보 코드를 여기에 붙여 넣어요" aria-label="AI 답"></textarea>
+   <p class="src-tag" id="answer-src" aria-live="polite"></p>
+   <div class="bar"><button class="btn" id="check-go">검사하기</button><button class="btn ghost small" id="check-clear">지우기</button>
+    <details id="ex-box"><summary class="lab">미리 받아 둔 답으로 하기</summary><div class="palette" id="examples" style="margin-top:6px"></div><p class="note" id="ex-source"></p></details></div>
+   <div id="check-result"></div>
+  </div>
+  <div class="card" id="check-score" hidden>
+   <h2>3. 쳐 보고 이상한 칸 표시</h2>
+   <p class="src-tag" id="check-src"></p>
+   <div class="bar"><button class="btn" id="check-play">받은 악보 듣기</button><button class="btn ghost small" id="check-stop">멈춤</button>
+    <button class="btn ghost small" id="check-compare">셈제작소 악보와 비교</button><button class="btn ghost small" id="check-fix">② 짓기로 옮겨 고치기</button></div>
+   <p class="note">이상하다고 생각하는 칸을 누르면 <b style="color:var(--coral)">표시</b>돼요. 다시 누르면 지워져요. <span id="mark-count"></span></p>
+   <p class="say" id="compare-say"></p>
+   <div class="jg" id="check-jg"></div>
+   <svg class="staff" id="check-staff" role="img" aria-label="받은 악보의 오선보" style="margin-top:12px"></svg>
+  </div>
+  <div class="card" id="check-again" hidden>
+   <h2>4. 다시 묻기 카드</h2>
+   <div class="bar"><button class="btn ghost small" id="again-fix">표시한 칸 고쳐 달라고 하기</button><button class="btn ghost small" id="again-why">왜 그렇게 적었는지 묻기</button></div>
+   <textarea id="again-card" readonly aria-label="다시 묻기 카드"></textarea>
+   <div class="bar"><button class="btn coral small" id="again-copy">카드 복사</button><span class="state" id="again-state"></span></div>
+   <p class="note">AI의 답은 의견이에요. 맞는지 정하는 것은 쳐 보는 우리예요.</p>
+  </div>
+ </section>
+ <!-- ④ 줄 번호로 치기 (G4) -->
+ <section class="pane" id="tab-g4" hidden>
+  <div class="card">
+   <h2>1. 줄 번호 부탁 카드 <span class="note">(카드 G4)</span></h2>
+   <div class="bar"><label class="lab" for="g4-song">곡 이름</label><input id="g4-song" maxlength="30" placeholder="강사가 정한 전래 민요 이름" style="padding:8px;border-radius:10px;border:2px solid var(--line);min-width:220px"><span class="note">이름·학교·반은 쓰지 않아요.</span></div>
+   <p class="warn" id="g4-pii" hidden></p>
+   <details open><summary class="lab">AI에게 줄 카드 글 보기</summary><textarea id="g4-card" readonly aria-label="줄 번호 부탁 카드"></textarea></details>
+   <div class="bar"><button class="btn coral" id="g4-copy">카드 복사</button><span class="state" id="g4-state"></span></div>
+   <p class="note">복사한 카드를 <b>학교 계정 AI 화면</b>(감독 선생님이 정한 기기)에 붙여 넣어요. 이 앱은 AI에 연결되어 있지 않고 카드를 보내지도 않아요. 학교 AI를 쓸 수 없으면 아래 ‘예시(아리랑 첫 소절) 넣기’로 해요.</p>
+  </div>
+  <div class="card">
+   <h2>2. AI가 준 줄 번호 붙여 넣기</h2>
+   <p class="note">붙여 넣기 전에 <b>감독 선생님</b>과 답에 이름·학교·반·번호 같은 말이 없는지 먼저 봐요.</p>
+   <textarea id="g4-answer" placeholder="예) 4(길게) 5 4 5 6(길게) 7 6(길게)" aria-label="AI가 준 줄 번호"></textarea>
+   <p class="src-tag" id="g4-answer-src" aria-live="polite"></p>
+   <div class="bar"><button class="btn" id="g4-check">검사하기</button><button class="btn ghost small" id="g4-example">예시(아리랑 첫 소절) 넣기</button></div>
+   <div id="g4-result"></div>
+  </div>
+  <div class="card" id="g4-score" hidden>
+   <h2>3. 쳐 보고 고치기</h2>
+   <p class="src-tag" id="g4-src"></p>
+   <div class="bar"><button class="btn" id="g4-play">AI 줄 번호 듣기</button><button class="btn ghost" id="g4-play-fixed">고친 줄 번호 듣기</button><button class="btn ghost small" id="g4-stop">멈춤</button></div>
+   <p class="note">음을 누르면 그 줄 소리가 나고 골라져요. 고른 음을 아래 단추로 고쳐요.</p>
+   <div class="palette" id="g4-notes"></div>
+   <div class="bar"><button class="btn ghost small" id="g4-up">한 줄 위(+1현)</button><button class="btn ghost small" id="g4-down">한 줄 아래(−1현)</button><button class="btn ghost small" id="g4-long">길게 / 짧게</button><button class="btn ghost small" id="g4-del">이 음 지우기</button><button class="btn ghost small" id="g4-reset">처음 받은 대로</button></div>
+   <p class="say" id="g4-say"></p>
+   <div class="grid2" style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div><b id="g4-orig-label">AI가 준 줄 번호</b><textarea id="g4-orig" readonly style="min-height:70px"></textarea></div><div><b>고친 줄 번호</b><textarea id="g4-fixed" readonly style="min-height:70px"></textarea></div></div>
+   <h2 style="margin-top:12px">다시 묻기 카드</h2>
+   <textarea id="g4-again" readonly aria-label="다시 묻기 카드" style="min-height:70px"></textarea>
+   <div class="bar"><button class="btn coral small" id="g4-again-copy">카드 복사</button><span class="state" id="g4-again-state"></span></div>
+  </div>
+ </section>
+ <p class="note" style="margin-top:14px">정간보·오선보는 셈제작소가 놀이터 악보(전래 민요를 가야금 4~10현에 맞춰 새로 적은 것)로 직접 그린 교육용이에요. 율명 조(안 A·안 B), 장구 기호, 오선보 박 나누기·줄이 바뀔 때 잇는 붙임줄, 리코더용 옥타브는 국악 강사 확인 전이에요. 이 화면은 AI에 연결되어 있지 않아요. 소리: 국립국악원 국악기 디지털 음원(공공누리 제1유형).</p>
+</main>
+<script src="class-guard.js"></script>
+<script src="audio/bank-meta.js"></script>
+<script src="audio/bank-gayageum.js"></script>
+<script src="audio/bank-janggu.js"></script>
+<script src="gugak-data.js"></script>
+<script src="class-link.js"></script>
+<script src="jeonggan-examples.js"></script>
+<script src="jeonggan.js"></script>
+</body>
+</html>

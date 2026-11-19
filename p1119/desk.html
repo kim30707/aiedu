@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ko">
+<head><meta name="robots" content="noindex,nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>교탁 — 국악 놀이터</title>
+<link rel="stylesheet" href="play.css">
+<style>
+body{background:#eef3f1}
+.grid2{display:grid;grid-template-columns:1.1fr 1fr;gap:14px;align-items:start}
+h2{margin:0 0 8px;font-size:20px}
+.seats{display:grid;grid-template-columns:repeat(8,1fr);gap:6px}
+.seat{border-radius:10px;padding:5px 2px;text-align:center;font-size:12px;background:#fff;box-shadow:inset 0 0 0 2px #dfe7e4;color:#9aa;min-height:46px}
+.seat b{display:block;font-size:15px;color:#466}
+.seat.on{background:#f2fbf8;box-shadow:inset 0 0 0 2px #0b7a75;color:#075a56}
+.seat.on.janggu{background:#fff1e6;box-shadow:inset 0 0 0 2px #d9813b}
+.seat.on.gayageum{background:#e9f7f5}
+.seat.on.nr{box-shadow:inset 0 0 0 2px #e8562f;background:#fff4ef}
+.seat.dup{box-shadow:inset 0 0 0 3px #e8562f;background:#fff4ef;color:#7a2412}.seat.dup em{display:block;font-style:normal;font-weight:900;color:#a3301a}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:8px 0}
+.row label{font-weight:700;display:flex;gap:6px;align-items:center}
+select,input[type=number]{padding:6px 8px;border-radius:10px;border:2px solid var(--line);font-size:16px}
+#count{font-size:48px;font-weight:900;color:var(--coral);min-height:56px}
+.big{font-size:20px;padding:14px 22px}
+.sub{background:#fff;border-radius:12px;padding:8px 10px;margin:6px 0;box-shadow:inset 0 0 0 2px #e7ddc9;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.sub.applied{box-shadow:inset 0 0 0 3px #0b7a75}.sub.old{opacity:.6}
+.sub .what{flex:1;min-width:180px}
+.tag{font-size:12px;font-weight:800;border-radius:999px;padding:1px 8px;background:#e7ddc9}
+.tag.applied{background:#0b7a75;color:#fff}
+.qrs{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.qr{background:#fff;border-radius:12px;padding:8px;text-align:center;box-shadow:inset 0 0 0 2px #dfe7e4}
+.qr img{width:130px;height:130px;image-rendering:pixelated}
+.qr b{display:block}
+.warnbox{background:#ffe9e2;color:#8a2a14;border-radius:12px;padding:10px 14px;font-weight:700}
+.note{font-size:13px;color:var(--muted)}
+.links a{margin-right:10px}
+.g3t{width:100%;border-collapse:collapse;font-size:15px;background:#fff}.g3t th,.g3t td{padding:6px 8px;border-bottom:1px solid #eee;text-align:center}.g3t tr.top td{background:#f2fbf8;font-weight:800}
+@media (max-width:900px){.grid2{grid-template-columns:1fr}.seats{grid-template-columns:repeat(5,1fr)}}
+</style>
+</head>
+<body>
+<header class="topbar"><h1>교탁 (선생님 컴퓨터)</h1><a href="index.html">놀이터</a><a href="scoreboard.html">점수판</a><a href="teacher-guide.html">강사 안내</a></header>
+<main class="wrap">
+ <p class="warnbox" id="nolocal" hidden>이 화면은 서버를 켠 컴퓨터(교탁)에서 <b>http://127.0.0.1:8960/desk.html</b> 로 열어야 해요. 태블릿에서는 같이 시작·조율 적용이 되지 않아요.</p>
+ <p class="warnbox" id="noserver" hidden>교실 시연 서버가 켜져 있지 않아요. 폴더에서 <b>python3 demo_server.py --lan</b> 으로 켠 뒤 다시 열어요.</p>
+ <div class="grid2">
+  <section class="card">
+   <h2>같이 시작</h2>
+   <div class="row">
+    <label>판 <select id="level"></select></label>
+    <label>빠르기 ♩.= <input type="number" id="tempo" min="30" max="90" step="1" style="width:80px"></label>
+    <label>몇 초 뒤 <select id="delay"><option>5</option><option selected>8</option><option>12</option><option>20</option></select></label>
+   </div>
+   <div class="row">
+    <label><input type="checkbox" id="fill" checked> 빈자리 채우기: 아무도 안 치는 악기 몫은 교탁이 친다</label>
+    <label><input type="checkbox" id="guide"> 학생 몫도 교탁이 작게(안내 소리)</label>
+   </div>
+   <div class="row"><button class="btn coral big" id="go">모두 같이 시작</button><button class="btn ghost" id="halt">멈춤</button><div id="count"></div></div>
+   <p id="go-state" class="note"></p>
+   <p class="note">반주(장구 판이면 가야금 가락, 가야금 판이면 세마치 장단)와 첫 마디 세기 소리는 <b>교탁 스피커에서만</b> 나요. 태블릿은 자기 몫만 쳐요. 태블릿은 ‘장단·가락 놀이’ 첫 화면에서 소리를 한 번 켜 두어야 함께 시작해요(소리를 안 켠 태블릿은 ‘준비!’ 단추가 뜨고, 자리 현황에 빨갛게 보여요). 시작 시각은 와이파이 상태에 따라 조금 어긋날 수 있어요(태블릿 실기 확인 전).</p>
+   <p class="note nr-only"><b>기록 없는 판</b>이라 자리 현황을 받지 않아요. 태블릿은 교탁의 시계·‘같이 시작’ 신호만 받아요. 빈자리 채우기는 꺼 두고(학생이 치는 악기를 교탁이 겹쳐 치지 않게), 모둠이 준비됐는지는 손을 들어 확인해요.</p>
+   <div class="nr-hide"><h2 style="margin-top:14px">자리 현황 <span class="note" id="seat-sum"></span></h2>
+   <div class="seats" id="seats"></div>
+   <p class="note">10초 안에 소식이 온 태블릿만 켜져 보여요. 자리·모둠 번호와 지금 화면·악기·소리 준비를 받아요. 이름이 없어도 자리 번호로 학생을 알 수 있으니, 수업이 끝나면 아래 ‘수업 끝 · 모두 지우기’를 눌러요. 자리 번호는 처음 쓴 기기에 묶여요. 태블릿을 바꾸면 <button class="btn ghost small" id="release">자리 연결 풀기</button></p></div>
+  </section>
+  <section class="card">
+   <h2>태블릿이 안 될 때 · 교탁 화면만으로</h2>
+   <p>태블릿 접속이 안 되면 이 컴퓨터 화면을 크게 띄우고 <b>반 전체 판</b>으로 해요. 모두 구음·손뼉으로 따라 하고, 한 사람씩 나와서 쳐도 돼요. 기록은 남지 않아요.</p>
+   <div class="row links"><a class="btn" id="whole" href="rhythm.html" target="_blank">반 전체 판 열기</a><a class="btn ghost" id="whole-demo" href="rhythm.html" target="_blank">시연(앱이 대신 침) 열기</a></div>
+   <p class="note nr-only"><b>기록 없는 판</b>이라 모둠 조율을 교탁에서 받지 않아요. 모둠은 태블릿 ‘모둠 조율’ 화면에서 ‘우리 태블릿에 적용(이 기기만)’을 눌러요. 들려주기는 모둠 태블릿으로 해요.</p>
+   <div class="nr-hide"><h2 style="margin-top:14px">모둠 조율 받은 함 <span class="note" id="sub-sum"></span></h2>
+   <div id="subs"><p class="note">아직 없어요. 태블릿 ‘모둠 조율’ 화면에서 보내면 여기 와요.</p></div>
+   <div class="row"><label>모둠 <select id="reset-group"></select></label><button class="btn ghost small" id="reset">그 모둠 기본 높이로</button><span id="sub-state" class="note"></span></div>
+   <p class="note">‘들어 보기’는 이 컴퓨터에서만 소리가 나요. ‘적용’을 누르면 보통 2초 안에(와이파이 상태에 따라 · 태블릿 실기 확인 전) 그 모둠 태블릿의 가야금 소리(놀이·연주 채점)에 들어가요. AI 답 글은 오지 않고 cent 숫자만 와요.</p></div>
+  </section>
+ </div>
+ <section class="card" style="margin-top:14px" id="g3-box">
+  <h2>세종대왕을 찾아라 · 모둠 대결 <span class="note" id="g3-sum"></span></h2>
+  <div class="row">
+   <label>문제 <select id="g3-kind"><option value="pitch">높이 문제(한 옥타브 높은 줄)</option><option value="semitone">반음 낮은 줄</option><option value="fine">조금 어긋난 줄(±30 cent)</option></select></label>
+   <button class="btn coral" id="g3-go">문제 내기(3초 뒤)</button><button class="btn ghost" id="g3-end">이번 문제 끝내기 · 정답 보기</button><button class="btn ghost small" id="g3-clear">모두 되돌리기(대결 점수·문제 지우기 · 태블릿은 기본 조율로)</button>
+  </div>
+  <p id="g3-answer" style="font-weight:800"></p>
+  <table class="g3t nr-hide" id="g3-table"></table>
+  <div class="nr-only" id="g3-hands"><p class="note"><b>기록 없는 판</b> · 태블릿은 교탁에 알리지 않아요. 다 되돌린 모둠이 손을 들면 <b>손 든 순서대로</b> 모둠 단추를 눌러요(이 화면에만 보이고, 새 문제를 내면 지워져요).</p><div class="row" id="g3-hand-btns"></div><p id="g3-hand-order" style="font-weight:800"></p></div>
+  <p class="note">태블릿은 ‘세종대왕을 찾아라’ 화면에 모둠을 골라 두면 같은 문제가 함께 열려요. 시간은 문제를 연 때부터 서버 시계로 재고, 먼저 되돌린 모둠부터 3·2·1점(그다음 1점) — 국악 강사 확인 전 기본값. 단서는 모둠이 고른 ‘무엇을 듣고 찾았나’예요. 태블릿이 안 되면 <a id="g3-whole" href="g3.html" target="_blank">교탁 화면만으로 열기</a>.</p>
+ </section>
+ <section class="card" style="margin-top:14px" id="end-box">
+  <h2>수업 끝</h2>
+  <p class="nr-only">기록 없는 판이에요. 교실 서버는 자리·점수·조율·대결 기록을 받지 않아서 지울 학생 기록이 없어요. 수업이 끝나면 서버 창을 닫아요(Ctrl+C).</p>
+  <div class="nr-hide"><p>교실 서버판은 자리 번호에 묶인 점수·자리 현황·조율·대결 기록을 서버 메모리에 둬요. <b>이름이 없어도 자리 번호로 누구인지 알 수 있어서</b> 수업이 끝나면 꼭 지워요.</p>
+  <div class="row"><button class="btn coral" id="endclass">수업 끝 · 교탁·서버 기록 모두 지우기</button><span id="end-state" class="note"></span></div>
+  <p class="note">지우는 것: 서버의 점수·자리 현황·자리 연결·조율 제출·적용한 조율·대결 기록·같이 시작, 점수판에 보인 평균. 수업 열쇠와 수업 번호도 새로 만들어요 → 열린 태블릿 화면은 3초쯤 안에 ‘새 수업’으로 알고 캐릭터·설정을 뺀 놀이터 값(자리·모둠·점수·대결·작품·기기 표)을 지워요. 꺼져 있거나 와이파이가 끊긴 태블릿은 다음에 교실 서버에 닿을 때 지워요. 열린 점수판도 비워져요. 새 반은 아래 <b>새 QR</b>로 열어요.</p></div>
+ </section>
+ <section class="card" style="margin-top:14px">
+  <h2>태블릿 여는 QR</h2>
+  <p class="note" id="qr-note"></p>
+  <div class="qrs" id="qrs"></div>
+ </section>
+</main>
+<script src="class-guard.js"></script>
+<script src="audio/bank-meta.js"></script>
+<script src="audio/bank-janggu.js"></script>
+<script src="audio/bank-gayageum.js"></script>
+<script src="gugak-data.js"></script>
+<script src="class-link.js"></script>
+<script src="arcade.js"></script>
+<script src="desk.js"></script>
+</body>
+</html>

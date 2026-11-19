@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko">
+<head><meta name="robots" content="noindex,nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>함께 악기 받은 함 — 국악 놀이터 교탁</title>
+<link rel="stylesheet" href="play.css">
+<style>
+body{background:#f6efe2}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
+input[type=text]{padding:8px;border-radius:10px;border:2px solid var(--line);font:16px ui-monospace,Menlo,monospace;min-width:260px;max-width:100%}
+.note{font-size:14px;color:var(--muted)}.warn{color:#a3301a;font-weight:700}
+#list{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin-top:10px}
+.item{background:#fff;border-radius:14px;padding:12px;box-shadow:inset 0 0 0 2px var(--line);display:grid;gap:6px}
+.item b{font-size:20px}.item ul{margin:0 0 0 18px;padding:0}
+#big{font-size:26px}#big h2{font-size:34px;margin:0 0 8px}#big ul{margin:6px 0 0 28px}
+body.presenting header.topbar,body.presenting .ctl{display:none}
+</style>
+</head>
+<body>
+<header class="topbar"><h1>함께 악기 받은 함(교탁)</h1><a href="desk.html">교탁</a><a href="index.html">놀이터</a></header>
+<main class="wrap">
+ <section class="card ctl">
+  <p class="note">모둠이 발표 화면에 보이는 <b>악기 코드</b>(함께-숫자 14개-글자)를 넣어요. 이 컴퓨터에만 남고 서버로 보내지 않아요. 이름·자리 번호는 넣지 않아요.</p>
+  <div class="row"><select id="grp" aria-label="모둠"><option value="">모둠 고르기</option></select><input type="text" id="code" placeholder="함께-…" aria-label="악기 코드"><button class="btn" id="add">받은 함에 넣기</button><span class="warn" id="msg"></span></div>
+  <div class="row"><button class="btn ghost small" id="clear">받은 함 모두 지우기(수업 끝)</button></div>
+ </section>
+ <section class="card" id="big" hidden></section>
+ <div class="row" id="bigctl" hidden><button class="btn coral" id="present">크게 보여 주기</button><a class="btn ghost" id="open" target="_blank" rel="noopener">이 악기 열어 쳐 보기</a><button class="btn ghost small" id="close">닫기</button></div>
+ <div id="list" class="ctl"></div>
+</main>
+<script src="class-guard.js"></script>
+<script src="gugak-data.js"></script>
+<script src="together-core.js"></script>
+<script>(()=>{const H=window.HKCore,P=window.GugakPlay,$=id=>document.getElementById(id),KEY='gugak-hk-inbox';
+for(let g=1;g<=8;g++)$('grp').append(new Option(g+'모둠',g));
+const load=()=>P.Store.get(KEY,[]),save=v=>P.Store.set(KEY,v);
+function changes(c){const b=H.BASE(H.CARDS.find(x=>x.id===c.card).inst);return H.FEAT.filter(f=>c[f.k]!==b[f.k]).map(f=>`${f.name}: ${H.valName(f.k,b[f.k])} → ${H.valName(f.k,c[f.k])}`);}
+function view(e){const c=H.fromCode(e.code),C=H.CARDS.find(x=>x.id===c.card),ch=changes(c);return {c,C,ch};}
+function paint(){const L=load(),box=$('list');box.innerHTML='';for(const e of L){const {C,ch}=view(e);const d=document.createElement('div');d.className='item';d.innerHTML=`<b>${e.group}모둠 · ${C.pic} ${C.who}</b><span class="note">${C.about}</span><ul>${(ch.length?ch:['(바꾼 것 없음)']).map(t=>`<li>${t}</li>`).join('')}</ul>`;const b=document.createElement('button');b.className='btn small';b.textContent='보기';b.onclick=()=>show(e);d.append(b);box.append(d);}}
+function show(e){const {C,ch}=view(e);const big=$('big');big.hidden=false;$('bigctl').hidden=false;big.innerHTML=`<h2>${e.group}모둠 — ${C.pic} ${C.who}을(를) 위해</h2><p>${C.about}</p><b>바꾼 것</b><ul>${(ch.length?ch:['(바꾼 것 없음)']).map(t=>`<li>${t}</li>`).join('')}</ul><p class="note">돌아보기 답은 모둠 태블릿 발표 화면에서 말로 들어요.</p>`;$('open').href='together.html#open='+encodeURIComponent(e.code);}
+$('add').onclick=()=>{const g=+$('grp').value,code=$('code').value.trim();if(!g){$('msg').textContent='모둠을 골라요';return;}if(!H.fromCode(code)){$('msg').textContent='악기 코드가 맞지 않아요';return;}const L=load().filter(x=>x.group!==g);L.push({group:g,code});L.sort((a,b)=>a.group-b.group);save(L);$('msg').textContent='';$('code').value='';paint();};
+$('clear').onclick=()=>{if(confirm('받은 함을 모두 지울까요?')){save([]);$('big').hidden=true;$('bigctl').hidden=true;paint();}};
+$('present').onclick=()=>{document.body.classList.toggle('presenting');$('present').textContent=document.body.classList.contains('presenting')?'돌아가기':'크게 보여 주기';};
+$('close').onclick=()=>{$('big').hidden=true;$('bigctl').hidden=true;document.body.classList.remove('presenting');};
+paint();window.GugakHKShow={load,show};})();</script>
+</body>
+</html>

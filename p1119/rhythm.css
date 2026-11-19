@@ -1,0 +1,182 @@
+/* 장단·가락 놀이 화면 */
+.home{display:grid;grid-template-columns:240px 1fr;gap:16px;align-items:start}
+.who{text-align:center}
+.who .name{font-size:22px;font-weight:900;margin:4px 0 10px}
+.who select{width:100%;margin:4px 0}
+.who .row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:8px}
+.games{display:flex;gap:10px;margin-bottom:12px}
+.games button{flex:1;min-height:64px;border-radius:16px;font-size:20px;font-weight:900;background:#fff;box-shadow:inset 0 0 0 3px var(--line)}
+.games button[aria-pressed="true"]{background:var(--mint);box-shadow:inset 0 0 0 3px var(--teal);color:var(--teal-d)}
+#levels{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.level{text-align:left;display:grid;grid-template-columns:auto 1fr auto;grid-template-areas:"num title stars" "desc desc desc" "best best best";gap:4px 10px;padding:14px 16px;border-radius:16px;background:#fff;box-shadow:0 3px 0 var(--line),inset 0 0 0 2px var(--line);min-height:110px}
+.level:not(:disabled):hover{box-shadow:0 3px 0 var(--line),inset 0 0 0 3px var(--teal)}
+.lv-num{grid-area:num;background:var(--teal);color:#fff;border-radius:999px;padding:2px 10px;font-size:14px;font-weight:800;align-self:center}
+.level b{grid-area:title;font-size:20px;align-self:center}
+.lv-stars{grid-area:stars;color:var(--yellow);font-size:22px;letter-spacing:2px;text-shadow:0 1px 0 #b8860b}
+.lv-desc{grid-area:desc;color:var(--muted);font-size:15px}
+.lv-best{grid-area:best;font-size:14px;font-weight:700;color:var(--coral)}
+.tools{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;align-items:center}
+#class-line{font-size:14px;margin-top:8px}
+
+/* 놀이 */
+#play{position:fixed;inset:0;display:flex;flex-direction:column;background:var(--paper)}
+.play-top{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:8px 14px;background:var(--teal);color:#fff}
+.play-top h2{margin:0;font-size:19px;flex:1}
+.hud{display:flex;gap:16px;align-items:baseline;font-weight:900}
+#hud-score{font-size:26px;min-width:90px;text-align:right}
+#hud-combo{font-size:18px;color:var(--yellow);min-width:70px}
+#play-area{flex:1;display:grid;grid-template-columns:130px 1fr;gap:10px;padding:10px;min-height:0;touch-action:none}
+.side{display:flex;flex-direction:column;align-items:center;gap:6px}
+#play-say{font-size:14px;text-align:center;color:var(--muted)}
+.stage{position:relative;display:flex;flex-direction:column;min-height:0}
+#track{flex:1;width:100%;min-height:0;border-radius:16px;background:#fff;box-shadow:inset 0 0 0 2px var(--line)}
+.pads{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+.pads.gayageum{display:none}
+.pads.mirror{direction:rtl}
+.pad{direction:ltr;min-height:120px;border-radius:50%/40%;font-size:22px;font-weight:900;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 6px 0 rgba(0,0,0,.18);transition:transform .05s}
+.pad span{font-size:14px;font-weight:600;opacity:.9}
+.pad-0{background:radial-gradient(circle at 50% 40%,#b06a3a,var(--wood))}
+.pad-1{background:radial-gradient(circle at 50% 40%,#16a39c,var(--teal))}
+.pad.hit{animation:pad-hit .14s ease-out}
+@keyframes pad-hit{0%{transform:scale(.94);filter:brightness(1.3)}100%{transform:scale(1)}}
+.judge{position:absolute;left:50%;top:38%;transform:translate(-50%,-50%) scale(.8);font-size:44px;font-weight:900;opacity:0;pointer-events:none;text-shadow:0 3px 0 #fff,0 0 14px #fff}
+.judge.show{animation:judge .5s ease-out}
+.judge.perfect{color:var(--coral)}.judge.good{color:var(--teal)}.judge.miss{color:#8f9a96}.judge.wrong{color:#7a4cc2;font-size:32px}
+@keyframes judge{0%{opacity:0;transform:translate(-50%,-50%) scale(.7)}25%{opacity:1;transform:translate(-50%,-50%) scale(1.08)}100%{opacity:0;transform:translate(-50%,-70%) scale(1)}}
+.cheer{position:absolute;right:16px;top:12px;background:var(--yellow);color:var(--ink);font-weight:900;font-size:26px;padding:10px 18px;border-radius:22px 22px 4px 22px;opacity:0;pointer-events:none}
+.cheer.show{animation:cheer 1.3s ease-out}
+@keyframes cheer{0%{opacity:0;transform:scale(.6) rotate(-6deg)}15%{opacity:1;transform:scale(1.1) rotate(2deg)}75%{opacity:1;transform:scale(1)}100%{opacity:0}}
+
+/* 결과 */
+.result{display:grid;grid-template-columns:200px 1fr;gap:20px;align-items:center;max-width:820px;margin:24px auto}
+#res-stars{font-size:54px;color:var(--yellow);letter-spacing:6px;text-shadow:0 2px 0 #b8860b}
+#res-score{font-size:56px;font-weight:900;color:var(--coral);line-height:1}
+.res-grid{display:grid;grid-template-columns:repeat(3,auto);gap:4px 18px;justify-content:start;margin:10px 0;font-size:18px}
+.res-grid b{font-size:24px}
+#res-cheer{font-size:22px;font-weight:900;margin:8px 0}
+#res-record{background:var(--coral);color:#fff;font-weight:900;padding:4px 12px;border-radius:999px;display:inline-block}
+.res-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+
+/* 박자 맞추기 */
+#cal-tap{width:220px;height:220px;border-radius:50%;font-size:28px;margin:20px auto;display:flex}
+
+@media (max-width:760px){.home{grid-template-columns:1fr}#levels{grid-template-columns:1fr}#play-area{grid-template-columns:1fr}.side{flex-direction:row;justify-content:center}.result{grid-template-columns:1fr;text-align:center}.res-grid{justify-content:center}.res-actions{justify-content:center}}
+
+/* ───────── 오락실 무대(v0.2) ───────── */
+body.arcade{background:#120f2e;color:#fff6e6}
+body.arcade .topbar{background:linear-gradient(90deg,#0b7a75,#174f8a 60%,#3a2a6e);box-shadow:0 3px 0 rgba(0,0,0,.3)}
+body.arcade .topbar::after{content:"";position:absolute}
+body.arcade #home,body.arcade #result,body.arcade #calib{min-height:calc(100vh - 56px);background:radial-gradient(ellipse at 50% -10%,#3a2f7a 0,#1b1640 45%,#120f2e 100%)}
+body.arcade .card{background:linear-gradient(180deg,#26215a,#1c1846);color:#fff6e6;box-shadow:0 0 0 2px #3e3790,0 10px 30px rgba(0,0,0,.35)}
+body.arcade .muted{color:#b9b4e0}
+body.arcade select{background:#151238;color:#fff;border-color:#4a43a0}
+body.arcade .games button{background:#1d1a4a;color:#e6e3ff;box-shadow:inset 0 0 0 3px #3e3790}
+body.arcade .games button[aria-pressed="true"]{background:linear-gradient(180deg,#0e9a93,#0b7a75);color:#fff;box-shadow:0 0 0 3px #5cf0e4,0 0 22px rgba(92,240,228,.45)}
+body.arcade .level{background:linear-gradient(160deg,#2a2468,#1b1748);color:#fff;box-shadow:0 4px 0 #0c0a24,inset 0 0 0 2px #4a43a0}
+body.arcade .level:not(:disabled):hover{box-shadow:0 4px 0 #0c0a24,inset 0 0 0 3px #f6c343,0 0 20px rgba(246,195,67,.35);transform:translateY(-2px)}
+body.arcade .lv-desc{color:#c8c3f0}.body.arcade .lv-best{color:#ffb39b}
+body.arcade .btn.ghost{background:#1d1a4a;color:#7ff5ea;box-shadow:inset 0 0 0 2px #2fb3aa}
+body.arcade .code{background:#2b2670;color:#fff4c2}
+/* 놀이 무대 */
+body.arcade #play{background:linear-gradient(180deg,#0d0b26 0%,#1d1650 45%,#2a1d4f 75%,#3a2338 100%);overflow:hidden}
+.sky{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.sky .moon{position:absolute;right:7%;top:9%;width:86px;height:86px;border-radius:50%;background:radial-gradient(circle at 40% 38%,#fffbe8,#f6e3a6 60%,#e8c66b);box-shadow:0 0 50px 12px rgba(246,227,166,.35)}
+.sky .spot{position:absolute;top:-10%;width:38%;height:120%;background:linear-gradient(180deg,rgba(255,240,200,.16),rgba(255,240,200,0) 75%);clip-path:polygon(45% 0,55% 0,100% 100%,0 100%);transform-origin:50% 0;animation:sway 7s ease-in-out infinite alternate}
+.sky .s1{left:2%;transform:rotate(-14deg)}.sky .s2{right:2%;transform:rotate(14deg);animation-delay:-3.5s}
+@keyframes sway{from{transform:rotate(-16deg)}to{transform:rotate(10deg)}}
+.sky .lanterns{position:absolute;left:0;right:0;top:56px;display:flex;justify-content:space-around;padding:0 8%}
+.sky .lanterns i{width:22px;height:30px;border-radius:40%;background:radial-gradient(circle at 50% 45%,#ffcf7a,#d8322f 70%);opacity:.55;box-shadow:0 0 10px rgba(255,140,80,.25);transition:opacity .6s,box-shadow .6s}
+#play.sinmyeong .sky .lanterns i{opacity:1;box-shadow:0 0 22px 6px rgba(255,170,90,.55)}
+#play.sinmyeong{background:linear-gradient(180deg,#1a0f2e 0%,#3a1a4a 45%,#5a2a3a 75%,#6a3020 100%)}
+body.arcade .play-top{position:relative;z-index:2;background:linear-gradient(90deg,rgba(11,122,117,.9),rgba(23,79,138,.85));border-bottom:4px solid;border-image:repeating-linear-gradient(90deg,#2f6fd6 0 18px,#d8322f 18px 36px,#f2c14e 36px 54px,#f4f1e8 54px 72px,#26211f 72px 90px) 4}
+.gauge{display:flex;align-items:center;gap:6px;min-width:160px;flex:0 1 260px}
+.gauge b{font-size:18px;color:#ffe08a}
+.gauge span{flex:1;height:14px;border-radius:8px;background:rgba(0,0,0,.4);box-shadow:inset 0 0 0 2px rgba(255,255,255,.25);overflow:hidden}
+.gauge i{display:block;height:100%;width:0;background:linear-gradient(90deg,#0b7a75,#5cf0e4 40%,#f6c343 75%,#e8562f);transition:width .15s linear}
+.gauge.full b{color:#fff;text-shadow:0 0 10px #f6c343}
+.gauge.full span{box-shadow:inset 0 0 0 2px #f6c343,0 0 14px rgba(246,195,67,.7)}
+body.arcade #hud-score{font-size:30px;color:#fff4c2;text-shadow:0 2px 0 #7a2e14;font-variant-numeric:tabular-nums}
+body.arcade #hud-combo{color:#7ff5ea;font-size:15px}
+body.arcade #play-area{position:relative;z-index:1}
+body.arcade #track{background:transparent;box-shadow:none;border-radius:0}
+body.arcade #play-say{color:#c8c3f0}
+#play-avatar{filter:drop-shadow(0 6px 10px rgba(0,0,0,.4))}
+#play-avatar.dance .gg-body{animation:dance var(--beat,1300ms) ease-in-out infinite alternate;transform-origin:100px 240px}
+@keyframes dance{0%{transform:rotate(-5deg) translateY(0)}50%{transform:rotate(0) translateY(-6px)}100%{transform:rotate(5deg) translateY(0)}}
+#play-avatar.hit{animation:avhit .18s ease-out}
+@keyframes avhit{0%{transform:scale(1.08)}100%{transform:scale(1)}}
+#play.sinmyeong #play-avatar{filter:drop-shadow(0 0 14px rgba(246,195,67,.9))}
+body.arcade .pad{border-radius:50%/42%;box-shadow:0 8px 0 rgba(0,0,0,.45),inset 0 0 0 5px rgba(255,255,255,.18);position:relative}
+body.arcade .pad::after{content:"";position:absolute;inset:6px;border-radius:inherit;border:5px solid transparent;border-image:none;box-shadow:0 0 0 3px rgba(242,193,78,.6)}
+body.arcade .pad-0{background:radial-gradient(circle at 50% 35%,#f3dcb5,#d9813b 55%,#6b3415)}
+body.arcade .pad-1{background:radial-gradient(circle at 50% 35%,#e6fffb,#16a39c 55%,#06403d)}
+body.arcade .pad b{text-shadow:0 2px 0 rgba(0,0,0,.4)}
+.pad.hit{animation:padglow .18s ease-out}
+@keyframes padglow{0%{transform:scale(.95);box-shadow:0 4px 0 rgba(0,0,0,.45),0 0 26px 6px rgba(255,240,180,.55)}100%{transform:scale(1)}}
+body.arcade .cheer{top:auto;bottom:22%;right:auto;left:50%;transform:translateX(-50%);font-size:34px;padding:12px 30px;border-radius:14px;background:linear-gradient(180deg,#fff4c2,#f6c343);color:#5a1e0a;box-shadow:0 0 0 4px #d8322f,0 0 0 8px #f4f1e8,0 10px 24px rgba(0,0,0,.4);white-space:nowrap}
+body.arcade .cheer.show{animation:cheer2 1.4s ease-out}
+@keyframes cheer2{0%{opacity:0;transform:translateX(-50%) scale(.5) rotate(-4deg)}15%{opacity:1;transform:translateX(-50%) scale(1.12) rotate(1deg)}25%{transform:translateX(-50%) scale(1)}80%{opacity:1}100%{opacity:0;transform:translateX(-50%) translateY(-20px)}}
+.toast{position:absolute;left:50%;top:10px;transform:translateX(-50%);background:rgba(0,0,0,.75);color:#fff;padding:8px 14px;border-radius:12px;font-size:14px;z-index:5}
+/* 결과 */
+body.arcade #res-stars{display:flex;gap:8px;font-size:64px}
+#res-stars .star{color:#3a3570;text-shadow:none;transform:scale(.4);opacity:.5;animation:starpop .45s cubic-bezier(.2,1.6,.4,1) forwards}
+#res-stars .star.on{color:#f6c343;text-shadow:0 0 18px rgba(246,195,67,.8),0 3px 0 #a5600c}
+@keyframes starpop{0%{transform:scale(.3) rotate(-30deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
+body.arcade #res-score{color:#fff4c2;text-shadow:0 3px 0 #b63d1c,0 0 20px rgba(232,86,47,.5);font-variant-numeric:tabular-nums;font-size:64px}
+.full-badge{display:inline-block;margin:6px 0;padding:4px 14px;border-radius:999px;background:linear-gradient(90deg,#2f6fd6,#d8322f,#f2c14e);color:#fff;font-weight:900;animation:starpop .5s .9s both}
+body.arcade #res-record{animation:starpop .5s 1.2s both;box-shadow:0 0 16px rgba(232,86,47,.6)}
+/* 가볍게 보기: 움직이는 장식 끄기 */
+body.lite .sky .spot,body.lite #play-avatar.dance .gg-body,body.lite .gg-anim .gg-body{animation:none}
+body.lite .sky .moon{box-shadow:none}
+body.lite #play-avatar,body.lite .gauge.full span{filter:none;box-shadow:none}
+@media (prefers-reduced-motion:reduce){.sky .spot,#play-avatar.dance .gg-body,#res-stars .star,.full-badge{animation:none!important;transform:none;opacity:1}}
+.res-grid{display:flex!important;gap:10px;flex-wrap:wrap}
+.res-grid .stat{display:flex;flex-direction:column;align-items:center;min-width:92px;padding:8px 12px;border-radius:14px;background:rgba(255,255,255,.07);box-shadow:inset 0 0 0 2px rgba(255,255,255,.12)}
+.res-grid .stat span{font-size:14px;opacity:.85}
+.res-grid .stat b{font-size:26px;color:#7ff5ea}
+body.arcade{background:radial-gradient(ellipse at 50% -10%,#3a2f7a 0,#1b1640 45%,#120f2e 100%) fixed}
+body.arcade #home,body.arcade #result,body.arcade #calib{background:none}
+/* 왼쪽 판(v0.2b, Gemini 시안 참고) */
+body.arcade #play-area{grid-template-columns:200px 1fr}
+body.arcade .side{background:linear-gradient(180deg,rgba(38,33,90,.85),rgba(20,17,50,.85));border-radius:18px;padding:12px 10px;box-shadow:inset 0 0 0 2px #3e3790;justify-content:flex-start;gap:10px}
+.av-card{position:relative;padding-top:46px;display:flex;flex-direction:column;align-items:center}
+.lotus{width:120px;height:22px;margin-top:-14px;border-radius:50%;background:radial-gradient(ellipse at 50% 40%,#f6c343,#e8562f 60%,#7a2e14);opacity:.85}
+#play-avatar.c20~.lotus{box-shadow:0 0 18px 6px rgba(246,195,67,.6)}
+#play-avatar.c50{filter:drop-shadow(0 0 16px rgba(255,236,170,.95))}
+body.arcade .cheer{position:absolute;top:0;left:50%;bottom:auto;right:auto;transform:translateX(-50%);font-size:20px;padding:6px 14px;border-radius:14px;background:#fff4c2;color:#5a1e0a;box-shadow:0 0 0 3px #e8562f;white-space:nowrap;z-index:3}
+body.arcade .cheer::after{content:"";position:absolute;left:50%;bottom:-10px;margin-left:-8px;border:8px solid transparent;border-top-color:#e8562f;border-bottom:0}
+body.arcade .cheer.show{animation:bubble 1.4s ease-out}
+@keyframes bubble{0%{opacity:0;transform:translateX(-50%) scale(.5)}15%{opacity:1;transform:translateX(-50%) scale(1.1)}25%{transform:translateX(-50%) scale(1)}80%{opacity:1}100%{opacity:0}}
+.beatbox{width:100%;background:rgba(0,0,0,.25);border-radius:12px;padding:8px}
+.bb-title{font-size:13px;font-weight:800;color:#ffe08a;margin-bottom:6px;text-align:center}
+.beats{display:grid;grid-template-columns:repeat(9,1fr);gap:2px}
+.beats .bc{height:30px;border-radius:5px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#8f8ac0;transition:background .08s}
+.beats .bc.big{box-shadow:inset 2px 0 0 rgba(255,236,190,.5)}
+.beats .k-d{color:#ffd36b}.beats .k-g{color:#ffb15e}.beats .k-c{color:#7ff5ea}
+.beats .bc.now{background:#f6c343;color:#3a1a05}
+.legend{font-size:13px;line-height:1.7;width:100%}
+.legend .lg{display:inline-flex;width:24px;height:24px;border-radius:50%;align-items:center;justify-content:center;margin-right:6px;color:#fff;font-size:12px;box-shadow:0 0 0 2px #f6c343}
+.lg.d{background:#e8562f}.lg.g{background:#a24e1c}.lg.c{background:#0b7a75}
+.stage .corner{position:absolute;width:26px;height:26px;border:4px solid #f6c343;z-index:2;pointer-events:none}
+.corner.tl{left:-2px;top:-2px;border-right:0;border-bottom:0}.corner.tr{right:-2px;top:-2px;border-left:0;border-bottom:0}
+.corner.bl{left:-2px;bottom:-2px;border-right:0;border-top:0}.corner.br{right:-2px;bottom:-2px;border-left:0;border-top:0}
+body.arcade .stage{box-shadow:inset 0 0 0 2px rgba(11,122,117,.8);border-radius:6px}
+body.arcade .pads .pad:active{transform:translateY(4px)}
+@media (max-width:760px){body.arcade #play-area{grid-template-columns:1fr}.side{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.side .av-card,.side .keys{display:none}.beatbox{flex:1 1 100%}.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:13px}}/* 작은 화면에서도 장단표·기호 설명 유지(Astra 15) */
+/* 효과 끄기: 움직이는 장식·배경 맥동 모두 끔(Astra 12) */
+body.nofx .sky .spot,body.nofx #play-avatar,body.nofx #play-avatar *,body.nofx .cheer,body.nofx .judge,body.nofx .pads .pad{animation:none!important;transition:none!important}
+body.nofx .sky{opacity:.6}
+body.nofx #res-stars,body.nofx #res-stars *,body.nofx [class*=star]{animation:none!important;transition:none!important}/* 결과 별 움직임도 효과 끄기에(2차 N08) */
+/* 통과선(정확도 60%) · 교탁 같이 시작 알림 · 반 전체 판 — 11/16 G2 나머지 */
+.pass{display:flex;align-items:center;gap:6px;min-width:120px;flex:0 1 200px}
+.pass b{font-size:15px;color:#d9f5ee}
+.pass span{position:relative;flex:1;height:12px;border-radius:7px;background:rgba(0,0,0,.4);box-shadow:inset 0 0 0 2px rgba(255,255,255,.25);overflow:hidden}
+.pass i{display:block;height:100%;width:0;background:#9fb8b4;transition:width .2s linear}
+.pass em{position:absolute;left:60%;top:-2px;bottom:-2px;width:3px;background:#fff}
+.pass.ok i{background:#3fd0a0}.pass.ok b{color:#fff}
+.pass-res{font-weight:800;color:#7a5500;background:#fff4d1;border-radius:10px;padding:4px 10px;display:inline-block}
+.pass-res.ok{color:#075a56;background:#d6f2e9}.pass-res:empty{display:none}
+.banner{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:#0b7a75;color:#fff;border-radius:16px;padding:12px 16px;margin:0 0 14px;font-size:19px}
+.whole-line{background:#fff;border-radius:12px;padding:8px 12px;box-shadow:inset 0 0 0 2px #0b7a75;font-weight:700}
+#result .banner{margin:12px 0}
+@media (max-width:760px){.pass{min-width:90px}}

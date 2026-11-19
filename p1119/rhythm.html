@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ko">
+<head><meta name="robots" content="noindex,nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>장단·가락 놀이 — 국악 놀이터</title>
+<link rel="stylesheet" href="play.css">
+<link rel="stylesheet" href="rhythm.css">
+</head>
+<body class="arcade">
+<header class="topbar"><h1>장단·가락 놀이</h1><a href="index.html">놀이터</a><a href="dress.html">꾸미기</a></header>
+
+<main id="home" class="screen wrap">
+ <div id="banner" class="banner" role="alert" hidden><b id="banner-text"></b><button class="btn coral" id="banner-go">준비! (눌러요)</button></div>
+ <div class="home">
+  <section class="card who">
+   <div id="home-avatar"></div>
+   <div class="name" id="home-name"></div>
+   <select id="seat" aria-label="자리 번호"></select>
+   <select id="group" aria-label="모둠 번호"></select>
+   <div class="row"><a class="btn small ghost" href="dress.html">캐릭터 꾸미기</a></div>
+   <p class="muted nr-hide" style="font-size:13px">이름은 적지 않아요. 자리 번호·모둠 번호·점수가 이 기기에 남고, ‘점수판에 보내기’를 누르면 교실 서버에도 가요. 수업이 끝나면 지워요.</p><p class="muted nr-only" style="font-size:13px">기록 없는 판 · 자리 번호를 고르지 않아요. 점수는 이 화면에만 보여요.</p>
+  </section>
+  <section>
+   <div class="games">
+    <button data-game="janggu" aria-pressed="true">장구 · 세마치</button>
+    <button data-game="gayageum" aria-pressed="false">가야금 · 아리랑</button>
+   </div>
+   <div id="levels"></div>
+   <div class="tools">
+    <button class="btn small ghost" id="btn-cal">박자 맞추기 <span id="offset-now"></span></button>
+    <button class="btn small ghost" id="hand"></button>
+    <button class="btn small ghost" id="btn-demo">시연 보기</button>
+    <button class="btn small ghost" id="btn-lite">가볍게 보기: 끔</button>
+    <button class="btn small coral" id="sound-on" hidden>소리 켜기(같이 시작 준비)</button>
+    <button class="btn small ghost" id="btn-nofx">효과 끄기: 끔</button>
+    <button class="btn small ghost" id="btn-practice" aria-pressed="false">연습 판(점수 없음): 끔</button>
+   </div>
+   <p class="whole-line" id="whole-line" hidden>반 전체 판: 교탁 화면에서 모두 함께 구음·손뼉으로 따라 해요. 자리 번호 없이 하고, 기록은 남지 않아요.</p>
+   <p class="muted" id="class-line"></p>
+  </section>
+ </div>
+</main>
+
+<section id="play" class="screen" hidden>
+ <div class="sky" aria-hidden="true"><i class="moon"></i><i class="spot s1"></i><i class="spot s2"></i><div class="lanterns"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+ <div class="play-top"><button class="btn small ghost" id="play-quit">그만</button><button class="btn small ghost" id="play-mute" aria-pressed="false">소리 끄기</button><button class="btn small ghost" id="play-sfx">효과음: 켬</button><h2 id="play-title"></h2><div id="gauge" class="gauge" aria-label="흥 게이지"><b>흥</b><span><i id="gauge-fill"></i></span></div><div id="pass" class="pass" aria-label="통과선 60%"><b>통과</b><span><i id="pass-fill"></i><em></em></span></div><div class="hud"><span id="hud-combo"></span><span id="hud-score">0</span></div></div>
+ <div id="play-area">
+  <div class="side">
+   <div class="av-card"><div id="cheer" class="cheer"></div><div id="play-avatar"></div><div class="lotus"></div></div>
+   <p id="play-say"></p>
+   <div class="beatbox"><div class="bb-title" id="bb-title">세마치 장단 · 9칸</div><div class="beats" id="beats"></div></div>
+   <div class="legend" id="legend"></div>
+   <p class="keys" id="keys"></p>
+  </div>
+  <div class="stage"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+   <canvas id="track" aria-label="떨어지는 장단 기호"></canvas>
+   <div id="judge" class="judge"></div>
+   <div id="toast" class="toast" hidden></div>
+   <div id="pads" class="pads"></div>
+  </div>
+ </div>
+</section>
+
+<main id="result" class="screen wrap" hidden>
+ <div class="result card">
+  <div style="text-align:center"><div id="res-avatar"></div></div>
+  <div>
+   <h2 id="res-title" style="margin:0 0 4px"></h2>
+   <div id="res-stars"></div>
+   <div id="res-score"></div>
+   <div id="res-record" hidden></div>
+   <div id="res-full" class="full-badge" hidden>모두 맞힘!</div>
+   <div class="res-grid">
+    <div class="stat"><span>정확도</span><b id="res-acc"></b></div>
+    <div class="stat"><span>박자</span><b id="res-timing"></b></div>
+    <div class="stat" id="res-pitch-row"><span>음</span><b id="res-pitch"></b></div>
+   </div>
+   <p class="muted" id="res-detail"></p><p class="muted" id="res-dev" style="margin-top:-4px"></p>
+   <p id="res-pass" class="pass-res"></p><p id="res-practice" class="muted" hidden></p>
+   <p id="res-cheer"></p>
+   <p>결과 코드 <span class="code" id="res-code"></span></p>
+   <p class="muted" id="res-send-state"></p>
+   <div class="res-actions">
+    <button class="btn coral" id="res-again">한 번 더</button>
+    <button class="btn" id="res-next">다음 단계</button>
+    <button class="btn" id="res-faster" hidden></button>
+    <button class="btn ghost" id="res-send" hidden>점수판에 보내기</button>
+    <button class="btn ghost" id="res-home">처음으로</button>
+   </div>
+  </div>
+ </div>
+</main>
+
+<main id="calib" class="screen wrap" hidden>
+ <div class="card" style="max-width:560px;margin:24px auto;text-align:center">
+  <h2>박자 맞추기</h2>
+  <p>기기마다 소리가 늦게 나는 정도가 달라요. “덕” 소리에 맞춰 큰 단추를 눌러 주세요.</p>
+  <button class="btn coral" id="cal-tap" disabled>탁!</button>
+  <p id="cal-state" class="muted"></p>
+  <div class="res-actions" style="justify-content:center"><button class="btn" id="cal-start">시작</button><button class="btn ghost" id="cal-back">돌아가기</button></div>
+ </div>
+</main>
+
+<script src="class-guard.js"></script>
+<script src="audio/bank-meta.js"></script>
+<script src="audio/bank-janggu.js"></script>
+<script src="audio/bank-gayageum.js"></script>
+<script src="gugak-data.js"></script>
+<script src="class-link.js"></script>
+<script src="arcade.js"></script>
+<script src="avatar.js"></script>
+<script src="rhythm.js"></script>
+</body>
+</html>

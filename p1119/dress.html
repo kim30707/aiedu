@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ko">
+<head><meta name="robots" content="noindex,nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>캐릭터 꾸미기 — 국악 놀이터</title>
+<link rel="stylesheet" href="play.css">
+<style>
+.dress{display:grid;grid-template-columns:minmax(260px,360px) 1fr;gap:16px;align-items:start}
+.preview{text-align:center;position:sticky;top:12px}
+.preview .name{font-size:24px;font-weight:900;margin:6px 0 2px}
+.preview .role{color:var(--muted);margin-bottom:10px}
+.bases{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.bases button{border-radius:14px;background:#fff;box-shadow:inset 0 0 0 2px var(--line);padding:4px 2px 6px;font-weight:800;font-size:14px}
+.bases button[aria-pressed="true"]{box-shadow:inset 0 0 0 3px var(--coral);background:#fff3ee}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.tabs button{padding:8px 12px;border-radius:999px;background:#fff;box-shadow:inset 0 0 0 2px var(--line);font-weight:800;font-size:15px}
+.tabs button[aria-selected="true"]{background:var(--teal);color:#fff;box-shadow:none}
+.opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px}
+.opt{border-radius:14px;background:#fff;box-shadow:inset 0 0 0 2px var(--line);padding:6px 4px;font-size:13px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:2px}
+.opt[aria-pressed="true"]{box-shadow:inset 0 0 0 3px var(--coral);background:#fff3ee}
+.sw{width:44px;height:44px;border-radius:50%;box-shadow:inset 0 0 0 2px rgba(0,0,0,.12);margin:4px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+.codebox{margin-top:12px;font-size:15px}
+.codebox input{font:inherit;font-family:ui-monospace,Menlo,monospace;font-size:16px;min-height:44px;padding:6px 10px;border-radius:12px;border:2px solid var(--line);width:170px;text-transform:uppercase}
+#saved{color:var(--coral);font-weight:900;min-height:1.4em}
+@media (max-width:760px){.dress{grid-template-columns:1fr}.preview{position:static}}
+</style>
+</head>
+<body>
+<header class="topbar"><h1>캐릭터 꾸미기</h1><a href="index.html">놀이터</a><a href="rhythm.html">장단·가락 놀이</a></header>
+<main class="wrap">
+ <div class="dress">
+  <section class="card preview">
+   <div id="big"></div>
+   <div class="name" id="nm"></div><div class="role" id="role"></div>
+   <div class="actions">
+    <button class="btn coral" id="save">이대로 정하기</button>
+    <button class="btn ghost small" id="rand">아무렇게나</button>
+    <button class="btn ghost small" id="undo">되돌리기</button>
+    <button class="btn ghost small" id="reset">처음 모습</button>
+   </div>
+   <p id="saved" aria-live="polite"></p>
+   <div class="codebox">내 캐릭터 코드 <span class="code" id="code"></span>
+    <p class="muted" style="font-size:13px;margin:6px 0">공연실이나 다른 기기에서 이 코드를 넣으면 같은 모습이 나와요.</p>
+    <input id="code-in" placeholder="코드 넣기" aria-label="캐릭터 코드 넣기" maxlength="14"> <button class="btn small" id="code-load">불러오기</button>
+   </div>
+  </section>
+  <section>
+   <div class="card">
+    <div class="bases" id="bases"></div>
+    <div class="tabs" id="tabs" role="tablist"></div>
+    <div class="opts" id="opts"></div>
+   </div>
+   <p class="muted" style="font-size:13px">모두 그림 캐릭터예요. 사진이나 얼굴은 쓰지 않아요.</p>
+  </section>
+ </div>
+</main>
+<script src="class-guard.js"></script>
+<script src="avatar.js"></script>
+<script>
+(()=>{'use strict';
+const A=window.GugakAvatar,$=id=>document.getElementById(id);
+let cur=A.load()||A.make('dungka'),hist=[],tab='hairColor';
+const EASY=(()=>{try{return /(^|[#.&])(easy|one)($|[.&])/.test(decodeURIComponent(location.hash||''));}catch(e){return false;}})(),EASY_TABS=new Set(['hair','hairColor','topColor','prop','bg']);/* 저학년은 다섯 칸만(Astra 11) */
+const TABS=[['hair','머리 모양',A.HAIR],['hairColor','머리색',A.HAIRC],['skin','피부',A.SKIN],['top','윗옷',A.TOP],['topColor','윗옷 색',A.CLOTH],['bottomColor','바지·치마 색',A.CLOTH],['shoeColor','신발 색',A.CLOTH],['acc','꾸미개',A.ACC],['prop','든 악기',A.PROP],['bg','배경',A.BG]];
+const shapeOnly=new Set(['hair','top','acc','prop']);
+const soriOff=new Set(['hair','top','bottomColor','shoeColor']);// 소리(정령)는 머리·윗옷·바지·신발이 그림에 없다 (11/16 Codex 지적 26)
+const SORI_ACC=new Set(['none','flower','band']);
+function set(k,v){hist.push(A.encode(cur));if(hist.length>30)hist.shift();cur=A.make(cur.base,{...cur,[k]:v});$('saved').textContent='';draw();}
+function draw(){
+ $('big').innerHTML=A.render(cur,{size:240,animate:true});
+ $('nm').textContent=A.BASES[cur.base].name;$('role').textContent=A.BASES[cur.base].role;$('code').textContent=A.encode(cur);
+ $('bases').replaceChildren(...Object.keys(A.BASES).map(b=>{const el=document.createElement('button');el.setAttribute('aria-pressed',String(b===cur.base));el.dataset.base=b;el.innerHTML=A.render(A.make(b),{size:70})+'<div>'+A.BASES[b].name+'</div>';return el;}));
+ if(cur.base==='sori'&&soriOff.has(tab))tab='hairColor';
+ $('tabs').replaceChildren(...TABS.filter(t=>!(cur.base==='sori'&&soriOff.has(t[0]))&&!(EASY&&!EASY_TABS.has(t[0]))).map(([k,label])=>{const el=document.createElement('button');el.setAttribute('role','tab');el.setAttribute('aria-selected',String(k===tab));el.dataset.tab=k;el.textContent=cur.base==='sori'?({hairColor:'리본 색',topColor:'구슬 색',skin:'몸 색'}[k]||label):label;return el;}));
+ const [k,,list]=TABS.find(t=>t[0]===tab);
+ $('opts').replaceChildren(...list.map((item,i)=>{if(cur.base==='sori'&&k==='acc'&&!SORI_ACC.has(item[0]))return null;const el=document.createElement('button');el.className='opt';el.dataset.k=k;el.dataset.v=i;el.setAttribute('aria-pressed',String(cur[k]===i));
+  if(shapeOnly.has(k))el.innerHTML=A.render(A.make(cur.base,{...cur,[k]:i,bg:0}),{size:80})+'<span>'+item[1]+'</span>';
+  else el.innerHTML=(item[0]==='none'?'<span class="sw" style="background:repeating-linear-gradient(45deg,#fff 0 6px,#eee 6px 12px)"></span>':`<span class="sw" style="background:${item[0]}"></span>`)+'<span>'+item[1]+'</span>';
+  return el;}).filter(Boolean));}
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+ if(b.dataset.base){hist.push(A.encode(cur));cur=A.make(b.dataset.base);draw();}
+ else if(b.dataset.tab){tab=b.dataset.tab;draw();}
+ else if(b.dataset.k)set(b.dataset.k,+b.dataset.v);
+ else if(b.id==='rand'){hist.push(A.encode(cur));cur=A.random(cur.base);draw();}
+ else if(b.id==='undo'){const c=hist.pop();if(c){cur=A.decode(c);draw();}}
+ else if(b.id==='reset'){hist.push(A.encode(cur));cur=A.make(cur.base);draw();}
+ else if(b.id==='save'){A.save(cur);$('saved').textContent='정했어요! 장단·가락 놀이와 공연실에서 이 모습으로 나와요.';}
+ else if(b.id==='code-load'){const a=A.decode($('code-in').value);if(a){hist.push(A.encode(cur));cur=a;draw();$('saved').textContent='코드 모습을 불러왔어요. “이대로 정하기”를 누르면 저장돼요.';}else $('saved').textContent='코드가 맞지 않아요. 글자를 다시 확인해 주세요.';}});
+draw();window.GugakDress={get:()=>cur};
+if(location.hash)for(const a of document.querySelectorAll('.topbar a'))a.setAttribute('href',a.getAttribute('href')+location.hash);
+})();
+</script>
+</body>
+</html>

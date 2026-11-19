@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ko">
+<head><meta name="robots" content="noindex,nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>누구나 함께 악기 — 국악 놀이터</title>
+<link rel="stylesheet" href="play.css">
+<style>
+body{background:#f6efe2}
+#steps{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
+#steps button{padding:8px 12px;border-radius:999px;background:#fff;box-shadow:inset 0 0 0 2px var(--line);font-weight:800;font-size:15px}
+#steps button[aria-current=step]{background:var(--teal);color:#fff;box-shadow:none}
+.hk-step h2{margin:0 0 8px;font-size:20px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chips button{padding:9px 14px;border-radius:999px;background:#fff;box-shadow:inset 0 0 0 2px var(--line);font-weight:800}
+.chips button[aria-pressed=true]{box-shadow:inset 0 0 0 3px var(--teal);background:#f2fbf8}
+.note{font-size:14px;color:var(--muted)}.lab{font-weight:800;min-width:96px}
+.warn{color:#a3301a;font-weight:700}.ok{color:var(--teal);font-weight:800}.state{font-weight:800;color:var(--teal)}
+#cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.ucard{display:grid;gap:4px;text-align:left;padding:14px;border-radius:16px;background:#fff;box-shadow:inset 0 0 0 2px var(--line);font-size:15px}
+.ucard b{font-size:22px}.ucard em{font-style:normal;color:var(--muted)}.ucard .pic{font-size:30px}
+.ucard[aria-pressed=true]{box-shadow:inset 0 0 0 4px var(--coral);background:#fff7f2}
+.ucard .tag{font-style:normal;font-size:12px;background:#fdf0c4;border-radius:8px;padding:2px 6px;justify-self:start}
+textarea{width:100%;min-height:110px;font:14px/1.5 ui-monospace,Menlo,monospace;border-radius:12px;border:2px solid var(--line);padding:10px;box-sizing:border-box;-webkit-user-select:text;user-select:text}
+input[type=text]{padding:8px;border-radius:10px;border:2px solid var(--line);font:inherit;min-width:200px;max-width:100%}
+#result ul{margin:4px 0 8px 20px}
+/* 악기 */
+#stagebox{margin-top:12px}
+.stage{position:relative;display:flex;flex-direction:column;gap:10px;--b:56px;background:#2b2118;border-radius:18px;padding:14px;color:#fff;min-height:160px}
+.stage .keys.gaya{display:flex;flex-direction:column;gap:6px}
+.stage .str{display:flex;align-items:center;gap:12px;height:var(--b);border-radius:12px;background:linear-gradient(#f3dfb3,#e1c48b);color:#3b2412;padding:0 16px;font-size:calc(var(--b)*.36);box-shadow:inset 0 -3px 0 rgba(0,0,0,.15)}
+.stage .str small,.stage .pad small{font-size:13px;font-weight:600;opacity:.8}
+.stage .keys.janggu{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stage .pad{height:calc(var(--b)*2);border-radius:50%/40%;background:radial-gradient(#f8ecd2,#d7b98a);color:#3b2412;font-size:calc(var(--b)*.5);display:grid;place-content:center;gap:2px}
+.stage .hit{filter:brightness(1.25);transform:scale(.98)}
+.stage .nextup{box-shadow:0 0 0 5px #f6c343}
+.stage.hand1,.stage.hand2{align-items:flex-end}.stage.hand2{align-items:flex-start}
+.stage.hand1 .keys,.stage.hand2 .keys{width:min(100%,420px)}
+.stage.hand1 .keys.janggu,.stage.hand2 .keys.janggu{grid-template-columns:1fr}
+.onebtn{min-height:calc(var(--b)*1.6);width:min(100%,420px);border-radius:20px;background:var(--coral);color:#fff;font-size:calc(var(--b)*.42);font-weight:900;box-shadow:0 4px 0 #b63d1c}
+.stage.one .keys{opacity:.75}body.hk-contrast .stage.one .keys{opacity:1}
+.lamp{position:absolute;right:14px;top:14px;width:64px;height:64px;border-radius:50%;background:#4a3b2c;box-shadow:inset 0 0 0 4px #6b5843;transition:background .12s}
+.lamp.on{background:#ffd84a;box-shadow:0 0 24px #ffd84a}
+.hitname{position:absolute;left:50%;top:40%;transform:translate(-50%,-50%);font-size:64px;font-weight:900;color:#fff;text-shadow:0 2px 8px #000;opacity:0;pointer-events:none}
+.hitname.show{animation:hn .6s ease-out}
+@keyframes hn{0%{opacity:1}100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.hitname.show{animation:none;opacity:1}.stage .hit{transform:none}}
+#stage-tags{font-size:14px;margin:6px 0 0;color:var(--muted)}
+/* 글자 크게·또렷한 색·단순 화면 */
+body.hk-text{font-size:20px}body.hk-text .stage .str,body.hk-text .stage .pad{font-weight:900}
+body.hk-contrast .stage{background:#000}body.hk-contrast .stage .str,body.hk-contrast .stage .pad{background:#fff;color:#000;box-shadow:inset 0 0 0 4px #000,0 0 0 3px #fff}
+body.hk-contrast .stage .nextup{box-shadow:0 0 0 6px #ffe500}body.hk-contrast .onebtn{background:#ffe500;color:#000;box-shadow:none}
+body.hk-simple .hk-extra{display:none}
+/* 발표 크게 */
+body.presenting header.topbar,body.presenting #steps,body.presenting .hk-step:not([data-step="5"]),body.presenting .sh-edit{display:none!important}
+body.presenting .hk-step[data-step="5"]{font-size:24px}
+.show-card{display:grid;gap:10px}.show-card h3{margin:0;font-size:1.1em;color:var(--teal)}
+#sh-who{font-size:1.5em;font-weight:900;margin:0}
+.code{font:700 20px ui-monospace,Menlo,monospace;letter-spacing:.04em;background:#fff;border-radius:10px;padding:6px 10px;box-shadow:inset 0 0 0 2px var(--line);display:inline-block}
+.teacher-box{margin-top:18px;border-top:2px dashed var(--line);padding-top:10px}
+@media (max-width:600px){.lab{min-width:0;width:100%}}
+</style>
+</head>
+<body>
+<header class="topbar"><h1>누구나 함께 악기</h1><a href="index.html">놀이터</a></header>
+<main class="wrap">
+ <nav id="steps" aria-label="단계">
+  <button data-step="1">① 사용자 카드</button><button data-step="2">② 쳐 보기</button><button data-step="3">③ AI에게 묻기</button><button data-step="4">④ 서로 쳐 보기</button><button data-step="5">⑤ 발표</button><button data-step="6">⑥ 합주</button>
+ </nav>
+ <p class="note warn" id="to2-note"></p>
+
+ <section class="card hk-step" data-step="1">
+  <h2>① 우리 모둠 사용자 카드</h2>
+  <p class="note">카드 속 사람이 <b>좋아하는 걸 함께 할 수 있게</b> 우리 악기를 바꿔요. 바꿀 것은 사람이 아니라 <b>악기와 환경</b>이에요.</p>
+  <div id="cards"></div>
+  <label class="note hk-extra"><input type="checkbox" id="more"> 더 둘지 제안한 카드도 보기(할아버지·이웃 어른 — 대표 확인 전)</label>
+  <div id="like-row" hidden>
+   <div class="row"><span class="lab">좋아하는 것</span><div class="chips" id="likes"></div></div>
+   <div class="row"><input type="text" id="like-own" maxlength="20" placeholder="직접 쓰기(20자)"><span class="warn" id="like-pii" hidden>이름·학교·반·번호는 쓰지 않아요</span></div>
+  </div>
+  <div class="row"><button class="btn" id="to2" disabled>이 카드로 쳐 보기 →</button></div>
+ </section>
+
+ <section class="card hk-step" data-step="2" hidden>
+  <h2>② 지금 악기 쳐 보기 <span class="note" id="who2"></span></h2>
+  <p class="note">처음엔 바꾼 것이 하나도 없어요. 직접 쳐 보고, 카드 속 사람에게 무엇이 어려울지 골라요(최대 4개). 눈을 가리거나 한 팔을 묶는 흉내는 하지 않아요.</p>
+  <div class="chips" id="hards"></div>
+  <div class="slot"></div>
+  <div class="row"><button class="btn" onclick="GugakHK.goStep(3)">AI에게 바꿀 방법 묻기 →</button></div>
+ </section>
+
+ <section class="card hk-step" data-step="3" hidden>
+  <h2>③ AI에게 바꿀 방법 묻기</h2>
+  <details><summary class="lab">AI에게 줄 부탁 카드 보기</summary><textarea id="ask" readonly aria-label="AI에게 줄 부탁 카드" style="min-height:260px"></textarea></details>
+  <div class="row"><button class="btn coral" id="copy">부탁 카드 복사</button><span class="state" id="copy-state"></span></div>
+  <p class="note">복사한 카드를 <b>감독 선생님이 정한 학교 계정 AI 화면</b>에 붙여 넣어요. 이 화면은 카드를 보내지 않아요. 학교 AI를 쓸 수 없으면 강사가 말로 묻고, 아래 ‘직접 바꾸기’를 써요.</p>
+  <textarea id="answer" placeholder="AI 답을 여기에 붙여 넣어요" aria-label="AI 답"></textarea>
+  <div class="row"><select id="ex" aria-label="예시 답"></select><button class="btn ghost small" id="clear-ans">답 지우기</button><span class="note" id="ex-note"></span></div>
+  <div id="result" aria-live="polite"></div>
+  <div class="row"><button class="btn ghost" id="try" disabled>바꾼 악기 쳐 보기</button><button class="btn" id="apply" disabled>적용하기</button><button class="btn ghost small" id="undo">되돌리기</button><span class="state" id="apply-state"></span></div>
+  <div class="slot"></div>
+  <details class="hk-extra" style="margin-top:12px"><summary class="lab">AI 없이 직접 바꾸기(강사와 함께 · AI를 쓸 수 없는 날)</summary><div id="manual"></div></details>
+ </section>
+
+ <section class="card hk-step" data-step="4" hidden>
+  <h2>④ 서로 쳐 보고 의견 주기</h2>
+  <div class="row"><span class="lab">우리 악기 코드</span><input type="text" id="mycode" readonly aria-label="우리 악기 코드" style="min-width:260px;font-family:ui-monospace,Menlo,monospace"></div>
+  <p class="note">다른 모둠에게 태블릿을 건네거나, 이 코드를 그 모둠 화면 ‘다른 모둠 악기 열기’에 넣어요.</p>
+  <div class="row"><input type="text" id="trial-code" placeholder="다른 모둠 악기 코드(함께-…)" aria-label="다른 모둠 악기 코드"><button class="btn ghost small" id="trial-load">다른 모둠 악기 열기</button><span class="state" id="trial-state"></span></div>
+  <div id="trial-on" hidden>
+   <p class="lab" id="trial-who"></p>
+   <div class="slot"></div>
+   <div class="row"><label class="lab" for="op-yes">카드 속 사람이 정말 칠 수 있을까?</label><select id="op-yes"><option value="">고르기</option><option>칠 수 있을 것 같아요</option><option>조금 어려울 것 같아요</option><option>아직 어려울 것 같아요</option></select></div>
+   <div class="chips" id="ops"></div>
+   <div class="row"><input type="text" id="op-own" maxlength="80" placeholder="더 하고 싶은 말(80자)"></div>
+   <textarea id="op-out" readonly aria-label="의견 글"></textarea>
+   <div class="row"><button class="btn coral small" id="op-copy">의견 복사</button><button class="btn ghost small" id="trial-end">우리 악기로 돌아가기</button><span class="state" id="op-state"></span></div>
+  </div>
+  <h3>우리 악기에 받은 의견</h3>
+  <textarea id="op-in" placeholder="다른 모둠이 준 의견을 붙여 넣거나 받아 적어요" aria-label="받은 의견"></textarea>
+  <div class="row"><button class="btn" id="re-ask">의견을 넣어 AI에게 다시 묻기 →</button><button class="btn ghost small" onclick="GugakHK.goStep(3)">직접 바꾸러 가기</button><span class="state" id="re-state"></span></div>
+ </section>
+
+ <section class="card hk-step" data-step="5" hidden>
+  <h2>⑤ 발표</h2>
+  <div class="show-card">
+   <h3>누구를 위해 바꿨나</h3><p id="sh-who"></p><p class="note" id="sh-like"></p>
+   <h3>무엇을 바꿨나</h3><ul id="sh-changes"></ul>
+   <h3>AI가 한 일</h3><div class="chips" id="sh-ai"></div>
+   <h3>우리가 한 일</h3><div class="chips" id="sh-we"></div>
+   <h3>돌아보기</h3>
+   <label>1. 우리는 누구를 위해 악기를 바꿨나?<input type="text" id="q1" maxlength="120" style="width:100%"></label><span class="warn" id="q1-pii" hidden>이름·학교·반·번호는 쓰지 않아요</span>
+   <label>2. AI는 무엇을 했고 우리는 무엇을 했나?<input type="text" id="q2" maxlength="120" style="width:100%"></label><span class="warn" id="q2-pii" hidden>이름·학교·반·번호는 쓰지 않아요</span>
+   <label>3. 그 사람이 정말 쓸 수 있을까?<input type="text" id="q3" maxlength="120" style="width:100%"></label><span class="warn" id="q3-pii" hidden>이름·학교·반·번호는 쓰지 않아요</span>
+   <p>악기 코드 <span class="code" id="sh-code"></span> <span class="note">(교탁 ‘함께 악기 받은 함’에 넣으면 크게 보여요)</span></p>
+  </div>
+  <div class="slot"></div>
+  <div class="row"><button class="btn coral" id="big-show">크게 보여 주기</button></div>
+ </section>
+
+ <section class="card hk-step" data-step="6" hidden>
+  <h2>⑥ 바꾼 악기로 합주</h2>
+  <p class="note">선생님이 교탁에서 ‘모두 같이 시작’을 누르면 이 화면도 함께 시작해요(한번누르기면 누를 때마다 다음 음). 교탁이 없으면 ‘혼자 박 맞춰 보기’로 연습해요.</p>
+  <div class="row"><label class="lab" for="tempo">빠르기</label><select id="tempo"><option value="40">느리게(♩.=40)</option><option value="45" selected>보통(♩.=45)</option><option value="55">조금 빠르게(♩.=55)</option></select><button class="btn" id="practice">혼자 박 맞춰 보기</button><button class="btn ghost small" id="stop">멈춤</button><span class="state" id="beat-state"></span></div>
+  <p class="note" id="class-line"></p>
+  <div class="slot"></div>
+ </section>
+
+ <div id="stagebox" hidden><div class="stage" id="stage"></div><p id="stage-tags"></p><p class="note" id="mic-note"></p><p class="note warn" id="snd"></p></div>
+
+ <div class="teacher-box hk-extra note">
+  <b>선생님 칸</b> · <label><input type="checkbox" id="mic-ok"> 소리 반응(마이크) 허용 — 소리 크기만 재고 녹음·저장·전송하지 않아요. 학교·담임·특수학급 선생님과 미리 정한 경우에만.</label>
+  <p>카메라는 쓰지 않아요(고개 반응은 이번 판에 없음). 사용자 카드의 사람은 지어낸 인물이에요. 실제 학생 이름·사진을 넣지 않아요. 장애 학생이 함께하는 반이면 담임·특수학급 선생님과 먼저 상의하고, 그 학생이 직접 쳐 보고 판단하는 역할을 맡아요.</p>
+  <p>예시 답 가운데 ‘연습용’은 셈제작소가 일부러 틀린 곳을 넣어 만든 글이에요(AI 답 아님). 국악 표기·빠르기는 국악 강사 확인 전이에요. 이 화면은 AI에 연결되어 있지 않아요.</p>
+  <button class="btn ghost small" id="reset">이 기기 ‘함께 악기’ 기록 지우기</button>
+ </div>
+</main>
+<script src="class-guard.js"></script>
+<script src="audio/bank-meta.js"></script>
+<script src="audio/bank-gayageum.js"></script>
+<script src="audio/bank-janggu.js"></script>
+<script src="gugak-data.js"></script>
+<script src="class-link.js"></script>
+<script src="together-core.js"></script>
+<script src="together-examples.js"></script>
+<script src="together.js"></script>
+</body>
+</html>

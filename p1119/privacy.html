@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ko">
+<head><meta name="robots" content="noindex,nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>국악 놀이터 개인정보 안내</title>
+<style>
+ @page{size:A4;margin:10mm 11mm}
+ :root{--teal:#0b7a75;--teal-d:#075753;--coral:#e8562f;--mint:#e3f4f1;--ink:#1d2b2a;--muted:#5a6b69;--line:#c9dcd9}
+ *{box-sizing:border-box}
+ html,body{margin:0;background:#fff;color:var(--ink)}
+ body{font-family:"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;font-size:8.6pt;line-height:1.34;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ .page{max-width:190mm;margin:0 auto;padding:0 2mm}
+ header{border-bottom:2.2pt solid var(--teal);padding-bottom:2mm;margin-bottom:2.5mm;display:flex;justify-content:space-between;gap:4mm;align-items:end;flex-wrap:wrap}
+ h1{margin:0;font-size:15pt;color:var(--teal-d)}
+ .meta{font-size:7.8pt;color:var(--muted);text-align:right}
+ .flag{display:inline-block;background:#fff4ef;color:#8a2a14;border:1pt solid var(--coral);border-radius:3mm;padding:.3mm 2mm;font-weight:700;font-size:7.8pt;margin-left:1mm}
+ h2{font-size:10.6pt;color:var(--teal-d);margin:2.6mm 0 1mm;border-left:3pt solid var(--teal);padding-left:2mm}
+ p{margin:.8mm 0}
+ ul{margin:.6mm 0 .6mm 5mm;padding:0}
+ li{margin:.3mm 0}
+ table{width:100%;border-collapse:collapse;font-size:7.4pt;margin:1mm 0}
+ th,td{border:.6pt solid var(--line);padding:1mm 1.6mm;vertical-align:top;text-align:left}
+ th{background:var(--mint);color:var(--teal-d)}
+ .box{background:var(--mint);border-radius:2.5mm;padding:1.6mm 2.6mm;margin:1.4mm 0}
+ .chk{color:#8a2a14;font-weight:700}
+ footer{margin-top:2.4mm;font-size:7.6pt;color:var(--muted);border-top:.6pt solid var(--line);padding-top:1.2mm}
+ @media print{body{font-size:8.2pt;line-height:1.3}table{font-size:7.1pt}th,td{padding:.8mm 1.4mm}h2{margin:2mm 0 .8mm}}
+ @media (max-width:600px){body{font-size:14px}.meta{text-align:left}table{font-size:12px}th,td{padding:4px}}
+</style>
+</head>
+<body>
+<div class="page">
+<header>
+ <h1>국악 놀이터 개인정보 안내 <span class="flag">법률 자문 아님 · 최종 판단은 학교</span></h1>
+ <div class="meta">셈제작소 · v1.2 · 2026-11-16 작성·11/17 구조 줄이기 반영(Claude Opus 5.5)<br>내부 준비본 · 제출·게시 전 · 맥 모의 검사만(실제 태블릿 0회)</div>
+</header>
+
+<div class="box"><b>정규 수업은 ‘기록 없는 판’이 기본입니다.</b> 교실 서버판은 방과후·특강·시연과, 학교가 심의·개인정보 절차를 마친 경우에만 씁니다.</div>
+
+<h2>1. 이 앱이 다루는 것</h2>
+<p>이름·학교·반·연락처는 받지 않습니다. 다만 <b>선생님이 누가 어느 자리에 앉았는지 아는 교실에서는, 자리 번호에 묶인 점수·자리 현황·조율·대결 기록도 학생 개인정보로 볼 수 있습니다.</b> 그래서 판을 둘로 나눴습니다.</p>
+<table>
+<tr><th style="width:21%"></th><th style="width:39%">기록 없는 판(정규 수업 기본)</th><th>교실 서버판</th></tr>
+<tr><td>태블릿이 교탁으로 보내는 것</td><td><b>학생 값은 보내지 않습니다.</b> 태블릿이 기기에서부터 막고(보내기 기능이 꺼짐 · 판을 서버에 묻는 동안에도 막음 · 교실 서버가 아닌 주소면 기록 없는 판으로 엶), 서버도 받는 길을 닫아 둡니다. 판·시계·‘같이 시작’·대결 문제를 <b>묻는</b> 요청만 오갑니다.</td><td>자리·모둠 번호와 지금 화면·악기·소리 준비(2초마다), 점수(누를 때), 모둠 조율 제출(모둠 번호만 남김), 대결 되돌림(모둠 번호만 남김), 기기 표(뜻 없는 8글자, 같은 자리 사칭을 막는 데만 씀)·수업 열쇠</td></tr>
+<tr><td>자리 번호</td><td>고르지 않음</td><td>고름(처음 쓴 기기에 묶임)</td></tr>
+<tr><td>점수·결과</td><td>그 화면에만 보임 · 결과 코드 없음 · 우수팀은 선생님이 듣고 고름</td><td>교탁 점수판(최소 제출 3명 기본 · 모둠 평균은 서버가 셈). 결과 코드는 서버 없이 파일로 열 때만 나옴(자리 번호가 들어 있음)</td></tr>
+</table>
+
+<h2>2. 어디에 얼마나 남나</h2>
+<table>
+<tr><th style="width:21%">곳</th><th style="width:39%">기록 없는 판</th><th>교실 서버판</th></tr>
+<tr><td>태블릿</td><td>캐릭터 꾸미기·설정(소리 크기·효과음·가볍게 보기·손 방향·반주 켬·박마다 강조)·수업 번호(뜻 없는 수)만. 자리·모둠·점수·대결 기록·정간보·행진 작품·G6 응답·박자 보정은 화면 메모리에만(창을 닫으면 사라짐). 조율은 그 탭에만, 수업 번호를 붙여 둠(탭을 닫거나 새 수업이면 지움). 서버가 판을 알려 주면 지난 값을 지움</td><td>위 값 + 자리·모둠·최고 점수·대결 연습 기록·정간보·행진 작품·G6 응답·기기 표(서버가 판을 알려 준 뒤에만 기기에 씀 · 그 전에는 화면을 가림). 화면마다 3초쯤마다 수업 번호를 봐서 새 수업이면 캐릭터·설정을 뺀 놀이터 값을 지우고 다시 엶</td></tr>
+<tr><td>교실 서버(교탁 컴퓨터 메모리)</td><td>같이 시작·대결 문제(학생 정보 아님). 끄면 사라짐</td><td>점수(최대 2000건)·자리 현황·조율 제출·대결 기록. 끄거나 ‘수업 끝’을 누를 때까지</td></tr>
+<tr><td>교탁 브라우저</td><td>대결 ‘손 든 순서’(모둠 번호만, 새 문제를 내면 지워짐)</td><td>남기는 것 없음(점수판은 서버 점수만 봄 · 결과 코드 넣기는 서버 없이 파일로 열 때만, 그 화면 메모리에만). 평균은 선생님이 ‘평균 보이기’를 누를 때 <b>교실 서버가 직접 세어</b> 3명 이상 낸 모둠만 곡·모둠마다 값 하나로 보이고(반주 켬·끔을 나눠 보이지 않음), 한 번 보인 값은 3명 이상 더 내야 바뀜. 보인 값(모둠 인원·평균·정확도·반주 섞임)은 서버가 들고 있어 어느 점수판에서도 같고, 판 확인 전·서버 답을 못 받으면 보이지 않음 · ‘수업 끝’·점수 지우기에 지움. 평균·알림에 자리 번호·개인 점수는 나오지 않음. 3명 이상 늘 때 두 평균의 차이로 ‘새로 낸 사람들의 평균’은 셀 수 있음</td></tr>
+<tr><td>파일·외부</td><td colspan="2">앱은 파일로 저장하지 않고, 인터넷 밖으로 보내지 않습니다. 화면 접속 주소도 서버 기록에 남기지 않습니다.</td></tr>
+</table>
+
+<h2>3. 지우는 법</h2>
+<table>
+<tr><th style="width:30%">누르는 것</th><th>지워지는 것</th><th style="width:28%">남는 것</th></tr>
+<tr><td>태블릿 ‘이 기기 기록 지우기’</td><td>그 태블릿의 놀이터 기록(캐릭터 포함). 교실 서버판이면 서버의 그 기기 자리 묶음도 풀고 결과를 알림</td><td>서버의 점수·조율·대결 기록. 자리 묶음을 못 풀었다고 나오면 교탁 ‘자리 연결 풀기’</td></tr>
+<tr><td>교탁 <b>‘수업 끝 · 교탁·서버 기록 모두 지우기’</b>(서버판)</td><td>서버의 점수·자리 현황·자리 연결·조율 제출·적용한 조율·대결 기록·같이 시작, 보인 평균. 수업 열쇠·수업 번호를 새로 만듦 → 열린 다른 창(점수판 등)과 태블릿 화면은 다음에 서버에 물을 때(3초쯤) 창마다 지움</td><td>꺼져 있었거나 와이파이가 끊긴 태블릿(다음에 교실 서버에 닿을 때 지움), 캐릭터·설정</td></tr>
+<tr><td>서버 창 닫기(Ctrl+C)</td><td>서버 메모리 전부. 서버판에서 열려 있던 화면은 2분 넘게 서버가 안 닿으면 그 기기 값을 지우고 그 화면을 가린 채 놀이·소리·타이머를 멈춤(저절로 다시 열거나 되살리지 않음 · 선생님이 서버를 다시 켠 뒤 ‘새로 고침’, 자리 번호는 다시 고름)</td><td>꺼져 있던 태블릿·닫힌 브라우저에 남은 값(다음에 서버에 닿을 때 지움)</td></tr>
+</table>
+<p>서버판 수업 순서: 수업 끝 → 남길 것은 모둠 단위로 칠판·종이에(자리 번호는 옮기지 않음) → ‘수업 끝 · 모두 지우기’ → 태블릿에 ‘새 수업’이 뜬 것(몇 초)을 본 뒤 서버 창 닫기.</p>
+
+<h2>4. AI를 쓸 때</h2>
+<ul>
+<li>앱은 AI에 연결하지 않습니다. 선생님이나 학생이 카드 글을 <b>학교 계정 AI에 붙여 넣는 순간은 외부 전송</b>입니다.</li>
+<li>두 방식 모두 열어 둡니다. ① 교탁에서 강사가 한 번에: 실제 자리·결과 대신 <b>가상 예시</b>를 씁니다(‘7번 왼손’처럼 실제 자리를 넣으면 전송이 됩니다). 종이·코드로 받을 때는 학생마다 다른 코드가 아닌 <b>모두 같은 공통 코드</b>만 씁니다. ② 학교 계정으로 모둠이 직접: 학교가 정한 감독 선생님 아래에서, 이름·학교·반을 넣지 않습니다.</li>
+<li class="chk">강사 계정을 쓸지는 학교 지침(부산 안내서의 ‘교육용 관리 계정’ 원칙 등)과 맞는지 학교와 확인합니다(확인 필요).</li>
+</ul>
+
+<h2>5. 학교와 정할 것(확인 필요)</h2>
+<ul>
+<li>정규 수업에서 쓸 판(기본: 기록 없는 판), 교실 서버판을 쓸 때 학교 절차</li>
+<li>문의 창구·개인정보 보호책임자, 학교와 외부 강사(셈제작소)의 역할(위탁 여부 등)</li>
+<li>만 14세 미만 학생: 법정대리인 동의가 필요한지(학교의 처리 근거에 따라 다름)</li>
+</ul>
+
+<footer>근거: 셈제작소 조사(11/16 ‘자리 번호 기록도 학생 개인정보’ 및 보충 1~3, 법률 자문 아님), 설계안 「기록 없는 판 v1」, 놀이터 코드(demo_server.py·gugak-data.js·class-link.js). G1 교탁·국악 공연실은 각 제품 담당이 따로 안내합니다. 실제 태블릿·윈도우 노트북 확인 전이며, 국악 내용은 국악 강사 확인 전입니다.</footer>
+</div>
+</body>
+</html>

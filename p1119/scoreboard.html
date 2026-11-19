@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ko">
+<head><meta name="robots" content="noindex,nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>모둠 점수판 — 국악 놀이터(선생님용)</title>
+<link rel="stylesheet" href="play.css">
+<style>
+.veil:not(:placeholder-shown){filter:blur(7px)}/* 결과 코드(자리·점수)는 넣는 동안 흐리게(4차 N11) */
+.board{display:grid;grid-template-columns:1fr 320px;gap:16px;align-items:start}
+.groups{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.grp{position:relative;padding:14px 16px;border-radius:18px;background:#fff;box-shadow:0 3px 0 var(--line),inset 0 0 0 2px var(--line)}
+.grp.top{box-shadow:0 3px 0 #d79b16,inset 0 0 0 4px var(--yellow);background:#fffbea}
+.grp h3{margin:0;font-size:22px}
+.grp .avg{font-size:40px;font-weight:900;color:var(--coral);line-height:1.1}
+.grp .meta{color:var(--muted);font-size:14px}
+.grp .seats{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.grp .seats span{background:var(--mint);border-radius:8px;padding:2px 6px;font-size:13px;font-weight:700}
+.crown{position:absolute;right:12px;top:8px;font-size:15px;font-weight:900;background:var(--coral);color:#fff;border-radius:999px;padding:2px 10px}
+.bar{height:10px;border-radius:6px;background:var(--line);overflow:hidden;margin-top:6px}.bar i{display:block;height:100%;background:var(--teal)}
+.side input{font:inherit;font-family:ui-monospace,Menlo,monospace;font-size:17px;min-height:46px;width:100%;padding:6px 10px;border-radius:12px;border:2px solid var(--line);text-transform:uppercase}
+.side h2{font-size:18px;margin:6px 0}
+#msg{min-height:1.4em;font-weight:800}
+.hero{display:flex;align-items:center;gap:16px;margin-bottom:14px;padding:14px 18px;border-radius:18px;background:var(--teal);color:#fff}
+.hero b{font-size:30px}
+.other{min-height:1.2em;font-size:14px}.other button{margin:0 4px;padding:2px 10px;border-radius:999px;background:#fde7d9;color:#a63b1b;font-weight:800}
+.hero.ref{background:#5d6f69}
+@media (max-width:860px){.board{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="topbar"><h1>모둠 점수판 (선생님용)</h1><a href="index.html">놀이터</a></header>
+<main class="wrap">
+ <section class="card nr-only" style="margin-bottom:14px"><h2>기록 없는 판 · 점수판은 쓰지 않아요</h2><p>정규 수업 기본인 ‘기록 없는 판’에서는 앱이 자리·모둠 점수를 모으지 않아요. <b>선생님이 모둠 연주를 듣고 우수팀을 골라요</b>(교안 ‘점수는 추천, 고르는 것은 선생님’). 학생 화면의 점수는 그 화면에만 보이고, 결과 코드도 만들지 않아요.</p></section>
+ <div class="nr-hide">
+ <div class="hero" id="hero"><span id="hero-label">우수팀(연주 채점)</span><b id="hero-name">아직 점수가 없어요</b><span id="hero-sub"></span></div>
+ <div class="board">
+  <section>
+   <div class="tools" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px">
+    <label>점수 <select id="mode"><option value="P">연주 채점 (우수팀 기준)</option><option value="G">놀이 점수 (참고)</option></select></label>
+    <label>곡·단계 <select id="level"></select></label>
+    <label>모둠 수 <select id="ngroups"></select></label>
+    <label>최소 제출 <select id="minn"><option selected>3</option><option>4</option><option>5</option></select>명</label>
+    <span class="muted" id="source"></span>
+   </div>
+   <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px"><button class="btn" id="reveal">평균 보이기</button><span class="muted" id="reveal-state" aria-live="polite"></span></div>
+   <p id="other" class="other"></p>
+   <div class="groups" id="groups"></div>
+   <p class="muted" style="font-size:13px">모둠 점수 = 그 곡·단계에서 모둠 친구마다 가장 좋은 점수의 평균(시연·구절 연습은 빼요). 개인 순위와 자리 번호는 보이지 않아요. 모둠에 낸 사람이 1~2명이면 모둠 점수로 개인 점수를 알 수 있어서 최소 제출은 3명이 기본이에요. 평균은 <b>모두 낸 뒤 ‘평균 보이기’</b>를 눌러 보여요. <b>곡·단계와 모둠마다 값 하나만</b> 보여요(반주 켬·끔을 나눠 보이지 않아요. 섞였으면 ‘반주 섞임’으로 알리고 자동 추천은 하지 않아요). 한 번 보인 값은 그 모둠에 최소 제출 수 이상이 더 낼 때까지 그대로예요. 교실 서버판에서는 <b>서버가 직접 세고 이력도 서버에 있어</b> 어느 점수판 창에서도 같고, 서버에 닿지 않거나 판을 확인하기 전에는 평균을 보이지 않아요. 그래도 3명 이상 늘 때의 두 평균 차이로 ‘새로 낸 사람들의 평균’은 셀 수 있어요. 우수팀은 <b>연주 채점</b> 점수로 골라요. 놀이 점수는 참고로만 보여요.</p>
+  </section>
+  <aside class="card side">
+   <div id="code-box"><h2>결과 코드 넣기</h2>
+   <p class="muted" style="font-size:14px;margin:0 0 6px">서버 없이 파일로 열었을 때만, 학생 화면의 결과 코드를 받아 적어요(교실 서버 주소로 연 점수판에서는 쓰지 않아요).</p>
+   <input id="code" class="veil" placeholder="예) 3-2-J2-2480-91-L" aria-label="결과 코드(넣는 동안 흐리게 가려요)" autocomplete="off" spellcheck="false" autocapitalize="characters"><span class="muted" id="code-len" style="font-size:12px"></span>
+   <div style="display:flex;gap:8px;margin-top:8px"><button class="btn" id="add">넣기</button><button class="btn ghost small" id="undo">마지막 지우기</button></div>
+   </div>
+   <p id="msg" aria-live="polite"></p>
+   <h2>우수팀 합주</h2>
+   <p style="font-size:15px;margin:0 0 8px">점수는 <b>추천</b>이에요. 선생님이 점수와 함께 협력·다시 도전·설명한 친구를 보고 고른 모둠이 앞에서 합주하고, 나머지 친구들은 구음과 손뼉으로 함께해요. 다음 시간에는 다른 모둠에게 차례를 돌려요.</p>
+   <label>우수팀 <select id="pick"></select></label>
+   <p class="muted" style="font-size:13px">공연실(맥·교실 컴퓨터)을 열고 이 모둠 자리 번호의 태블릿을 연결해요.</p>
+   <h2>점수 지우기</h2>
+   <button class="btn ghost small" id="clear">이 기기·서버의 점수 모두 지우기</button>
+  </aside>
+ </div>
+ </div>
+</main>
+<script src="class-guard.js"></script>
+<script src="gugak-data.js"></script>
+<script>
+(()=>{'use strict';
+/* 모둠 점수판 v0.3(11/17 구조 줄이기 · 6차 N27~N29):
+ * - 교실 서버 주소(http)로 연 점수판: 평균은 서버가 직접 세서 준 값만 보인다(화면이 평균을 보내지 않음). 결과 코드 넣기는 쓰지 않는다.
+ *   판 확인 전에는 지킴이가 화면을 가리고, 서버 답을 받기 전·닿지 않을 때는 ‘평균 보이기’를 하지 않는다.
+ *   답마다 보낸 차례(seq)를 붙여, 나중에 보낸 물음의 답이 먼저 적용됐으면 앞의 답은 버린다. 수업 번호·점수 지운 차례가 다른 공개는 서버가 거절한다.
+ * - 서버 없이 파일로 연 점수판(file://): 결과 코드를 받아 이 화면 메모리에서만 센다(새로고침하면 코드와 공개 이력이 함께 사라짐).
+ * - 곡·단계와 모둠마다 값 하나. 반주 켬·끔을 나눠 보이지 않는다. */
+const P=window.GugakPlay,$=id=>document.getElementById(id),Gd=P.Guard;
+const LV={P1:'가야금 아리랑 1구절',P2:'가야금 아리랑 1~2구절',P3:'가야금 아리랑 전체',P4:'가야금 도라지타령',P5:'장구 세마치 4마디',J1:'장구 1 덩 찾기',J2:'장구 2 세마치',J3:'장구 3 아리랑과 함께',J4:'장구 4 빠른 세마치',G1:'가야금 1 아리랑 1구절',G2:'가야금 2 1~2구절',G3:'가야금 3 아리랑 전체',G4:'가야금 4 도라지타령'};
+const modeOf=l=>l[0]==='P'?'P':'G';
+const CLASS=P.classCode(),HTTP=false;
+let lastSid=null,lastGen=null,local=[],remote=[],server=false,pick=null,manual=false,levelManual=false,lastRemoteId=0,lastLocal=0;
+let opened={},pressed=new Set(),revealMsg='',seq=0,applied=0;
+$('code-box').hidden=HTTP;
+$('minn').addEventListener('change',()=>{manual=false;draw();});
+$('ngroups').replaceChildren(...[2,3,4,5,6,7,8].map(n=>new Option(n+'개',n)));$('ngroups').value=String(CLASS.groups||P.Store.get('gugak-board-groups',6));
+function fillLevels(){const m=$('mode').value,keep=$('level').value;$('level').replaceChildren(...Object.entries(LV).filter(([k])=>modeOf(k)===m).map(([k,v])=>new Option(v,k)));if(keep&&modeOf(keep)===m)$('level').value=keep;}
+function all(){return HTTP?remote:local;}
+/* 모둠마다 낸 친구 수(친구마다 가장 좋은 점수 하나) — 평균은 여기서 보이지 않는다 */
+function members(lv,src=all()){const n=+$('ngroups').value,best=new Map();for(const e of src){if(e.level!==lv||e.group<1||e.group>n)continue;const k=e.group+'-'+e.seat,o=best.get(k);if(!o||e.score>o.score)best.set(k,e);}
+ const out=[];for(let g=1;g<=n;g++)out.push({g,m:[...best.values()].filter(e=>e.group===g)});return out;}
+/* 서버 없음(파일): 이 화면에서 센다. 결과 코드에는 반주 조건이 없어 연주 채점은 ‘반주 모름’으로 표시하고 자동 추천은 하지 않는다 */
+function localReveal(lv,minN){for(const x of members(lv)){if(x.m.length<minN)continue;const k=lv+'|'+x.g,o=opened[k];if(o&&x.m.length-o.n<minN)continue;const raw=x.m.reduce((a,e)=>a+e.score,0)/x.m.length,acc=x.m.reduce((a,e)=>a+e.acc,0)/x.m.length;opened[k]={n:x.m.length,raw,avg:Math.round(raw),acc:Math.round(acc),mixed:modeOf(lv)==='P'};}pressed.add(lv);}
+function follow(){let last=null;const maxId=remote.reduce((a,e)=>Math.max(a,e.id||0),0);if(maxId<lastRemoteId)lastRemoteId=0;
+ const newR=remote.filter(e=>(e.id||0)>lastRemoteId&&LV[e.level]);if(newR.length)last=newR.reduce((a,e)=>(e.id||0)>=(a.id||0)?e:a);lastRemoteId=Math.max(lastRemoteId,maxId);
+ if(local.length>lastLocal){const l=local.slice(lastLocal).filter(e=>LV[e.level]).pop();if(l)last=l;}lastLocal=local.length;
+ if(!last||levelManual)return;$('mode').value=modeOf(last.level);fillLevels();$('level').value=last.level;}
+function draw(){follow();const lv=$('level').value,mode=$('mode').value,groups=members(lv),minN=+$('minn').value;
+ const shownOf=g=>{const s=opened[lv+'|'+g];return s&&s.n>=minN?s:null;},anyOpen=pressed.has(lv);
+ const ranked=groups.map(x=>{const s=shownOf(x.g);return s?{...s,g:x.g}:null;}).filter(Boolean).sort((a,b)=>b.raw-a.raw||b.acc-a.acc),max=Math.max(1,...ranked.map(x=>x.avg));
+ const hold=mode==='P'&&ranked.some(x=>x.mixed);/* 반주 켬·끔이 섞였거나 모르는 모둠이 있으면 자동 추천 보류 */
+ const top=ranked[0]||null;if(mode==='P'){if(!manual||pick==null||!groups.some(x=>x.g===pick)){manual=false;pick=top&&!hold?top.g:null;}}
+ $('reveal-state').textContent=(revealMsg?revealMsg+' · ':'')+(!anyOpen?'아직 평균을 보이지 않았어요 · 모두 낸 뒤 눌러요':`모둠 평균은 한 번 보이면 그대로예요 · ${minN}명 이상 더 내면 다시 누를 때 바뀌어요`);
+ $('groups').replaceChildren(...groups.map(x=>{const d=document.createElement('div');const s=shownOf(x.g),isTop=mode==='P'&&x.g===pick&&x.m.length;d.className='grp'+(isTop?' top':'');
+  const meta=!x.m.length?'아직 점수 없음':s?`${s.n}명 · ${mode==='P'?'음':'정확도'} 평균 ${s.acc}%`+(s.mixed?(HTTP?' · 반주 섞임':' · 반주 모름'):'')+(x.m.length>s.n?` · 그 뒤 ${x.m.length-s.n}명 더 냄`:''):x.m.length>=minN?`${x.m.length}명 제출 · ‘평균 보이기’를 누르면 보여요`:`${x.m.length}명 제출 · ${minN}명이 모이면 보여요`;
+  d.innerHTML=`${isTop&&s?'<span class="crown">우수팀</span>':''}<h3>${x.g}모둠</h3><div class="avg">${s?s.avg.toLocaleString():'—'}</div><div class="meta">${meta}</div><div class="bar"><i style="width:${s?Math.round(100*s.avg/max):0}%"></i></div>`;return d;}));
+ const counts={};for(const e of all())if(e.level!==lv&&LV[e.level])counts[e.level]=(counts[e.level]||0)+1;
+ const other=$('other');other.replaceChildren();const ks=Object.keys(counts);if(ks.length){other.append('다른 곡·단계에도 점수가 있어요: ');for(const k of ks){const b=document.createElement('button');b.dataset.lv=k;b.textContent=`${LV[k]} ${counts[k]}건`;other.append(b);}}
+ $('pick').replaceChildren(new Option('고르기',''),...groups.map(x=>new Option(x.g+'모둠'+(mode==='P'&&top&&!hold&&x.g===top.g?' (연주 채점 최고)':''),x.g)));$('pick').disabled=mode!=='P';$('pick').value=pick&&mode==='P'?String(pick):'';
+ $('hero').classList.toggle('ref',mode!=='P');
+ if(mode==='P'){const p=groups.find(x=>x.g===pick),ps=p&&shownOf(p.g);$('hero-label').textContent='우수팀(연주 채점)';$('hero-name').textContent=p&&p.m.length?p.g+'모둠':!anyOpen&&groups.some(x=>x.m.length)?'모두 낸 뒤 ‘평균 보이기’':hold?'선생님이 골라요':'아직 연주 채점 점수가 없어요';$('hero-sub').textContent=p&&p.m.length?(ps?`${LV[lv]} 평균 ${ps.avg}점 · ${ps.n}명`:`${p.m.length}명 제출 · 평균은 ${minN}명이 모이고 ‘평균 보이기’를 누르면 보여요`)+(manual?' · 선생님이 고름':' · 점수로 본 추천'):(!anyOpen?'평균은 선생님이 누를 때 한 번에 보여요':hold?'반주 켬·끔이 섞였거나 모르는 모둠이 있어 자동 추천을 하지 않아요':`최소 ${minN}명이 낸 모둠이 아직 없어요`);}
+ else{$('hero-label').textContent='놀이 점수(참고)';$('hero-name').textContent=top?top.g+'모둠이 가장 높아요':!anyOpen?'모두 낸 뒤 ‘평균 보이기’':`최소 ${minN}명이 낸 모둠이 아직 없어요`;$('hero-sub').textContent='우수팀은 연주 채점 점수로 골라요';}
+ $('source').textContent=!HTTP?'서버 없이 파일로 엶 · 결과 코드로 모아요':server?'교실 서버에서 받는 중 · 평균은 서버가 셈':'교실 서버에 닿지 않아요 · 평균을 보이지 않아요';}
+/* 서버 답 적용: 나중에 보낸 물음의 답이 이미 적용됐으면 버린다. 수업 번호가 바뀌면 이 화면을 비운다 */
+function apply(my,j){if(my<applied)return false;applied=my;
+ if(lastSid!==null&&j.sid!==lastSid){pick=null;manual=false;lastRemoteId=0;$('msg').textContent='새 수업이에요 · 지난 수업의 점수를 비웠어요';}
+ lastSid=j.sid;lastGen=j.gen;remote=Array.isArray(j.scores)?j.scores:remote;opened=j.reveal&&typeof j.reveal==='object'?j.reveal:{};pressed=new Set(Array.isArray(j.pressed)?j.pressed:[]);server=true;return true;}
+async function poll(){if(!HTTP||P.NR||!Gd||Gd.pending()){draw();return;}/* 판 확인 전·기록 없는 판: 점수를 묻지 않는다 */
+ const my=++seq;try{const r=await fetch('api/score',{cache:'no-store'});if(!r.ok)throw 0;const j=await r.json();if(j.mode!=='server')throw 0;apply(my,j);}catch(e){if(my>=applied){applied=my;server=false;}}draw();}
+$('reveal').onclick=async()=>{const lv=$('level').value,minN=+$('minn').value;
+ if(!HTTP){localReveal(lv,minN);revealMsg='보였어요(이 화면에서만)';draw();return;}
+ if(P.NR||!Gd||Gd.pending()||Gd.mode!=='server'||!server||lastSid==null){revealMsg='교실 서버 답을 아직 받지 못해 평균을 보이지 않았어요 · 잠시 뒤 다시 눌러요';draw();return;}
+ const my=++seq,before={...opened};let r=null,j=null;try{r=await fetch('api/reveal',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sid:lastSid,gen:lastGen,level:lv,minN})});j=await r.json();}catch(e){}
+ if(!r||!r.ok||!j||!j.reveal){revealMsg=r&&r.status===409?'그 사이 수업이나 점수가 바뀌었어요 · 다시 눌러요':'평균을 보이지 못했어요(교실 서버 확인)';poll();return;}
+ if(!apply(my,j)){poll();return;}
+ let nw=0,up=0;for(const [k,v] of Object.entries(opened)){if(!k.startsWith(lv+'|'))continue;const o=before[k];if(!o)nw++;else if(o.n!==v.n)up++;}
+ revealMsg=`새로 보인 모둠 ${nw}개`+(up?` · 바뀐 모둠 ${up}개`:'');draw();};
+const codeLen=()=>{$('code-len').textContent=$('code').value?`${$('code').value.length}글자 넣는 중(흐리게 가려요)`:'';};$('code').addEventListener('input',codeLen);
+$('add').onclick=()=>{if(HTTP)return;const r=P.parseResultCode($('code').value);if(!r||!LV[r.level]){$('code').value='';codeLen();$('msg').textContent='코드가 맞지 않아요 · 지웠어요. 학생 화면을 보고 마지막 글자까지 다시 넣어 주세요(자리 1~40·모둠 1~8).';return;}if(r.group<1||r.seat<1){$('msg').textContent='자리·모둠 번호가 없는 코드예요.';return;}local.push({...r,via:'code'});$('code').value='';codeLen();$('msg').textContent=`${r.group}모둠 · ${LV[r.level]} 코드를 넣었어요(자리·점수는 화면에 보이지 않아요)`;draw();};
+$('code').addEventListener('keydown',e=>{if(e.key==='Enter')$('add').click();});
+$('undo').onclick=()=>{local.pop();lastLocal=Math.min(lastLocal,local.length);$('msg').textContent='마지막 코드를 지웠어요';draw();};
+$('clear').onclick=async()=>{if(!confirm('점수를 모두 지울까요? 되돌릴 수 없어요.'))return;
+ if(!HTTP){local=[];lastLocal=0;opened={};pressed=new Set();revealMsg='';$('msg').textContent='이 화면의 점수를 모두 지웠어요';draw();return;}
+ const my=++seq;let r=null,j=null;try{r=await fetch('api/score',{method:'DELETE'});j=await r.json();}catch(e){}
+ if(r&&r.ok&&j){applied=Math.max(applied,my);remote=[];opened={};pressed=new Set();revealMsg='';lastGen=j.gen;lastRemoteId=0;$('msg').textContent='교실 서버의 점수와 보인 평균을 모두 지웠어요';}
+ else $('msg').textContent='교실 서버 점수를 지우지 못했어요(서버 확인 · 보인 평균도 그대로)';poll();};
+$('mode').onchange=()=>{fillLevels();levelManual=true;pick=null;manual=false;draw();};
+$('level').onchange=()=>{levelManual=true;pick=null;manual=false;draw();};
+$('other').onclick=e=>{const b=e.target.closest('button');if(!b)return;$('mode').value=modeOf(b.dataset.lv);fillLevels();$('level').value=b.dataset.lv;levelManual=true;pick=null;manual=false;draw();};
+$('ngroups').onchange=()=>{P.Store.set('gugak-board-groups',+$('ngroups').value);draw();};
+$('pick').onchange=()=>{pick=$('pick').value?+$('pick').value:null;manual=pick!=null;draw();};
+fillLevels();poll();if(Gd)Gd.ready.then(poll);/* 판 확인이 끝나면 바로 묻는다 */setInterval(poll,2500);window.GugakBoard={members,get local(){return local;}};
+})();
+</script>
+</body>
+</html>

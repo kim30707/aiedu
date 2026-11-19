@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ko">
+<head><meta name="robots" content="noindex,nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>모둠 조율 — 국악 놀이터</title>
+<link rel="stylesheet" href="play.css">
+<style>
+body{background:#f6efe2}
+.steps{display:grid;gap:14px;max-width:980px;margin:0 auto}
+.step h2{margin:0 0 8px;font-size:20px}.step h2 i{font-style:normal;display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--teal);color:#fff;margin-right:8px;font-size:16px}
+.who{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.reqs{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}
+.reqs button{padding:8px 12px;border-radius:999px;background:#fff;box-shadow:inset 0 0 0 2px var(--line);font-weight:700}
+.reqs button[aria-pressed=true]{box-shadow:inset 0 0 0 3px var(--teal);background:#f2fbf8}
+textarea{width:100%;min-height:120px;font:14px/1.45 ui-monospace,Menlo,monospace;border-radius:12px;border:2px solid var(--line);padding:10px;box-sizing:border-box}
+#card{min-height:170px;background:#fbf8f1}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:8px 0}
+.now{font-weight:800}
+.problems li{color:#a3301a;font-weight:700}.checks li{color:#7a5500}
+table{border-collapse:collapse;width:100%;font-size:14px;background:#fff;border-radius:12px;overflow:hidden}
+th,td{padding:5px 8px;border-bottom:1px solid #eee;text-align:center}tr.changed td{background:#f2fbf8;font-weight:700}
+.reason{background:#fff;border-radius:12px;padding:8px 12px;box-shadow:inset 0 0 0 2px #e7ddc9}
+.state{font-weight:800;color:var(--teal)}.warn{color:#a3301a;font-weight:700}
+.note{font-size:13px;color:var(--muted)}
+details summary{cursor:pointer;font-weight:700}
+</style>
+</head>
+<body>
+<header class="topbar"><h1>모둠 조율 (AI에게 부탁하기)</h1><a href="index.html">놀이터</a><a href="rhythm.html">장단·가락 놀이</a></header>
+<main class="wrap steps">
+ <section class="card step">
+  <h2><i>1</i>우리 모둠</h2>
+  <div class="who"><select id="seat" aria-label="자리 번호"></select><select id="group" aria-label="모둠 번호"></select><span class="note nr-hide">이름은 적지 않아요. 보낸 조율에는 모둠 번호가 붙고(자리 번호는 확인에만 쓰고 남기지 않아요), 수업이 끝나면 지워요.</span><span class="note nr-only">기록 없는 판 · 교탁에 보내지 않고 이 태블릿에만 적용해요.</span></div>
+  <p class="now" id="now"></p>
+ </section>
+ <section class="card step">
+  <h2><i>2</i>부탁 고르고 카드 복사</h2>
+  <div class="reqs" id="reqs"></div>
+  <div class="row"><label for="own" style="font-weight:700">우리 말로 쓰기</label><input id="own" maxlength="80" placeholder="예) 아리랑이 더 밝게 들리게 해 주세요" style="flex:1;min-width:220px;padding:8px;border-radius:10px;border:2px solid var(--line)"></div>
+  <p class="note"><b>이름·학교·반·전화번호 같은 개인정보는 쓰지 않아요.</b> 복사하기 전에 감독 선생님이 카드를 함께 봐요.</p>
+  <p class="warn" id="pii" hidden></p>
+  <details id="card-box" open><summary>AI에게 줄 카드 글 보기</summary><textarea id="card" readonly aria-label="AI에게 줄 부탁 카드"></textarea></details>
+  <div class="row"><button class="btn coral" id="copy">카드 복사</button><span class="state" id="copy-state"></span></div>
+  <p class="note">복사한 카드를 <b>학교 계정 AI 화면</b>(선생님이 정한 기기)에 붙여 넣어요. 이 앱은 AI에 연결되어 있지 않고, 카드를 보내지도 않아요. 학교 AI를 쓸 수 없으면 아래 ‘미리 받아 둔 답’으로 해요.</p>
+ </section>
+ <section class="card step">
+  <h2><i>3</i>AI 답 붙여 넣고 검사</h2>
+  <textarea id="answer" placeholder="AI가 준 답(JSON)을 여기에 붙여 넣어요" aria-label="AI 답"></textarea>
+  <div class="row"><button class="btn" id="check">검사하기</button><button class="btn ghost small" id="clear">답 지우기</button><button class="btn ghost small" id="clear-all">부탁·답 모두 지우기</button>
+   <details id="ex-box"><summary>미리 받아 둔 답으로 하기</summary><div class="reqs" id="examples"></div><p class="note" id="ex-source"></p></details></div>
+  <div id="result"></div>
+ </section>
+ <section class="card step">
+  <h2><i>4</i>귀로 듣고 교탁에 보내기</h2>
+  <div class="row"><button class="btn ghost" id="before">지금 소리 듣기</button><button class="btn ghost" id="after" disabled>바꾼 소리 듣기</button><button class="btn ghost small" id="stop">멈춤</button><span id="listen-state" class="note"></span></div>
+  <div id="judge-box" hidden><p style="font-weight:800;margin:6px 0">바꾼 소리를 들어 보니, 우리 부탁대로 됐나요?</p><div class="reqs" id="judges"><button data-judge="yes">부탁대로 됐어요</button><button data-judge="no">부탁과 달라요</button><button data-judge="unsure">잘 모르겠어요</button></div></div>
+  <div class="row"><button class="btn coral" id="submit" disabled>교탁에 보내기</button><span id="submit-state" class="state"></span></div>
+  <p class="note nr-only">기록 없는 판: ‘우리 태블릿에 적용(이 기기만)’을 누르면 이 태블릿의 놀이·연주 채점 가야금 소리에 들어가요. 교탁에는 아무것도 보내지 않고, 창을 닫으면 처음 소리로 돌아가요.</p>
+  <p class="note nr-hide">보낸 조율은 선생님이 교탁에서 들어 보고 <b>적용</b>을 눌러야 우리 모둠 가야금 소리에 들어가요. 보내는 것: 자리·모둠 번호(자리는 확인에만 쓰고 서버에 남기지 않아요), 이 기기 표, 수업 열쇠, 줄 12개 cent 숫자·울림·우리 판단(AI 답 글과 이유는 보내지 않아요). 교탁에 수업이 끝날 때까지 남아요. 울림 값은 기록만 하고 이 놀이터 소리에는 아직 넣지 않았어요.</p>
+ </section>
+</main>
+<script src="class-guard.js"></script>
+<script src="audio/bank-meta.js"></script>
+<script src="audio/bank-gayageum.js"></script>
+<script src="gugak-data.js"></script>
+<script src="class-link.js"></script>
+<script src="tune-examples.js"></script>
+<script src="tune.js"></script>
+</body>
+</html>
