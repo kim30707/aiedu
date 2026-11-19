@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ko">
+<head><meta name="robots" content="noindex,nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>국악 공연실 혼자 보기 · 셈제작소</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+<script defer src="engine.js"></script>
+<script defer src="sustain.js"></script>
+<script defer src="audio/bank.js"></script>
+<script type="module" src="stage.js"></script>
+</head>
+<body>
+<header class="top">
+ <a class="brand" href="../">셈제작소</a>
+ <span class="crumb">국악 AI 합주 교실</span>
+</header>
+<main>
+ <section class="intro">
+  <h1>국악 공연실 혼자 보기</h1>
+  <p>교실에서는 학생 세 명이 태블릿으로 가야금·해금·장구를 연주하면, 큰 화면 공연실에서 고른 연주자가 함께 연주합니다. 이 페이지에서는 연주자를 고르고 아리랑 본보기 연주를 보거나, 단추로 직접 소리를 내 볼 수 있어요.</p>
+ </section>
+
+ <section class="pick" aria-labelledby="pick-title">
+  <h2 id="pick-title">1. 자리마다 연주자 고르기</h2>
+  <div id="seats" class="seats"></div>
+ </section>
+
+ <section class="hall" aria-labelledby="hall-title">
+  <h2 id="hall-title">2. 공연실</h2>
+  <div class="stage-box" id="stage-box">
+   <div class="stage-cover" id="stage-cover">
+    <button type="button" id="open" class="primary">공연실 열기</button>
+    <p class="small">소리가 납니다. 연주자 영상과 소리를 불러옵니다(약 5MB).</p>
+   </div>
+  </div>
+  <p class="caption" id="caption" aria-live="polite"></p>
+  <div class="controls">
+   <button type="button" id="demo" disabled>아리랑 본보기 연주</button>
+   <button type="button" id="stop" disabled>멈추기</button>
+   <span class="status" id="status" role="status"></span>
+  </div>
+  <p class="tag">AI로 만든 가상 연주자 · 실제 연주 촬영 아님 · 손 모양·운지는 주법 자료 아님</p>
+ </section>
+
+ <section class="play" aria-labelledby="play-title">
+  <h2 id="play-title">3. 직접 쳐 보기</h2>
+  <p class="small">단추를 누르면 그 자리 연주자가 움직이고 소리가 납니다. 해금은 누르고 있는 동안 소리가 이어집니다.</p>
+  <div class="pads" id="pads"></div>
+ </section>
+
+ <section class="about">
+  <h2>교실 공연실과 다른 점</h2>
+  <ul>
+   <li>교실 공연실은 학교 컴퓨터에서 열고, 학생 태블릿 세 대가 연결되어 학생이 친 소리로 공연합니다. 이 페이지에는 태블릿 연결이 없습니다.</li>
+   <li>교실에서는 공연을 녹화해 공연 영상으로 만듭니다. 이 페이지는 녹화하지 않고, 이름이나 사진을 받지 않으며, 아무것도 저장하거나 보내지 않습니다.</li>
+  </ul>
+  <p><a href="../gugak/">웹 국악기 열기</a> · <a href="../">셈제작소 첫 화면</a></p>
+ </section>
+</main>
+<footer class="credits">
+ <p>소리: 국립국악원 국악기 디지털 음원(공공누리 제1유형 · 출처 표시). <a href="https://www.gugak.go.kr/digitaleum/front/extend/list.do" rel="noopener noreferrer" target="_blank">국립국악원 디지털 음원</a> · <a href="https://www.kogl.or.kr/open/info/license_info/by.do" rel="noopener noreferrer" target="_blank">공공누리 제1유형</a></p>
+ <p>아리랑: 전래 민요, 셈제작소 수업용 악보. 장구: 세마치장단 기본형(덩 · · 덩 · 덕 쿵 덕 ·).</p>
+ <p>연주자 그림과 영상: Gemini로 만든 가상 연주자입니다. 실제 인물이 아닙니다.</p>
+</footer>
+</body>
+</html>

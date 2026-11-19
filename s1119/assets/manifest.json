@@ -1,0 +1,404 @@
+{
+ "label": "AI로 만든 가상 연주자 (Gemini) · 실제 연주 촬영 아님 · 손 모양·운지는 주법 자료 아님",
+ "performers": [
+  {
+   "id": "gayageum-1",
+   "instrument": "gayageum",
+   "focus": [
+    0.5,
+    0.5
+   ],
+   "splitZoom": 1.0,
+   "soloZoom": 1.0,
+   "hands": [
+    0.33,
+    0.45,
+    0.35,
+    0.3
+   ],
+   "clips": {
+    "play": "gayageum_play.mp4",
+    "rest": "gayageum_rest.mp4"
+   },
+   "name": "가야금 연주자"
+  },
+  {
+   "id": "haegeum-1",
+   "instrument": "haegeum",
+   "focus": [
+    0.5,
+    0.55
+   ],
+   "splitZoom": 1.0,
+   "soloZoom": 1.0,
+   "hands": [
+    0.27,
+    0.3,
+    0.4,
+    0.4
+   ],
+   "clips": {
+    "play": "haegeum_play.mp4",
+    "rest": "haegeum_rest.mp4"
+   },
+   "name": "해금 연주자"
+  },
+  {
+   "id": "janggu-1",
+   "instrument": "janggu",
+   "focus": [
+    0.55,
+    0.6
+   ],
+   "splitZoom": 1.0,
+   "soloZoom": 1.0,
+   "hands": [
+    0.38,
+    0.45,
+    0.4,
+    0.35
+   ],
+   "clips": {
+    "play": "janggu_play.mp4",
+    "rest": "janggu_rest.mp4"
+   },
+   "name": "장구 연주자"
+  },
+  {
+   "id": "dungka-gayageum",
+   "instrument": "gayageum",
+   "focus": [
+    0.581,
+    0.5
+   ],
+   "splitZoom": 1.0,
+   "soloZoom": 1.0,
+   "hands": [
+    0.33,
+    0.45,
+    0.35,
+    0.3
+   ],
+   "fit": [
+    0.221,
+    0,
+    0.72,
+    1
+   ],
+   "bg": "#faf4e2",
+   "clips": {
+    "play": "dungka_gayageum_play.mp4",
+    "rest": "dungka_gayageum_rest.mp4"
+   },
+   "name": "둥카"
+  },
+  {
+   "id": "dungka-haegeum",
+   "instrument": "haegeum",
+   "focus": [
+    0.507,
+    0.5
+   ],
+   "splitZoom": 1.0,
+   "soloZoom": 1.0,
+   "hands": [
+    0.27,
+    0.3,
+    0.4,
+    0.4
+   ],
+   "fit": [
+    0.228,
+    0,
+    0.56,
+    1
+   ],
+   "bg": "#f8f2e0",
+   "clips": {
+    "play": "dungka_haegeum_play.mp4",
+    "rest": "dungka_haegeum_rest.mp4"
+   },
+   "name": "둥카"
+  },
+  {
+   "id": "dungka-janggu",
+   "instrument": "janggu",
+   "focus": [
+    0.514,
+    0.5
+   ],
+   "splitZoom": 1.0,
+   "soloZoom": 1.0,
+   "hands": [
+    0.38,
+    0.45,
+    0.4,
+    0.35
+   ],
+   "fit": [
+    0.221,
+    0,
+    0.585,
+    1
+   ],
+   "bg": "#f9f5f0",
+   "clips": {
+    "play": "dungka_janggu_play.mp4",
+    "rest": "dungka_janggu_rest.mp4"
+   },
+   "name": "둥카"
+  },
+  {
+   "id": "sori-gayageum",
+   "instrument": "gayageum",
+   "focus": [
+    0.532,
+    0.5
+   ],
+   "splitZoom": 1.0,
+   "soloZoom": 1.0,
+   "hands": [
+    0.33,
+    0.45,
+    0.35,
+    0.3
+   ],
+   "fit": [
+    0.183,
+    0,
+    0.699,
+    1
+   ],
+   "bg": "#f7f2e6",
+   "clips": {
+    "play": "sori_gayageum_play.mp4",
+    "rest": "sori_gayageum_rest.mp4"
+   },
+   "name": "소리"
+  },
+  {
+   "id": "sori-haegeum",
+   "instrument": "haegeum",
+   "focus": [
+    0.508,
+    0.5
+   ],
+   "splitZoom": 1.0,
+   "soloZoom": 1.0,
+   "hands": [
+    0.27,
+    0.3,
+    0.4,
+    0.4
+   ],
+   "fit": [
+    0.218,
+    0,
+    0.581,
+    1
+   ],
+   "bg": "#fcf6ed",
+   "clips": {
+    "play": "sori_haegeum_play.mp4",
+    "rest": "sori_haegeum_rest.mp4"
+   },
+   "name": "소리"
+  },
+  {
+   "id": "gayul-gayageum",
+   "instrument": "gayageum",
+   "focus": [
+    0.515,
+    0.5
+   ],
+   "splitZoom": 1.0,
+   "soloZoom": 1.0,
+   "hands": [
+    0.33,
+    0.45,
+    0.35,
+    0.3
+   ],
+   "fit": [
+    0.242,
+    0,
+    0.547,
+    1
+   ],
+   "bg": "#f9f6ee",
+   "clips": {
+    "play": "gayul_gayageum_play.mp4",
+    "rest": "gayul_gayageum_rest.mp4"
+   },
+   "name": "가율"
+  },
+  {
+   "id": "sori-janggu",
+   "instrument": "janggu",
+   "focus": [
+    0.509,
+    0.5
+   ],
+   "splitZoom": 1.0,
+   "soloZoom": 1.0,
+   "hands": [
+    0.38,
+    0.45,
+    0.4,
+    0.35
+   ],
+   "fit": [
+    0.221,
+    0,
+    0.575,
+    1
+   ],
+   "bg": "#f8f6e9",
+   "clips": {
+    "play": "sori_janggu_play.mp4",
+    "rest": "sori_janggu_rest.mp4"
+   },
+   "name": "소리"
+  },
+  {
+   "id": "gayul-haegeum",
+   "instrument": "haegeum",
+   "focus": [
+    0.499,
+    0.5
+   ],
+   "splitZoom": 1.0,
+   "soloZoom": 1.0,
+   "hands": [
+    0.27,
+    0.3,
+    0.4,
+    0.4
+   ],
+   "fit": [
+    0.225,
+    0,
+    0.548,
+    1
+   ],
+   "bg": "#fbf0dd",
+   "clips": {
+    "play": "gayul_haegeum_play.mp4",
+    "rest": "gayul_haegeum_rest.mp4"
+   },
+   "name": "가율"
+  },
+  {
+   "id": "gayul-janggu",
+   "instrument": "janggu",
+   "focus": [
+    0.531,
+    0.5
+   ],
+   "splitZoom": 1.0,
+   "soloZoom": 1.0,
+   "hands": [
+    0.38,
+    0.45,
+    0.4,
+    0.35
+   ],
+   "fit": [
+    0.273,
+    0,
+    0.516,
+    1
+   ],
+   "bg": "#f8f5e9",
+   "clips": {
+    "play": "gayul_janggu_play.mp4",
+    "rest": "gayul_janggu_rest.mp4"
+   },
+   "name": "가율"
+  },
+  {
+   "id": "baram-gayageum",
+   "instrument": "gayageum",
+   "focus": [
+    0.556,
+    0.5
+   ],
+   "splitZoom": 1.0,
+   "soloZoom": 1.0,
+   "hands": [
+    0.33,
+    0.45,
+    0.35,
+    0.3
+   ],
+   "fit": [
+    0.21,
+    0,
+    0.692,
+    1
+   ],
+   "bg": "#f9f3eb",
+   "clips": {
+    "play": "baram_gayageum_play.mp4",
+    "rest": "baram_gayageum_rest.mp4"
+   },
+   "name": "바람"
+  },
+  {
+   "id": "baram-haegeum",
+   "instrument": "haegeum",
+   "focus": [
+    0.485,
+    0.5
+   ],
+   "splitZoom": 1.0,
+   "soloZoom": 1.0,
+   "hands": [
+    0.27,
+    0.3,
+    0.4,
+    0.4
+   ],
+   "fit": [
+    0.19,
+    0,
+    0.589,
+    1
+   ],
+   "bg": "#fcf8ee",
+   "clips": {
+    "play": "baram_haegeum_play.mp4",
+    "rest": "baram_haegeum_rest.mp4"
+   },
+   "name": "바람"
+  },
+  {
+   "id": "baram-janggu",
+   "instrument": "janggu",
+   "focus": [
+    0.479,
+    0.5
+   ],
+   "splitZoom": 1.0,
+   "soloZoom": 1.0,
+   "hands": [
+    0.38,
+    0.45,
+    0.4,
+    0.35
+   ],
+   "fit": [
+    0.186,
+    0,
+    0.585,
+    1
+   ],
+   "bg": "#fcf6ed",
+   "clips": {
+    "play": "baram_janggu_play.mp4",
+    "rest": "baram_janggu_rest.mp4"
+   },
+   "name": "바람"
+  }
+ ]
+}
